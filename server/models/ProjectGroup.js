@@ -13,6 +13,7 @@ const projectGroupSchema = new Schema({
 	administrator: User.schema,
 	managers: [User.schema],
 	employees: [User.schema],
+	projects: [Project.schema]
 });
 
 const ProjectGroup = mongoose.model("ProjectGroup", projectGroupSchema);

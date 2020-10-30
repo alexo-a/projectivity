@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 const User = require("./User");
-const Project = require("./Project");
+const Task = require("./Task");
 
 const timeSheetEntrySchema = new Schema({
 	user: User.schema,
-	project: Project.schema,
+	task: Task.schema,
 	start: {
 		type: Date,
 		default: Date.now,
@@ -17,6 +17,10 @@ const timeSheetEntrySchema = new Schema({
 		default: Date.now,
 		required: true
 	},
+	note: {
+		type: String,
+		trim: true
+	}
 });
 
 const TimeSheetEntry = mongoose.model("TimeSheetEntry", timeSheetEntrySchema);

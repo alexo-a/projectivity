@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const User = require("./User");
 const ProjectGroup = require("./ProjectGroup");
+const Task = require("./Task");
 
 const projectSchema = new Schema({
 	title: {
@@ -10,9 +11,13 @@ const projectSchema = new Schema({
 		required: true,
 		trim: true
 	},
-	parent: ProjectGroup.schema,
+	description: {
+		type: String,
+		trim: true
+	},
+	group: ProjectGroup.schema,
 	managers: [User.schema],
-	employees: [User.schema]
+	tasks: [Task.schema]
 });
 
 const Project = mongoose.model("Project", projectSchema);
