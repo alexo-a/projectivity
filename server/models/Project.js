@@ -8,6 +8,7 @@ const projectSchema = new Schema({
 		required: true,
 		trim: true
 	},
+<<<<<<< HEAD
 	description: {
 		type: String,
 		trim: true
@@ -29,6 +30,10 @@ const projectSchema = new Schema({
 			ref: "Task"
 		},
 	],
+=======
+	managers: [User.schema],
+	employees: [User.schema]
+>>>>>>> feature/routing
 });
 
 const Project = mongoose.model("Project", projectSchema);
