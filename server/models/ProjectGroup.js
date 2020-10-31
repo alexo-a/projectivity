@@ -8,7 +8,6 @@ const projectGroupSchema = new Schema({
 		required: true,
 		trim: true
 	},
-<<<<<<< HEAD
 	administrator: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
@@ -32,11 +31,6 @@ const projectGroupSchema = new Schema({
 			ref: "Project"
 		},
 	],
-=======
-	administrator: User.schema,
-	managers: [User.schema],
-	employees: [User.schema]
->>>>>>> feature/routing
 });
 
 const ProjectGroup = mongoose.model("ProjectGroup", projectGroupSchema);

@@ -56,7 +56,6 @@ type Auth {
 }
 
 type Query {
-<<<<<<< HEAD
 	user(email: String!): User
 	users: [User]
 	projects(groupId: ID): [Project]
@@ -64,9 +63,6 @@ type Query {
 	timesheets(userId: ID, projectId: ID, taskId: ID, start: String, end: String): [TimeSheetEntry]
 	myProjects: [Project]
 	myTasks: [Task]
-=======
-	
->>>>>>> feature/routing
 }
 
 type Mutation {
