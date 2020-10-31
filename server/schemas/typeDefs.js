@@ -45,7 +45,19 @@ type TimeSheetEntry {
 	note: String
 }
 
+type Auth {
+    token: ID
+    user: User
+}
+
 type Query {
+	user(email: String!): User
+	users: [User]
+	projects(groupId: ID): [Project]
+	tasks(projectId: ID!): [Task]
+	timesheets(userId: ID, projectId: ID, taskId: ID, start: String, end: String): [TimeSheetEntry]
+	myProjects: [Project]
+	myTasks: [Task]
 }
 
 type Mutation {
@@ -62,12 +74,12 @@ type Mutation {
 	updateProject(_id: ID!, title: String, description: String): Project
 	addManagerToProject(projectId: ID!, userId: ID!): Project
 	removeManagerFromProject(projectId: ID!, userId: ID!): Project
-	addTask(projectId: ID!, title: String!): Project
-	updateTask(_id: ID!, title: String, description: String): Project
+	addTask(projectId: ID!, title: String!): Task
+	updateTask(_id: ID!, title: String, description: String): Task
 	addEmployeeToTask(taskId: ID!, userId: ID!): Task
-	removeEmployeeFromTask(taskId: ID!, userId, ID!): Task
-	addTimeSheetEntry(taskId: ID!, start: String!, end: String!)
-	updateTimeSheeEntry(taskId: ID!, start: String, end: String)
+	removeEmployeeFromTask(taskId: ID!, userId: ID!): Task
+	addTimeSheetEntry(taskId: ID!, start: String!, end: String!, note: String): TimeSheetEntry
+	updateTimeSheetEntry(entryId: ID!, start: String, end: String, note: String): TimeSheetEntry
 }
 `;
 

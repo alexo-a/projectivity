@@ -1,12 +1,18 @@
 const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
-const User = require("./User");
-const Task = require("./Task");
 
 const timeSheetEntrySchema = new Schema({
-	user: User.schema,
-	task: Task.schema,
+	user: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: true
+	},
+	task: {
+		type: Schema.Types.ObjectId,
+		ref: "Task",
+		required: true
+	},
 	start: {
 		type: Date,
 		default: Date.now,

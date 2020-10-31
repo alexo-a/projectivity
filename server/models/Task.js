@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
-const User = require("./User");
-const Project = require("./Project");
-const TimeSheetEntry = require("./TimeSheetEntry");
 
 const taskSchema = new Schema({
 	title: {
@@ -18,11 +15,25 @@ const taskSchema = new Schema({
 	completed: {
 		type: Boolean,
 	},
-	project: Project.schema,
-	employees: [User.schema],
-	entries: [TimeSheetEntry.schema]
+	project: {
+		type: Schema.Types.ObjectId,
+		ref: "Project",
+		required: true
+	},
+	employees: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "User"
+		},
+	],
+	entries: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "TimeSheetEntry"
+		},
+	],
 });
 
-const Task = mongoose.model("Project", taskSchema);
+const Task = mongoose.model("Task", taskSchema);
 
 module.exports = Task;
