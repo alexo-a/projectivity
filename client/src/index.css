@@ -210,7 +210,7 @@ input.warning:-webkit-autofill {
     font-family: 'Questrial', sans-serif;
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: .5rem;
 }
 
 .navBar li:hover {
@@ -219,7 +219,7 @@ input.warning:-webkit-autofill {
 }
 
 .navIcon {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     padding: .5rem;
 }
 
@@ -229,6 +229,17 @@ input.warning:-webkit-autofill {
     align-items: center;
     color: gray;
     margin: 1rem;
+}
+
+.navGroup {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.navGroup .navChevron {
+    margin: .1rem 0 0 .5rem;
 }
 
 .userIcon {
@@ -402,6 +413,9 @@ input.createClockInTaskName {
     .show-lg-up {
         display: block;
     }
+    .navBar li {
+        padding: 1rem;
+    }
 }
 /* MEDIUM */
 @media (min-width: 768px) {
@@ -457,5 +471,7 @@ input.createClockInTaskName {
     .form input {
         width: 20rem;
     }
-
+    .navIcon { 
+        font-size: 1.2rem;
+    }
 }

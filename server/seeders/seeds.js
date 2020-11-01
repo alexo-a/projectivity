@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { signToken } = require("../utils/auth");
+const bcrypt = require("bcrypt");
 const db = require('../config/connection');
 const { ProjectGroup, Project, Task, TimeSheetEntry, User } = require('../models');
 
@@ -18,10 +18,13 @@ db.once('open', async () => {
   for (let i = 0; i < dataToGenerate; i += 1) {
     const username = faker.internet.userName();
     const email = faker.internet.email(username);
-    const password = faker.internet.password();
+    let password = 'password';
+    password = await bcrypt.hash(password, 10);
 
     userData.push({ username, email, password });
   }
+
+  console.log(userData);
 
   const createdUsers = await User.collection.insertMany(userData);
 
@@ -118,8 +121,8 @@ db.once('open', async () => {
         }
     }
 
-    const data = await Project.find();
-    console.log(data);
+    //const data = await Project.find();
+    //console.log(data);
   
     console.log('all done!');
     process.exit(0);
