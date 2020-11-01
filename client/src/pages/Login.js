@@ -37,7 +37,7 @@ const Login = (props) => {
                         <h3>Log In to Projectivity</h3>
                     </div>
                     <div className="cardBody">
-                        <form className="form">
+                        <form className="form" onSubmit={handleFormSubmit}>
                             <div className="formItem">
                                 <label htmlFor="email">Email:</label>
                                 <input
@@ -50,7 +50,7 @@ const Login = (props) => {
                             </div>
                             <div className="formItem">
                                 <label htmlFor="password">Password:</label>
-                                <input className="passCheckTrue"
+                                <input
                                     name='password'
                                     type='password'
                                     id='password'

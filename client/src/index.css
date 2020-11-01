@@ -142,12 +142,8 @@ button.success:hover {
 }
 
 .form .buttonGroup a {
-    font-size: 1rem;
+    font-size: .9rem;
     margin: 1rem 0 0 1rem;
-}
-
-.form .buttonGroup button {
-
 }
 
 .formItem {
@@ -178,8 +174,13 @@ button.success:hover {
 }
 
 
-
 /* NAV BAR */
+.navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .navBar {
     display: flex;
     flex-wrap: wrap;
@@ -213,6 +214,93 @@ button.success:hover {
 .navIcon {
     font-size: 1.2rem;
     padding: .5rem;
+}
+
+.userNavGroup {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: gray;
+    margin: 1rem;
+}
+
+.userIcon {
+    font-size: 2.3rem;
+    margin: .5rem;
+}
+
+.userNavGroup:hover .userIcon {
+    color: var(--active);
+}
+
+.navChevron {
+    font-size: .8rem;
+}
+
+.navGroup:hover .navChevron {
+    font-size: .8rem;
+    color: var(--active);
+    transform: rotate(180deg);
+    transition: 300ms;
+}
+
+.userNavGroup:hover .navChevron {
+    font-size: .8rem;
+    color: var(--active);
+    transform: rotate(180deg);
+    transition: 100ms;
+}
+
+.userNavGroup:hover .dropdownContainer {
+    display: block;
+}
+
+.dropdownContainer {
+    display: none;
+    background-color: none;
+    padding: 1rem;
+    position: absolute;
+    top: 2.5rem;
+    right: -1rem;
+}
+
+.dropdownModal {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: .5rem;
+    background: white;
+    color: var(--charcoal);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-shadow: 0px 0px 25px -1px rgb(0,0,0,0.1);
+}
+
+.dropdownModal .dropdownItemTitle {
+    font-family: 'Questrial', sans-serif;
+    white-space: nowrap;
+    font-size: .9rem;
+    margin: 0;
+}
+
+.dropdownIcon {
+    margin: .5rem;
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    border-bottom: 1px solid var(--gray);
+    cursor: pointer;
+}
+
+.dropdownItem:last-child {
+    border-bottom: none;
+}
+
+.dropdownItem:hover {
+    color: var(--active);
 }
 
 /* TIMESHEET */

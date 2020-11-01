@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
+import Auth from "./utils/auth";
 
 import Nav from './components/Nav'
 import Timesheet from './pages/Timesheet'
@@ -21,19 +22,32 @@ const client = new ApolloClient({
   uri: '/graphql',
 })
 
+if (Auth.loggedIn()) {
+  console.log('im logged in')
+}
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
         <div>
-          <Nav></Nav>
+          {Auth.loggedIn() ? (
+            <>
+            <Nav></Nav>
+            </>
+          ) : (<></>)}
           <div className="container">
             <Route exact path="/login" component={Login}/>
             <Route exact path="/signup" component={Signup}/>
-            <Route exact path="/" component={Timesheet}/>
-            <Route exact path="/reports" component={Reports}/>         
-            <Route exact path="/projects" component={Projects}/>
+            <Route exact path="/">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
+            </Route>
+            <Route exact path="/reports">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
+            </Route>        
+            <Route exact path="/projects">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
+            </Route>
           </div>
         </div>
       </Router>

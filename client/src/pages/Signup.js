@@ -14,12 +14,13 @@ function Signup(props)  {
 
     const handleFormSubmit = async event => {
         event.preventDefault();
+        console.log('submit');
         try {
             const { data } = await addUser({
               variables: { ...formState }
             });
             console.log(data); 
-            //Auth.login(data.addUser.token);
+            Auth.login(data.addUser.token);
         } catch (e) {
             console.error(e);
         }
@@ -44,7 +45,7 @@ function Signup(props)  {
                 <div className="flex align-center"><img src={logo} alt="Projectivity Logo" className="logo-img"/><h1 className="logo-title">Projectivity</h1></div>
                 <div className="card">
                     <div className="cardTitle">
-                        <h3>Sign Up for Projectivity</h3>
+                        <h3>Sign Up Today!</h3>
                     </div>
                     <div className="cardBody">
                         <form className="form" onSubmit={handleFormSubmit}>
