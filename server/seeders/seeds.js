@@ -3,6 +3,8 @@ const faker = require('faker');
 const db = require('../config/connection');
 const { ProjectGroup, Project, Task, TimeSheetEntry, User } = require('../models');
 
+const dataToGenerate = 50;
+
 db.once('open', async () => {
   await ProjectGroup.deleteMany({});
   await Project.deleteMany({});
@@ -13,7 +15,7 @@ db.once('open', async () => {
   // create user data
   const userData = [];
 
-  for (let i = 0; i < 50; i += 1) {
+  for (let i = 0; i < dataToGenerate; i += 1) {
     const username = faker.internet.userName();
     const email = faker.internet.email(username);
     const password = faker.internet.password();
@@ -116,8 +118,8 @@ db.once('open', async () => {
         }
     }
 
-    const data = await Task.find();
-    console.log(data);
+    //const data = await [xxxxxx].find();
+    //console.log(data);
   
     console.log('all done!');
     process.exit(0);
