@@ -33,6 +33,7 @@ const resolvers = {
 					throw new Error("A user, project, or task must be specified!");
 				}
 
+				// Dynamically build the query filter.
 				let searchFields = {};
 
 				if (userId) {
@@ -62,14 +63,45 @@ const resolvers = {
 		},
 		myProjects: async (parent, args, context) => {
 			if (context.user) {
-				// Users are assigned at the task level...
-				const tasks = await Task.find({ employees: context.user._id });
-				// Strip out project IDs, then remove duplicates.
-				const projectList = tasks.map(task => task.project).filter((value, index, self) => { return self.indexOf(value) === index; });
+				let result = {};
+				let processedList = [];
 
-				return Project.find({ $or: [ { _id: { $in: projectList } }, { managers: context.user._id } ]})
+				// Pull project groups where the user is an administrator.
+				const groups = await ProjectGroup.find({ administrator: context.user._id });
+				// Strip project IDs.
+				groups.forEach(curGroup => Array.prototype.push.apply(processedList, curGroup.projects.map(item => item.toString())));
+
+				// Save the relevant projects.
+				result.administrator = await Project.find({ _id: { $in: processedList }})
 				.populate("managers")
 				.populate("tasks");
+
+				// Save projects where user is a manager, but also not an administrator.
+				result.manager = await Project.find({
+					$and: [
+						{ managers: context.user._id },
+						{ _id: { $nin: processedList } }
+					]
+				})
+				.populate("managers")
+				.populate("tasks");
+
+				// Add the project IDs as manager to the list of items we've already processed.
+				Array.prototype.push.apply(processedList, result.manager.map(project => project._id.toString()));
+
+				// Users are assigned at the task level...
+				const tasks = await Task.find({ employees: context.user._id });
+				// Strip out project IDs, then remove duplicates and those that are already processed.
+				const projectList = tasks.map(task => task.project).filter((value, index, self) => {
+					return ((processedList.indexOf(value.toString()) == -1) && (self.indexOf(value) === index));
+				});
+
+				// User our list to save projects where the user is assigned to a task as a regular old employee.
+				result.employee = await Project.find({ _id: { $in: projectList }})
+				.populate("managers")
+				.populate("tasks");
+
+				return result;
 			}
 
 			throw new AuthenticationError('You need to be logged in!');
@@ -92,7 +124,7 @@ const resolvers = {
 		},
 		updateUser: async (parent, args, context) => {
 			if (context.user) {
-				return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+				return await User.findByIdAndUpdate(context.user._id, args, { new: true }).populate("groups");
 			}
 		
 			throw new AuthenticationError("Not logged in");

@@ -49,13 +49,19 @@ type TimeSheetEntry {
 	note: String
 }
 
+type ProjectListing {
+	administrator: [Project]
+	manager: [Project]
+	employee: [Project]
+}
+
 type Query {
 	user(email: String!): User
 	users: [User]
 	projects(groupId: ID): [Project]
 	tasks(projectId: ID!): [Task]
 	timesheets(userId: ID, projectId: ID, taskId: ID, start: String, end: String): [TimeSheetEntry]
-	myProjects: [Project]
+	myProjects: ProjectListing
 	myTasks: [Task]
 }
 
@@ -81,7 +87,5 @@ type Mutation {
 	updateTimeSheetEntry(entryId: ID!, start: String, end: String, note: String): TimeSheetEntry
 }
 `;
-
-// TODO - Logged in user gets owned ProjectGroups!
 
 module.exports = typeDefs;
