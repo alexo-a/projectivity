@@ -4,6 +4,7 @@ const typeDefs = gql`
 type User {
 	_id: ID
 	username: String
+	password: String
 	email: String
 	groups: [ProjectGroup]
 }
@@ -50,6 +51,7 @@ type TimeSheetEntry {
 }
 
 type Query {
+	me: User
 	user(email: String!): User
 	users: [User]
 	projects(groupId: ID): [Project]

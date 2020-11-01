@@ -5,6 +5,17 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
 	Query: {
+		me: async (parent, args, context) => {
+			if (context.user) {
+			  const userData = await User.findOne({ _id: context.user._id })
+				.select('-__v -password')
+				.populate('groups');
+		  
+			  return userData;
+			}
+		  
+			throw new AuthenticationError('Not logged in');
+		},
 		// get a user by username
 		user: async (parent, { email }) => {
 			return User.findOne({ email })
@@ -15,7 +26,6 @@ const resolvers = {
 		// get all users
 		users: async () => {
 			return User.find()
-			.select("-__v -password");
 			// TODO - Populate anything?
 		},
 		projects: async (parent, { groupId }) => {
@@ -101,13 +111,13 @@ const resolvers = {
 			const user = await User.findOne({ email }).populate("groups");
 		
 			if (!user) {
-				throw new AuthenticationError("Incorrect credentials");
+				throw new AuthenticationError("No User");
 			}
 		
 			const correctPw = await user.isCorrectPassword(password);
 		
 			if (!correctPw) {
-				throw new AuthenticationError("Incorrect credentials");
+				throw new AuthenticationError("Incorrect Password");
 			}
 		
 			const token = signToken(user);

@@ -78,11 +78,15 @@ button.success:hover {
 .cardTitle {
     background: var(--background);
     border-radius: 5px 5px 0 0;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
 .cardTitle h3 {
     margin: 0;
-    padding: 1.5rem 1rem 1.5rem 1rem;
     color: var(--charcoal);
     font-weight: normal;
 }
@@ -114,19 +118,16 @@ button.success:hover {
     border: 1px solid var(--charcoal);
 }
 
-.form input.warning {
-    border: 1px solid rgb(235, 35, 35);
+.form input.warning, .form input.passCheckFalse {
     background: rgb(235, 35, 35, 0.1);
 }
 
-.form input.warning:focus, .form input.passCheckFalse {
-    border: 1px solid rgb(235, 35, 35);
-    background: var(--background);
+input.warning:-webkit-autofill {
+    background: rgb(235, 35, 35, 0.1) !important;
 }
 
 .form input.passCheckTrue {
-    border: 1px solid var(--success);
-    background: var(--background);
+    background: rgb(58, 186, 113, 0.1);
 }
 
 .form label {
@@ -171,6 +172,12 @@ button.success:hover {
 .logInContainer .card {
     box-shadow: 0px 0px 25px -2px rgb(0,0,0,0.1);
     margin: 1rem;
+}
+
+.logInErrorMessage {
+    text-align: right;
+    margin: .5rem 0 0 0;
+    color: rgb(235, 35, 35);
 }
 
 
@@ -429,6 +436,14 @@ input.createClockInTaskName {
     }
     .cardBody {
         padding: 2rem 1rem .5rem 1rem;
+    }
+    .cardTitle {
+        flex-direction: row;
+
+    }
+    .logInErrorMessage {
+        text-align: right;
+        margin: .1rem 0 0 1rem;
     }
 }    
 /* SMALL */

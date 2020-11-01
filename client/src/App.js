@@ -23,7 +23,7 @@ const client = new ApolloClient({
 })
 
 if (Auth.loggedIn()) {
-  console.log('im logged in')
+  
 }
 
 function App() {
