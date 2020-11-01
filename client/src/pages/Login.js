@@ -7,6 +7,7 @@ import Auth from "../utils/auth";
 
 const Login = (props) => {
     const [formState, setFormState] = useState({ email: '', password: '' });
+    const [errorState, setErrorState] = useState({ email: false, password: false });
     const [login, { error }] = useMutation(LOGIN);
 
     const handleFormSubmit = async event => {
@@ -16,11 +17,23 @@ const Login = (props) => {
           const token = mutationResponse.data.login.token;
           Auth.login(token);
         } catch (e) {
-          console.log(e)
+            if (e.message === 'GraphQL error: Incorrect Password') {
+                setErrorState({
+                    email: false,
+                    password: true
+                });
+            }
+            if (e.message === 'GraphQL error: No User') {
+                setErrorState({
+                    email: true,
+                    password: false
+                });
+            }
         }
     };
+
     
-      const handleChange = event => {
+    const handleChange = event => {
         const { name, value } = event.target;
         setFormState({
           ...formState,
@@ -35,12 +48,22 @@ const Login = (props) => {
                 <div className="card">
                     <div className="cardTitle">
                         <h3>Log In to Projectivity</h3>
-                    </div>
+                        { errorState.email ? (
+                            <p className="logInErrorMessage">No user found with that email address.</p>
+                        ) : (
+                            <></>
+                        ) }
+                        { errorState.password ? (
+                            <p className="logInErrorMessage">Incorrect Password</p>
+                        ) : (
+                            <></>
+                        ) }
+                    </div>    
                     <div className="cardBody">
                         <form className="form" onSubmit={handleFormSubmit}>
                             <div className="formItem">
                                 <label htmlFor="email">Email:</label>
-                                <input
+                                <input className={`${ errorState.email ? 'warning' : ''}`}
                                     name='email'
                                     type='email'
                                     id='email'
@@ -50,7 +73,7 @@ const Login = (props) => {
                             </div>
                             <div className="formItem">
                                 <label htmlFor="password">Password:</label>
-                                <input
+                                <input className={`${ errorState.password ? 'warning' : ''}`}
                                     name='password'
                                     type='password'
                                     id='password'

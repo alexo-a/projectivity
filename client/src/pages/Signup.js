@@ -7,23 +7,41 @@ import logo from "../assets/images/Projectivity.png";
 
 function Signup(props)  {
     const [formState, setFormState] = useState({ 
-        email: '', username: '', password: '', passwordCheck: '', 
-        passwordsMatch: 'true' 
+        email: '', username: '', password: '', passwordCheck: ''
     });
+    const [errorState, setErrorState] = useState({ user: false, email: false, password: false, passLength: false });
     const [addUser, { error }] = useMutation(ADD_USER);
 
     const handleFormSubmit = async event => {
         event.preventDefault();
-        console.log('submit');
-        try {
-            const { data } = await addUser({
-              variables: { ...formState }
+        if (passCheckStatus === 'passCheckTrue') {
+            try {
+                const { data } = await addUser({
+                  variables: { ...formState }
+                });
+                console.log(data); 
+                Auth.login(data.addUser.token);
+            } catch (e) {
+                e.message.includes('is shorter than the minimum allowed length') ? 
+                    setErrorState({
+                        user: false, email: false, password: false, passLength: true
+                    })
+                    :e.message.includes('email_1 dup key:') ? 
+                    setErrorState({
+                        user: false, email: true, password: false, passLength: false
+                    })
+                    :e.message.includes('username_1 dup key:') ?
+                    setErrorState({
+                        user: true, email: false, password: false, passLength: false
+                    })
+                    :console.log(e.message);      
+            }
+        } else {
+            setErrorState({
+                user: false, email: false, password: true, passLength: false
             });
-            console.log(data); 
-            Auth.login(data.addUser.token);
-        } catch (e) {
-            console.error(e);
         }
+        
     };
 
     const handleChange = event => {
@@ -35,7 +53,7 @@ function Signup(props)  {
     };
 
     const passCheckStatus =
-        formState.passwordCheck === '' ? ''
+        !formState.password.length ? ''
         : formState.passwordCheck === formState.password ? 'passCheckTrue'
         : 'passCheckFalse'
 
@@ -46,12 +64,27 @@ function Signup(props)  {
                 <div className="card">
                     <div className="cardTitle">
                         <h3>Sign Up Today!</h3>
+                        { errorState.user ? (
+                            <p className="logInErrorMessage">Username Already Taken.</p>
+                        ) 
+                        :errorState.email ? (
+                            <p className="logInErrorMessage">Email Already Taken.</p>
+                        )
+                        :errorState.passLength ? (
+                            <p className="logInErrorMessage">Password must be 5 or more characters.</p>
+                        )
+                        :errorState.password ? (
+                            <p className="logInErrorMessage">Passwords do not match.</p>
+                        )
+                        : (
+                            <></>
+                        ) }
                     </div>
                     <div className="cardBody">
                         <form className="form" onSubmit={handleFormSubmit}>
                             <div className="formItem">
                                 <label htmlFor="email">Email:</label>
-                                <input
+                                <input className={`${ errorState.email ? 'warning' : ''}`}
                                     name='email'
                                     type='email'
                                     id='email'
@@ -61,7 +94,7 @@ function Signup(props)  {
                             </div>
                             <div className="formItem">
                                 <label htmlFor="username">Username:</label>
-                                <input
+                                <input className={`${ errorState.username ? 'warning' : ''}`}
                                     name='username'
                                     type='username'
                                     id='username'

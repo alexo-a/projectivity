@@ -1,5 +1,5 @@
 const faker = require('faker');
-
+const { signToken } = require("../utils/auth");
 const db = require('../config/connection');
 const { ProjectGroup, Project, Task, TimeSheetEntry, User } = require('../models');
 
@@ -118,8 +118,8 @@ db.once('open', async () => {
         }
     }
 
-    //const data = await [xxxxxx].find();
-    //console.log(data);
+    const data = await Project.find();
+    console.log(data);
   
     console.log('all done!');
     process.exit(0);
