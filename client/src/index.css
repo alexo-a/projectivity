@@ -1,6 +1,6 @@
 :root {
     --proj-red: #c02828;
-    --success: rgb(72, 199, 127);
+    --success: #3aba71;
     --active: #765ae0; 
     --charcoal: #4d5054;
     --gray: #bababa;
@@ -422,10 +422,13 @@ input.createClockInTaskName {
     }
     .logInBody .buttonGroup a {
         align-self: center;
-        margin: 1rem 0 0 .5rem;
+        margin: 2rem 0 0 .5rem;
     }
     button {
         width: fit-content;
+    }
+    .cardBody {
+        padding: 2rem 1rem .5rem 1rem;
     }
 }    
 /* SMALL */
