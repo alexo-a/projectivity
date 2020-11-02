@@ -6,6 +6,7 @@ import Auth from "./utils/auth";
 import { StoreProvider } from './utils/GlobalState';
 import Nav from './components/Nav';
 import TimeTracker from './components/TimeTracker';
+import AlertModal from './components/AlertModal';
 import Timesheet from './pages/Timesheet';
 import Reports from './pages/Reports';
 import Projects from './pages/Projects';
@@ -38,6 +39,7 @@ function App() {
               <>
                 <Nav></Nav>
                 <TimeTracker></TimeTracker>
+                <AlertModal></AlertModal>
               </>
             ) : (<></>)}
             <div className="container">

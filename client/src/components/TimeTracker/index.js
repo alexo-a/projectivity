@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import moment from "moment";
 
 import { ADD_TIMESHEET_ENTRY } from "../../utils/mutations";
-import { CLEAR_TIMESHEET_TASK } from "../../utils/actions";
+import { CLEAR_TIMESHEET_TASK, SHOW_ALERT_MODAL } from "../../utils/actions";
 import { useStoreContext } from '../../utils/GlobalState';
 
 import DateTime from "react-datetime";
@@ -66,7 +66,13 @@ function TimeTracker() {
 		if (now.diff(moment(datetime)) >= 0) {
 			setStartTime(datetime);
 		} else {
-			alert("Start time cannot be in the future.");
+			dispatch({
+				type: SHOW_ALERT_MODAL,
+				modal: {
+					title: "Error",
+					text: "Start time cannot be in the future."
+				}
+			});
 		}
 	}
 
@@ -86,7 +92,13 @@ function TimeTracker() {
 		if (now.diff(moment(datetime)) >= 0) {
 			setEndTime(datetime);
 		} else {
-			alert("End time cannot be in the future.");
+			dispatch({
+				type: SHOW_ALERT_MODAL,
+				modal: {
+					title: "Error",
+					text: "End time cannot be in the future."
+				}
+			});
 		}
 	}
 
@@ -96,6 +108,16 @@ function TimeTracker() {
 		setEndTime(tmpDate);
 	}
 
+	const refreshTimesheet = function() {
+		setStartTime(new Date(Date.now()));
+		setEndTime(undefined);
+		document.querySelector("input[name='timeSheetNote']").value = "";
+	}
+
+	const clearTimeSheet = function() {
+		dispatch({ type: CLEAR_TIMESHEET_TASK });
+	}
+
 	// TODO - Error alerts should go to a modal system!!
 	const submitTimesheet = async function(event) {
 		event.preventDefault();
@@ -103,7 +125,13 @@ function TimeTracker() {
 		let now = moment(Date.now());
 
 		if (now.diff(moment(startTime)) < 0) {
-			alert("Cannot have a start time in the future!");
+			dispatch({
+				type: SHOW_ALERT_MODAL,
+				modal: {
+					title: "Error",
+					text: "Start time cannot be in the future."
+				}
+			});
 			return;
 		}
 
@@ -111,10 +139,22 @@ function TimeTracker() {
 			let tmpEnd = moment(endTime);
 
 			if (moment(startTime).diff(tmpEnd) > 0) {
-				alert("End time cannot come before start time!");
+				dispatch({
+					type: SHOW_ALERT_MODAL,
+					modal: {
+						title: "Error",
+						text: "End time cannot come before start time."
+					}
+				});
 				return;
 			} else if (now.diff(tmpEnd < 0)) {
-				alert("Cannot have an end time in the future!");
+				dispatch({
+					type: SHOW_ALERT_MODAL,
+					modal: {
+						title: "Error",
+						text: "End time cannot be in the future."
+					}
+				});
 				return;
 			}
 		}
@@ -131,11 +171,25 @@ function TimeTracker() {
 				}
 			);
 
-			alert("Timesheet submitted successfully!");
-			document.querySelector("input[name='timeSheetNote']").value = "";
-			dispatch({ type: CLEAR_TIMESHEET_TASK });
+			dispatch({
+				type: SHOW_ALERT_MODAL,
+				modal: {
+					title: "Success!",
+					text: "Timesheet submitted successfully!\n\nKeep this task active?",
+					buttons: {
+						Yes: refreshTimesheet,
+						No: clearTimeSheet
+					}
+				}
+			});
 		} catch (e) {
-			alert(e);
+			dispatch({
+				type: SHOW_ALERT_MODAL,
+				modal: {
+					title: "Error",
+					text: e
+				}
+			});
 		}
 	}
 

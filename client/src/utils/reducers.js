@@ -3,6 +3,8 @@ import { useReducer } from 'react';
 import {
 	ADD_TIMESHEET_TASK,
 	CLEAR_TIMESHEET_TASK,
+	SHOW_ALERT_MODAL,
+	CLEAR_ALERT_MODAL,
 } from './actions';
 
 export const reducer = (state, action) => {
@@ -12,12 +14,25 @@ export const reducer = (state, action) => {
 				...state,
 				timeSheetTask: action.task
 			}
-		case CLEAR_TIMESHEET_TASK:
-			let tmpState = { ...state };
+		case CLEAR_TIMESHEET_TASK: {
+				let tmpState = { ...state };
 
-			delete tmpState.timeSheetTask;
+				delete tmpState.timeSheetTask;
 
-			return tmpState;
+				return tmpState;
+			}
+		case SHOW_ALERT_MODAL:
+			return {
+				...state,
+				modal: action.modal
+			}
+		case CLEAR_ALERT_MODAL: {
+				let tmpState = { ...state };
+
+				delete tmpState.modal;
+
+				return tmpState;
+			}
 		default:
 			return state;
 	}
