@@ -3,12 +3,13 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import Auth from "./utils/auth";
 
-import Nav from './components/Nav'
-import Timesheet from './pages/Timesheet'
-import Reports from './pages/Reports'
-import Projects from './pages/Projects'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
+import Nav from './components/Nav';
+import TimeTracker from './components/TimeTracker';
+import Timesheet from './pages/Timesheet';
+import Reports from './pages/Reports';
+import Projects from './pages/Projects';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const client = new ApolloClient({
   request: (operation) => {
@@ -34,6 +35,7 @@ function App() {
           {Auth.loggedIn() ? (
             <>
             <Nav></Nav>
+            <TimeTracker></TimeTracker>
             </>
           ) : (<></>)}
           <div className="container">

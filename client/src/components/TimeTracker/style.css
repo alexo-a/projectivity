@@ -1,0 +1,148 @@
+footer {
+	background-color: var(--light-gray);
+	border-top-left-radius: 8px;
+	bottom: 0px;
+	padding: 12px;
+	position: fixed;
+	right: 0px;
+}
+
+footer > div, .timerHolder {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+footer form {
+	padding: 8px;
+}
+
+footer form > div {
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 8px;
+}
+
+footer form > div > div {
+	align-items: center;
+	display: flex;
+}
+
+footer button {
+	background-color: var(--proj-red);
+	color: white;
+	cursor: pointer;
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+footer button:hover {
+	background-color: var(--proj-highlight);
+}
+
+footer form button[type='submit'] {
+	padding: 8px 12px;
+}
+
+footer form > div *:not(:last-child) {
+	margin-right: 4px;
+}
+
+footer form > div > div:not(:first-of-type) {
+	margin-left: 8px;
+}
+
+footer label {
+	white-space: nowrap;
+}
+
+input[name='timeSheetNote'] {
+	margin-right: 8px;
+	width: 500px;
+}
+
+/* Reposition date/time picker for the footer. */
+footer .rdtPicker {
+	border-radius: 8px;
+	bottom: 40px;
+	box-shadow: rgba(0, 0, 0, 0.25) 2px 2px 5px;
+	top: auto;
+}
+
+.taskDescription {
+	max-width: 600px;
+	padding: 8px;
+}
+
+footer.open-enter form, footer.open-enter .taskDescription {
+	display: block;
+	max-height: 0px;
+	max-width: 0px;
+	padding: 0px;
+	visibility: hidden;
+}
+
+footer.open-enter-active form, footer.open-enter-active .taskDescription {
+	max-width: 600px;
+	padding: 8px;
+	transition: 0.5s ease-out;
+}
+
+footer.open-exit-active form, footer.open-exit-active .taskDescription {
+	max-height: 0px;
+	max-width: 0px;
+	padding: 0px;
+	transition: all 0.5s ease-out, visibility 0s;
+	visibility: hidden;
+}
+
+footer.open-exit-done form, footer.open-exit-done .taskDescription {
+	display: none;
+}
+
+.taskTitle {
+	font-weight: bold;
+	margin-right: 8px !important;
+}
+
+footer.open-enter .taskTitle::after, footer.open-exit .taskTitle::after, footer.open-exit-done .taskTitle::after {
+	content: ':';
+}
+
+.timerHolder button {
+	margin-left: 8px;
+}
+
+@media screen and (max-width: 575px) {
+	footer form, .taskDescription, footer.open-enter-active form, footer.open-enter-active .taskDescription {
+		max-width: auto;
+	}
+
+	footer form > div {
+		flex-direction: column;
+	}
+
+	footer form > div > div {
+		margin-bottom: 4px;
+	}
+
+	footer form > div > div:not(:first-of-type) {
+		margin-left: 0px;
+	}
+
+	footer button {
+		min-height: 32px;
+		min-width: 32px;
+	}
+
+	footer input {
+		height: 24px;
+	}
+
+	input[name='timeSheetNote'] {
+		margin: 0px 32px 8px 32px !important;
+		width: 100%;
+	}
+}
