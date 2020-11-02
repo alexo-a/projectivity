@@ -3,6 +3,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import Auth from "./utils/auth";
 
+import { StoreProvider } from './utils/GlobalState';
 import Nav from './components/Nav';
 import TimeTracker from './components/TimeTracker';
 import Timesheet from './pages/Timesheet';
@@ -32,25 +33,27 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div>
-          {Auth.loggedIn() ? (
-            <>
-            <Nav></Nav>
-            <TimeTracker></TimeTracker>
-            </>
-          ) : (<></>)}
-          <div className="container">
-            <Route exact path="/login" component={Login}/>
-            <Route exact path="/signup" component={Signup}/>
-            <Route exact path="/">
-              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
-            </Route>
-            <Route exact path="/reports">
-              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
-            </Route>        
-            <Route exact path="/projects">
-              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
-            </Route>
-          </div>
+          <StoreProvider>
+            {Auth.loggedIn() ? (
+              <>
+                <Nav></Nav>
+                <TimeTracker></TimeTracker>
+              </>
+            ) : (<></>)}
+            <div className="container">
+              <Route exact path="/login" component={Login}/>
+              <Route exact path="/signup" component={Signup}/>
+              <Route exact path="/">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
+              </Route>
+              <Route exact path="/reports">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
+              </Route>        
+              <Route exact path="/projects">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
+              </Route>
+            </div>
+          </StoreProvider>
         </div>
       </Router>
     </ApolloProvider>

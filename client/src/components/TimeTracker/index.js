@@ -1,31 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useMutation } from '@apollo/react-hooks';
-import { CSSTransition } from 'react-transition-group';
+import { useMutation } from "@apollo/react-hooks";
+import { CSSTransition } from "react-transition-group";
 import moment from "moment";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { ADD_TIMESHEET_ENTRY } from "../../utils/mutations";
+import { CLEAR_TIMESHEET_TASK } from "../../utils/actions";
+import { useStoreContext } from '../../utils/GlobalState';
+
+import DateTime from "react-datetime";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
     faChevronUp, faChevronDown
-} from '@fortawesome/free-solid-svg-icons'
-
-import { ADD_TIMESHEET_ENTRY } from "../../utils/mutations"
-
-import DateTime from 'react-datetime';
+} from "@fortawesome/free-solid-svg-icons";
 
 import "react-datetime/css/react-datetime.css";
 import "./style.css";
 
 function TimeTracker() {
-	// TODO - Test data, this will need to come out of global state!!!
-	const currentTask = {
-		_id: "5f9ddb8d2fe5b33e703d52c7",
-		title: "Promote Synergy",
-		description: "Lorem ipsum dolor sit amet consectetur adipiscing elit, urna consequat felis vehicula class ultricies mollis dictumst, aenean non a in donec nulla. Phasellus ante pellentesque erat cum risus consequat imperdiet aliquam, integer placerat et turpis mi eros nec lobortis taciti, vehicula nisl litora tellus ligula porttitor metus.",
-	}
-
+	const [state, dispatch] = useStoreContext();
 	const [openState, setOpenState] = useState(true);
 	const [startTime, setStartTime] = useState(new Date(Date.now()));
 	const [endTime, setEndTime] = useState(undefined);
 	const [timerState, setTimerState] = useState(0);
+	const currentTask = state.timeSheetTask;
 
 	const [addTimesheetEntry, { error }] = useMutation(ADD_TIMESHEET_ENTRY);
 
@@ -44,12 +41,11 @@ function TimeTracker() {
 		return () => clearInterval(interval);
 	}, [ timerState, startTime, endTime ]);
 
-	/* TODO - Once current Task is loaded form state, should be able to use this to reset the timesheet whenever the task is changed?
+	// Reset times when task changes.
 	useEffect(() => {
 		setStartTime(new Date(Date.now()));
 		setEndTime(undefined);
 	}, [ currentTask ]);
-	*/
 
 	const formatTimer = function(timer) {
 		if (timer >= 0) {
@@ -136,8 +132,8 @@ function TimeTracker() {
 			);
 
 			alert("Timesheet submitted successfully!");
-			// TODO - Clear currentTask from global state!
 			document.querySelector("input[name='timeSheetNote']").value = "";
+			dispatch({ type: CLEAR_TIMESHEET_TASK });
 		} catch (e) {
 			alert(e);
 		}
