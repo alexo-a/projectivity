@@ -255,31 +255,30 @@ input.warning:-webkit-autofill {
     font-size: .8rem;
 }
 
-.navGroup:hover .navChevron {
-    font-size: .8rem;
-    color: var(--active);
-    transform: rotate(180deg);
-    transition: 300ms;
-}
-
-.userNavGroup:hover .navChevron {
+.userNavGroup:hover .navChevron, .navGroup:hover .navChevron {
     font-size: .8rem;
     color: var(--active);
     transform: rotate(180deg);
     transition: 100ms;
 }
 
-.userNavGroup:hover .dropdownContainer {
+.userNavGroup:hover .dropdownContainer, .navGroup:hover .dropdownContainer {
     display: block;
 }
 
+/* DROPDOWN */ 
 .dropdownContainer {
     display: none;
     background-color: none;
     padding: 1rem;
     position: absolute;
-    top: 2.5rem;
-    right: -1rem;
+    top: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dropdownContainer.right {
+    transform: translateX(-75%);
 }
 
 .dropdownModal {
@@ -313,13 +312,48 @@ input.warning:-webkit-autofill {
     cursor: pointer;
 }
 
-.dropdownItem:last-child {
+.dropdownGroup {
+    border-bottom: 1px solid var(--gray);
+}
+
+.dropdownGroup:first-child .dropdownTitleGroup {
+    padding-top: .5rem;
+}
+
+.dropdownGroup:last-child .dropdownTitleGroup {
+    padding-bottom: .5rem;
+}
+
+.dropdownGroup strong {
+    margin-left: 2rem;
+    font-size: .9rem;
+    color: rgb(0,0,0,0.3);
+}
+
+.dropdownItem:last-child, .dropdownGroup:last-child {
     border-bottom: none;
 }
 
-.dropdownItem:hover {
+.dropdownItem:hover, .dropdownGroup p:hover {
     color: var(--active);
 }
+
+.dropdownTitleGroup {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
+}
+
+.dropdownTitleGroup:first-child {
+    padding-top: 1rem;
+}
+
+.dropdownTitleGroup:last-child {
+    padding-bottom: 1rem;
+}
+
 
 /* TIMESHEET */
 .createClockIn {

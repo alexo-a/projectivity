@@ -9,6 +9,7 @@ import Reports from './pages/Reports'
 import Projects from './pages/Projects'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Dashboard from './pages/Dashboard'
 
 const client = new ApolloClient({
   request: (operation) => {
@@ -23,7 +24,7 @@ const client = new ApolloClient({
 })
 
 if (Auth.loggedIn()) {
-  
+  console.log('fuck');
 }
 
 function App() {
@@ -40,12 +41,15 @@ function App() {
             <Route exact path="/login" component={Login}/>
             <Route exact path="/signup" component={Signup}/>
             <Route exact path="/">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Dashboard />}
+            </Route>
+            <Route exact path="/timesheet">
               {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
             </Route>
-            <Route exact path="/reports">
+            <Route exact path="/reports/:projectId">
               {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
             </Route>        
-            <Route exact path="/projects">
+            <Route exact path="/projects/:id">
               {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
             </Route>
           </div>
