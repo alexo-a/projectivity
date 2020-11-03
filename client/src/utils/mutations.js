@@ -23,3 +23,11 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_TIMESHEET_ENTRY = gql`
+  mutation addTimeSheetEntry($taskId: ID!, $start: String!, $end: String!, $note: String) {
+    addTimeSheetEntry(taskId: $taskId, start: $start, end: $end, note: $note) {
+      _id
+    }
+  }
+`;

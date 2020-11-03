@@ -3,13 +3,16 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import Auth from "./utils/auth";
 
-import Nav from './components/Nav'
-import Timesheet from './pages/Timesheet'
-import Reports from './pages/Reports'
-import Projects from './pages/Projects'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/Dashboard';
+import { StoreProvider } from './utils/GlobalState';
+import Nav from './components/Nav';
+import TimeTracker from './components/TimeTracker';
+import AlertModal from './components/AlertModal';
+import Timesheet from './pages/Timesheet';
+import Reports from './pages/Reports';
+import Projects from './pages/Projects';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const client = new ApolloClient({
   request: (operation) => {
@@ -32,12 +35,15 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div>
-          {Auth.loggedIn() ? (
-            <>
-            <Nav></Nav>
-            </>
-          ) : (<></>)}
-          <div className="container">
+          <StoreProvider>
+            {Auth.loggedIn() ? (
+              <>
+                <Nav></Nav>
+                <TimeTracker></TimeTracker>
+                <AlertModal></AlertModal>
+              </>
+            ) : (<></>)}
+            <div className="container">
             <Route exact path="/login" component={Login}/>
             <Route exact path="/signup" component={Signup}/>
             <Route exact path="/">
@@ -52,7 +58,8 @@ function App() {
             <Route exact path="/projects/:id">
               {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
             </Route>
-          </div>
+            </div>
+          </StoreProvider>
         </div>
       </Router>
     </ApolloProvider>

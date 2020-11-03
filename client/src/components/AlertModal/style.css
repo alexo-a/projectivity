@@ -1,0 +1,56 @@
+.modalBG {
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	bottom: 0px;
+	display: flex;
+	justify-content: center;
+	left: 0px;
+	position: fixed;
+	right: 0px;
+	top: 0px;
+	z-index: 1000;
+}
+
+.modalBG > div {
+	background-color: var(--background);
+	border-radius: 8px;
+	margin: 20px;
+	padding: 20px;
+}
+
+.modalBG button {
+	background-color: var(--proj-red);
+	color: white;
+	cursor: pointer;
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+.modalBG button + button {
+	margin-left: 8px;
+}
+
+.modalBG button:hover {
+	background-color: var(--proj-highlight);
+}
+
+.modalBG h2 {
+	font-size: 20px;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.modalBG .buttonHolder {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+@media screen and (max-width: 575px) {
+	.modalBG button {
+		min-height: 32px;
+		min-width: 32px;
+	}
+}
