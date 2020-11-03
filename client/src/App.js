@@ -3,6 +3,7 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import Auth from "./utils/auth";
 
+import Dashboard from './pages/Dashboard';
 import { StoreProvider } from './utils/GlobalState';
 import Nav from './components/Nav';
 import TimeTracker from './components/TimeTracker';
@@ -25,10 +26,6 @@ const client = new ApolloClient({
   uri: '/graphql',
 })
 
-if (Auth.loggedIn()) {
-  
-}
-
 function App() {
   return (
     <ApolloProvider client={client}>
@@ -43,17 +40,20 @@ function App() {
               </>
             ) : (<></>)}
             <div className="container">
-              <Route exact path="/login" component={Login}/>
-              <Route exact path="/signup" component={Signup}/>
-              <Route exact path="/">
-                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
-              </Route>
-              <Route exact path="/reports">
-                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
-              </Route>        
-              <Route exact path="/projects">
-                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
-              </Route>
+            <Route exact path="/login" component={Login}/>
+            <Route exact path="/signup" component={Signup}/>
+            <Route exact path="/">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Dashboard />}
+            </Route>
+            <Route exact path="/timesheet">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
+            </Route>
+            <Route exact path="/reports/:projectId">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
+            </Route>        
+            <Route exact path="/projects/:id">
+              {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
+            </Route>
             </div>
           </StoreProvider>
         </div>
