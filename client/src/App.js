@@ -26,10 +26,6 @@ const client = new ApolloClient({
   uri: '/graphql',
 })
 
-if (Auth.loggedIn()) {
-  console.log('fuck');
-}
-
 function App() {
   return (
     <ApolloProvider client={client}>

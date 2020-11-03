@@ -16,5 +16,10 @@ export const QUERY_MY_PROJECTS = gql`
                 title
             }
         }
+
+        me {
+            _id
+            username
+        }
     } 
 `
