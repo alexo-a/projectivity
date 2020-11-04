@@ -54,7 +54,7 @@ function Signup(props)  {
 
     const passCheckStatus =
         !formState.password.length ? ''
-        : formState.passwordCheck === formState.password ? 'passCheckTrue'
+        : formState.passwordCheck === formState.password && formState.passwordCheck.length < 5 ? 'passCheckTrue'
         : 'passCheckFalse'
 
     return (

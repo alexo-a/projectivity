@@ -283,10 +283,6 @@ input.warning:-webkit-autofill {
     transform: translateX(-75%);
 }
 
-.dropdownModal:active {
-    display: none;
-}
-
 .dropdownModal {
     display: flex;
     flex-direction: column;
