@@ -57,13 +57,13 @@ const resolvers = {
 
 					searchFields.task = { $in: project.tasks };
 				}
-
+                //TODO logic needs to support having a start AND an end.
 				if (start) {
 					searchFields.start = { $gte: Date.parse(start) };
 				}
 
 				if (end) {
-					searchFields.end = { $lte: Date.parse(end) };
+					searchFields.start = { $lte: Date.parse(end) };
 				}
 
 				return await TimeSheetEntry.find(searchFields);
