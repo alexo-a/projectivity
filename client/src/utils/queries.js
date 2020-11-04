@@ -14,6 +14,12 @@ export const QUERY_MY_PROJECTS = gql`
             employee {
                 _id
                 title
+                tasks {
+                    title
+                    entries {
+                        _id
+                    }
+                }
             }
         }
 
@@ -37,7 +43,11 @@ query timesheets ($userId: ID,  $start: String, $end: String){
         timesheets ( userId: $userId, start: $start, end: $end) {
             task {
               _id
-
+              title
+                project {
+                    _id
+                    title
+                }
             }
             start
             end
@@ -45,4 +55,3 @@ query timesheets ($userId: ID,  $start: String, $end: String){
         }
     }
 `
-
