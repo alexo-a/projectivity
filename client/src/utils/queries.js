@@ -23,3 +23,26 @@ export const QUERY_MY_PROJECTS = gql`
         }
     } 
 `
+export const QUERY_MY_TASKS = gql`
+    query {
+        myTasks {
+            _id
+            project
+        }
+    }
+`
+
+export const QUERY_MY_TIMESHEETS = gql`
+query timesheets ($userId: ID,  $start: String, $end: String){
+        timesheets ( userId: $userId, start: $start, end: $end) {
+            task {
+              _id
+
+            }
+            start
+            end
+            note
+        }
+    }
+`
+
