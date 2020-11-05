@@ -1,24 +1,25 @@
 import React from "react";
-//import Container from "react-bootstrap/container"
-//import Row from 'react-bootstrap/Row'
-//import Col from 'react-bootstrap/Col'
 import { getCurrentWeekInfo } from "../utils/helpers"
 import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TIMESHEETS } from "../utils/queries";
 
 function processTimeSheets(timesheets) {
-
+    //processes timesheets array, extracting the task title, task id, timesheet duration, and project title.
     let compilation = [];
-    //let condensedProjectTaskList= [];
     let uniqueProjects = new Set();
-    //let projectTitles=[];
     let sum = 0;
     for ( let i in timesheets) {
+
+        //add the project title of the timesheet to the uniqueProjects *SET*
+        //sets don't allow duplicate values, so this gets updated only once for each unique project in a week's timesheet logs
         uniqueProjects.add(timesheets[i].task.project.title)
+
         const duration = parseFloat(((parseInt(timesheets[i].end) - parseInt(timesheets[i].start)) / 3600000))
         sum += duration
         let flag = false;
+        //loop through the compilation array to see if there's already a task._id entry matching this timesheet's task._id
+        //if there is, add this timesheet's duration to that of the entry already in compilation[]
         for (let j in compilation) {
             if ((timesheets[i].task._id=== compilation[j][1])) {
                 compilation[j][2] += duration
@@ -26,22 +27,21 @@ function processTimeSheets(timesheets) {
                 break
             }
         };
+        //if there wasn't a match in the previous loop, there's no task with a matching ._id in compilation... add the data from this timesheet to compilation
         if (!flag) {
             compilation.push([
                 timesheets[i].task.project.title,
                 timesheets[i].task._id,
-                duration,
+                duration.toFixed(2),
                 timesheets[i].task.title
             ])
         };
-        //condensedProjectTaskList.push({ title: timesheets[i].task.project.title, tasks: timesheets[i].task._id});
+       
     }
     sum = sum.toFixed(2)
     
-    console.log(compilation)
-    console.log(uniqueProjects)
-    //let dataTree = {}
-    //let dataTree = uniqueProjects.map(arr => arr.reduce((a, c, i) => (a['column' + (i + 1)] = c, a), {}))
+    //console.log(compilation)
+    //console.log(uniqueProjects)
     let dataTree = []
     uniqueProjects.forEach(proj=> {dataTree.push({title: proj, tasksWithDuration:[]})})
     
@@ -54,23 +54,23 @@ function processTimeSheets(timesheets) {
         }
     })
 
-    console.log(dataTree)
-    //console.log(`sum of timesheets: ${sum} hours`)
-    return { compilation, sum, dataTree}//, condensedProjectTaskList}
+    //console.log(dataTree)
+    
+    return { compilation, sum, dataTree}
 }
 
 function EmployeeReport() {
-    //get employee id, projects + tasks they've worked on this week.
-
     const weekInfo = getCurrentWeekInfo();
     const weekNumber = weekInfo.weekNumber;
     const weekStart = weekInfo.weekStartDate;
-
+    let hours = 0;
+    let dataTree = {}
     const userInfo = Auth.getUserInfo();
-    console.log(userInfo)
     const username = userInfo.username;
     const userId = userInfo._id;
 
+    //console.log(userInfo)
+    //get the logged-in user's timesheets from the current week.
     const { loading, data } = useQuery(QUERY_MY_TIMESHEETS,
         {
             variables: {
@@ -81,23 +81,17 @@ function EmployeeReport() {
     );
 
     const timesheets = data?.timesheets || {};
-
-    let hours = 0;
-    let dataTree={}
+    
     if (loading) {
         return null
     }
+
     if (!loading) {
-
-        console.dir(timesheets)
+        //console.dir(timesheets)
         const compilationInfo = processTimeSheets(timesheets)
-        const compiledSums = compilationInfo.compilation
         dataTree= compilationInfo.dataTree
-        hours = compilationInfo.sum
-
-        
+        hours = compilationInfo.sum        
     }
-
 
     return (
         <div className="bootstrap-wrapper">
