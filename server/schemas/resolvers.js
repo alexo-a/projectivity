@@ -33,12 +33,10 @@ const resolvers = {
 			.populate("managers")
 			.populate("tasks");
 		},
-<<<<<<< HEAD
-        tasks: async (parent, { projectId }) => {
+		tasks: async (parent, { projectId }) => {
             return Task.find({ project: projectId })
                 .populate("entries");
         },
-=======
 		project: async (parent, { id }) => {
 			const projectData = Project.findOne({ _id: id })
 			.populate("managers")
@@ -58,7 +56,6 @@ const resolvers = {
 			.populate('project')
 			.populate("entries");
 		},
->>>>>>> feature/projectpage
 		timesheets: async (parent, { userId, projectId, taskId, start, end }, context) => {
 			if (context.user) {
 				if ((!userId) && (!projectId) && (!taskId)) {
@@ -79,7 +76,7 @@ const resolvers = {
 
 					searchFields.task = { $in: project.tasks };
 				}
-                //TODO logic needs to support having a start AND an end.
+
 				if (start) {
 					searchFields.start = { $gte: Date.parse(start) };
 				}
@@ -88,9 +85,9 @@ const resolvers = {
 					searchFields.start = { $lte: Date.parse(end) };
 				}
 
-                return await TimeSheetEntry.find(searchFields)
-                .populate({path: "task", populate: {path: "project"}});
-            }
+				return await TimeSheetEntry.find(searchFields)
+				.populate({path: "task", populate: {path: "project"}});
+			}
 			
 			throw new AuthenticationError('Not logged in');
 		},
@@ -339,10 +336,10 @@ const resolvers = {
 			throw new AuthenticationError("You need to be logged in!");
 		},
 		addEmployeesToTask: async(parent, { taskId, userId }, context) => {
-			if (context.user) {
+			if (context.user) {				
 				const task = await Task.findByIdAndUpdate(
 					{ _id: taskId },
-					{ employees: userId },
+					{ $addToSet: { employees: userId } },
 					{ new: true }
 				)
 				.populate("employees");

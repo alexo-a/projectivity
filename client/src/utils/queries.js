@@ -29,7 +29,6 @@ export const QUERY_MY_PROJECTS = gql`
         }
     } 
 `
-<<<<<<< HEAD
 export const QUERY_MY_TASKS = gql`
     query {
         myTasks {
@@ -55,7 +54,7 @@ query timesheets ($userId: ID,  $start: String, $end: String){
             note
         }
     }
-=======
+`    
 export const QUERY_PROJECT = gql`
     query project($id: ID!) {
         project(id: $id) {
@@ -97,5 +96,4 @@ export const QUERY_PROJECT = gql`
 
         }
     } 
->>>>>>> feature/projectpage
 `

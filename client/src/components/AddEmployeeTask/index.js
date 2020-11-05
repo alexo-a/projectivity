@@ -80,10 +80,10 @@ function AddEmployeeTask() {
                     </div>
                 ))}
             </div>
-            <div>
+            <form>
                 <button type="button">Cancel</button>
                 <button type="submit" onClick={handleSubmitUsers}>Add User(s)</button>
-            </div>
+            </form>
         </div>
     )
 }
