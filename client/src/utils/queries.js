@@ -55,3 +55,24 @@ query timesheets ($userId: ID,  $start: String, $end: String){
         }
     }
 `
+export const QUERY_PROJECT_TIMESHEETS = gql`
+query timesheets ($projectId: ID,  $start: String, $end: String){
+        timesheets ( projectId: $projectId, start: $start, end: $end) {
+            task {
+              _id
+              title
+                project {
+                    _id
+                    title
+                }
+            }
+            start
+            end
+            note
+            user {
+                _id
+                username
+            }
+        }
+    }
+`
