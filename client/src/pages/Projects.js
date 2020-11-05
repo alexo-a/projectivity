@@ -49,7 +49,9 @@ function Projects() {
                         <h3>In Progress</h3>
                     </div>
                     <div className="kanbanBody">
-
+                        {project &&
+                        inProgressTasks.map(task => (<KanbanTask key={task.id} task={task} project={project} group={group} />)) 
+                        }
                     </div>
                 </div>
                 <div className="kanbanCell">
@@ -57,7 +59,9 @@ function Projects() {
                         <h3>Completed</h3>
                     </div>
                     <div className="kanbanBody">
-
+                        {project &&
+                        completedTasks.map(task => (<KanbanTask key={task.id} task={task} project={project} group={group} />)) 
+                        }
                     </div>
                 </div>
             </div>

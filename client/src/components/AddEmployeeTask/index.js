@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useStoreContext } from "../../utils/GlobalState";
+import { OPEN_ADD_EMPLOYEE_MODAL } from '../../utils/actions';
 import { useMutation } from '@apollo/react-hooks';
 import { UPDATE_EMPLOYEES_TASK } from '../../utils/mutations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,27 +47,45 @@ function AddEmployeeTask() {
     async function handleSubmitUsers(event) {
         event.preventDefault();
         console.log(selectedState);
+        if (selectedState[0] === 'placeholder') {
+            return
+        }
         try {
-             await addEmployeesToTask({
+            await addEmployeesToTask({
                 variables: {
                     userId: selectedState,
                     taskId: state.employeeModalTask._id
                 }
+            });
+            dispatch({ 
+                type: OPEN_ADD_EMPLOYEE_MODAL,
+                employeeModalOpen: false,
+                employeeModalTask: {}
             });
         } catch (e) {
             console.error(e);
         }
     }
 
+    function handleModalClose() {
+        dispatch({ 
+            type: OPEN_ADD_EMPLOYEE_MODAL,
+            employeeModalOpen: false,
+            employeeModalTask: {}
+        });
+        setSelectedState([]);
+    }
+    
+
     return (
         <div className="addEmployeeModal">
             <div className="employeeModalTitle">
-                <h3>Add employees to {state.employeeModalTask.title}</h3><FontAwesomeIcon icon={ faTimes }></FontAwesomeIcon>
+                <h3>Add Employees to <span>{state.employeeModalTask.title}</span></h3><FontAwesomeIcon icon={ faTimes } onClick={handleModalClose} className="employeeModalClose"></FontAwesomeIcon>
             </div>
-            <div>
+            <div className="employeeContainer">
                 {state.employeeModalTask.group.map(employee => (
                     <div 
-                    className={`${
+                    className={`employeeCell ${
                         selectedState.includes(employee._id)
                         ? 'addedUser' : ''}`} 
                     key={employee._id}
@@ -74,17 +93,17 @@ function AddEmployeeTask() {
                     >
                         <p>{employee.username}</p>
                         {selectedState.includes(employee._id) 
-                        ? <FontAwesomeIcon icon={faMinus }></FontAwesomeIcon> 
-                        : <FontAwesomeIcon icon={ faPlus }></FontAwesomeIcon>}
+                        ? <FontAwesomeIcon icon={ faMinus } className="addSubtract"></FontAwesomeIcon> 
+                        : <FontAwesomeIcon icon={ faPlus } className="addSubtract"></FontAwesomeIcon>}
                         
                     </div>
                 ))}
             </div>
-            <form>
-                <button type="button">Cancel</button>
-                <button type="submit" onClick={handleSubmitUsers}>Add User(s)</button>
-            </form>
-        </div>
+                <div className="employeeButtonGroup">
+                    <button type="button" onClick={handleModalClose}>Cancel</button>
+                    <button type="submit" onClick={handleSubmitUsers} className="employeeSubmit">Add User(s)</button>
+                </div>
+            </div>
     )
 }
 

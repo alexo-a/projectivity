@@ -339,7 +339,7 @@ const resolvers = {
 			if (context.user) {				
 				const task = await Task.findByIdAndUpdate(
 					{ _id: taskId },
-					{ $addToSet: { employees: userId } },
+					{ employees: userId },
 					{ new: true }
 				)
 				.populate("employees");
