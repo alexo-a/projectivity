@@ -26,6 +26,7 @@ type ProjectGroup {
 type Project {
 	_id: ID
 	title: String
+	description: String
 	group: ProjectGroup
 	managers: [User]
 	tasks: [Task]
@@ -61,7 +62,10 @@ type Query {
 	user(email: String!): User
 	users: [User]
 	projects(groupId: ID): [Project]
+	project(id: ID!): Project
+	groupByProject(projectId: ID!): ProjectGroup
 	tasks(projectId: ID!): [Task]
+	task(id: ID!): Task
 	timesheets(userId: ID, projectId: ID, taskId: ID, start: String, end: String): [TimeSheetEntry]
 	myProjects: ProjectListing
 	myTasks: [Task]
@@ -83,7 +87,7 @@ type Mutation {
 	removeManagerFromProject(projectId: ID!, userId: ID!): Project
 	addTask(projectId: ID!, title: String!): Task
 	updateTask(_id: ID!, title: String, description: String): Task
-	addEmployeeToTask(taskId: ID!, userId: ID!): Task
+	addEmployeesToTask(taskId: ID!, userId: [ID!]): Task
 	removeEmployeeFromTask(taskId: ID!, userId: ID!): Task
 	addTimeSheetEntry(taskId: ID!, start: String!, end: String!, note: String): TimeSheetEntry
 	updateTimeSheetEntry(entryId: ID!, start: String, end: String, note: String): TimeSheetEntry

@@ -33,10 +33,32 @@ const resolvers = {
 			.populate("managers")
 			.populate("tasks");
 		},
+<<<<<<< HEAD
         tasks: async (parent, { projectId }) => {
             return Task.find({ project: projectId })
                 .populate("entries");
         },
+=======
+		project: async (parent, { id }) => {
+			const projectData = Project.findOne({ _id: id })
+			.populate("managers")
+			.populate({ path: 'tasks', populate: { path: "employees" } });
+			return projectData
+		},
+		groupByProject: async (parent, { projectId }) => {
+			return ProjectGroup.findOne({ projects: projectId })
+			.populate("managers")
+			.populate("employees")
+			.populate('administrator');
+			
+		},
+		task: async (parent, { id }) => {
+			return Task.findOne({ _id: id })
+			.populate('employees')
+			.populate('project')
+			.populate("entries");
+		},
+>>>>>>> feature/projectpage
 		timesheets: async (parent, { userId, projectId, taskId, start, end }, context) => {
 			if (context.user) {
 				if ((!userId) && (!projectId) && (!taskId)) {
@@ -316,11 +338,11 @@ const resolvers = {
 			
 			throw new AuthenticationError("You need to be logged in!");
 		},
-		addEmployeeToTask: async(parent, { taskId, userId }, context) => {
+		addEmployeesToTask: async(parent, { taskId, userId }, context) => {
 			if (context.user) {
 				const task = await Task.findByIdAndUpdate(
 					{ _id: taskId },
-					{ $addToSet: { employees: userId } },
+					{ employees: userId },
 					{ new: true }
 				)
 				.populate("employees");
@@ -336,7 +358,7 @@ const resolvers = {
 					{ _id: taskId },
 					{ $pull: { employees: userId } },
 					{ new: true }
-				);
+				).populate('employees');
 			
 				return task;
 			}

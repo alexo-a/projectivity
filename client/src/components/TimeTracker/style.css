@@ -1,10 +1,14 @@
 footer {
-	background-color: var(--light-gray);
+	background-color: var(--background);
 	border-top-left-radius: 8px;
 	bottom: 0px;
 	padding: 12px;
 	position: fixed;
 	right: 0px;
+}
+
+.taskTitle {
+	font-family: 'Raleway', sans-serif;
 }
 
 footer > div, .timerHolder {
@@ -86,15 +90,16 @@ footer.open-enter form, footer.open-enter .taskDescription {
 
 footer.open-enter-active form, footer.open-enter-active .taskDescription {
 	max-width: 600px;
+	max-height: 200px;
 	padding: 8px;
-	transition: 0.5s ease-out;
+	transition: max-height 1.4s ease-out, max-width 0.3s ease-out, visibility 0s;
 }
 
 footer.open-exit-active form, footer.open-exit-active .taskDescription {
-	max-height: 0px;
+	max-height: 1px;
 	max-width: 0px;
 	padding: 0px;
-	transition: all 0.5s ease-out, visibility 0s;
+	transition: all .5s ease-out, visibility 0s;
 	visibility: hidden;
 }
 

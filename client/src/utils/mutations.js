@@ -31,3 +31,33 @@ export const ADD_TIMESHEET_ENTRY = gql`
     }
   }
 `;
+
+export const REMOVE_EMPLOYEE_FROM_TASK = gql`
+  mutation removeEmployeeFromTask($taskId: ID!, $userId: ID!) {
+    removeEmployeeFromTask(taskId: $taskId, userId: $userId) {
+      _id
+      title
+      description
+      completed
+      employees {
+        _id
+        username
+      }
+    }
+  }
+`;
+
+export const UPDATE_EMPLOYEES_TASK =gql`
+  mutation addEmployeesToTask($userId: [ID!], $taskId: ID!) {
+    addEmployeesToTask(userId: $userId, taskId: $taskId) {
+      _id
+      title
+      description
+      completed
+      employees {
+        _id
+        username
+      }
+    }
+  }
+`
