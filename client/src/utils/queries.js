@@ -54,6 +54,48 @@ query timesheets ($userId: ID,  $start: String, $end: String){
             note
         }
     }
+`    
+export const QUERY_PROJECT = gql`
+    query project($id: ID!) {
+        project(id: $id) {
+            title
+            description
+            managers {
+                _id
+                username
+            }
+            tasks {
+                _id
+                title
+                employees {
+                    _id
+                    username
+                }
+                entries {
+                _id
+                }
+            completed
+            }
+        }
+
+        groupByProject(projectId: $id) {
+            _id
+            title
+            administrator {
+                _id
+                username
+            }
+            managers {
+                _id
+                username
+            }
+            employees {
+                _id
+                username
+            }
+
+        }
+    } 
 `
 export const QUERY_PROJECT_TIMESHEETS = gql`
 query timesheets ($projectId: ID,  $start: String, $end: String){

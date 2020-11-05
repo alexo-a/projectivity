@@ -4,7 +4,8 @@ import {
 	ADD_TIMESHEET_TASK,
 	CLEAR_TIMESHEET_TASK,
 	SHOW_ALERT_MODAL,
-	CLEAR_ALERT_MODAL,
+	CLEAR_ALERT_MODAL, 
+	OPEN_ADD_EMPLOYEE_MODAL
 } from './actions';
 
 export const reducer = (state, action) => {
@@ -32,6 +33,12 @@ export const reducer = (state, action) => {
 				delete tmpState.modal;
 
 				return tmpState;
+			}
+		case OPEN_ADD_EMPLOYEE_MODAL:
+			return {
+				...state,
+				employeeModalTask: action.employeeModalTask,
+				employeeModalOpen: action.employeeModalOpen
 			}
 		default:
 			return state;

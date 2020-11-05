@@ -13,6 +13,7 @@
 
 * {
     font-family: Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
 /* GENERAL */
@@ -222,7 +223,7 @@ input.warning:-webkit-autofill {
 
 .navIcon {
     font-size: 1.5rem;
-    padding: .5rem;
+    margin: .5rem;
 }
 
 .userNavGroup {
@@ -245,12 +246,16 @@ input.warning:-webkit-autofill {
 }
 
 .userIcon {
-    font-size: 2.3rem;
+    font-size: 2.5rem;
     margin: .5rem;
 }
 
 .userNavGroup:hover .userIcon {
     color: var(--active);
+}
+
+.userNavGroup .dropdownIcon {
+    font-size: 1.2rem;
 }
 
 .navChevron {
@@ -293,6 +298,7 @@ input.warning:-webkit-autofill {
     border: 1px solid var(--gray);
     border-radius: 5px;
     box-shadow: 0px 0px 25px -1px rgb(0,0,0,0.1);
+    z-index: 9999;
 }
 
 .dropdownModal .dropdownItemTitle {
@@ -304,6 +310,7 @@ input.warning:-webkit-autofill {
 
 .dropdownIcon {
     margin: .5rem;
+    font-size: 2.2rem;
 }
 
 .dropdownItem {
@@ -363,6 +370,10 @@ input.warning:-webkit-autofill {
 .userReportLink .dropdownIcon {
     margin: 0;
     padding: 0 .5rem 0 .5rem;
+}
+
+.projectIcon {
+    font-size: 1rem;
 }
 
 /* TIMESHEET */

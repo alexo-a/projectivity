@@ -75,7 +75,7 @@ function Nav() {
                                         </div>
                                         <div className="dropdownGroup">
                                             <div className="dropdownTitleGroup">
-                                                <p className="dropdownItemTitle">Add a New Project</p><FontAwesomeIcon icon={faPlus} className="dropdownIcon"></FontAwesomeIcon>
+                                                <p className="dropdownItemTitle">Add a New Project</p><FontAwesomeIcon icon={faPlus} className="dropdownIcon projectIcon"></FontAwesomeIcon>
                                             </div>
                                         </div>                                       
                                     </div>
