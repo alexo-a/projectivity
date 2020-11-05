@@ -54,7 +54,7 @@ function Signup(props)  {
     };
 
     const passCheckStatus =
-        !formState.password.length && formState.passwordCheck.length > 5 ? ''
+        !formState.password.length && formState.passwordCheck.length >= 5 ? ''
         : formState.passwordCheck === formState.password ? 'passCheckTrue'
         : 'passCheckFalse'
 
