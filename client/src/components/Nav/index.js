@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-    faUserClock, faTasks, faChartPie, faUserCircle, faChevronDown, faUserCog, faDoorOpen, faHouseUser, faPlus, faUser
+    faUserClock, faTasks, faGlobe, faChartPie, faUserCircle, faChevronDown, faUserCog, faDoorOpen, faHouseUser, faPlus, faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@apollo/react-hooks';
 import { QUERY_MY_PROJECTS } from '../../utils/queries';
@@ -36,7 +36,12 @@ function Nav() {
                         <Link to="/timesheet"><li>
                                     <FontAwesomeIcon icon={faUserClock} className="navIcon" /><span className="show-md-up">Timesheet</span>
                         </li></Link>
-                        <li className="navGroup">
+                        <Link to="/groups">
+                            <li>
+                                <FontAwesomeIcon icon={faGlobe} className="navIcon" /><span className="show-sm-up"> Groups</span>
+                            </li>
+                        </Link>
+                        <Link to="/projects"><li className="navGroup">
                                 <div className="flex align-center">
                                     <FontAwesomeIcon icon={faTasks} className="navIcon" /><span className="show-md-up">Projects</span>
                                 </div>
@@ -48,7 +53,7 @@ function Nav() {
                                         projects.administrator.map(project => ( 
                                             <Link to={`/projects/${project._id}`} key={project._id}>
                                                 <div className="dropdownTitleGroup">
-                                                    <p className="dropdownItemTitle">{project.title}</p>{ project === projects.administrator[0] && <strong>admministrator</strong>}
+                                                    <p className="dropdownItemTitle">{project.title}</p>{ project === projects.administrator[0] && <strong>administrator</strong>}
                                                 </div>
                                             </Link>                                                                                 
                                         ))}
@@ -80,7 +85,7 @@ function Nav() {
                                         </div>                                       
                                     </div>
                                 </div>
-                        </li>
+                        </li></Link>
                        <li className="navGroup">
                                 <div className="flex align-center">
                                     <FontAwesomeIcon icon={faChartPie} className="navIcon" /><span className="show-md-up">Reports</span>

@@ -1,0 +1,175 @@
+.groupListing button {
+	background-color: var(--proj-red);
+	color: white;
+	cursor: pointer;
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+.groupListing button:hover {
+	background-color: var(--proj-highlight);
+}
+
+.groupListing form {
+	display: none;
+	max-height: 0px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.addGroupForm {
+	align-items: flex-start;
+	border-radius: 5px;
+	display: inline-flex;
+	flex-direction: column;
+	margin: 10px;
+}
+
+.addGroupForm button svg {
+	margin-right: 6px;
+}
+
+.addGroupForm form {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.addGroupForm form > div {
+	display: flex;
+	margin-top: 8px;
+}
+
+.addGroupForm form > div > * + * {
+	margin-left: 6px;
+}
+
+.addGroupForm h3 {
+	border-radius: 5px;
+	font-size: 1.17em;
+	margin: 0px;
+}
+
+.addGroupForm h3 button {
+	font-size: 1.17em;
+	margin: 0px 40px;
+}
+
+.addGroupForm form input {
+	width: 300px;
+}
+
+.addGroupForm.open-enter {
+	border: 1px solid transparent;
+}
+
+.addGroupForm.open-enter-active, .addGroupForm.open-enter-done {
+	background-color: var(--light-gray);
+	border: 1px solid var(--charcoal);
+	padding: 20px;
+	transition: 0.5s ease-out;
+}
+
+.addGroupForm.open-exit {
+	border: 1px solid var(--charcoal);
+	padding: 20px;
+}
+
+.addGroupForm.open-exit-active {
+	border: 1px solid transparent;
+	padding: 0px;
+	transition: 0.5s ease-in;
+}
+
+.groupListing .open-enter form {
+	display: flex;
+	opacity: 0;
+}
+
+.groupListing .open-enter-active form {
+	max-height: 400px;
+	opacity: 1;
+	transition: 0.5s ease-in-out;
+}
+
+.groupListing .open-enter-done form {
+	display: flex;
+	max-height: 400px;
+	overflow: auto;
+}
+
+.groupListing .open-exit form {
+	display: flex;
+	max-height: 400px;
+	opacity: 1;
+	overflow: hidden;
+}
+
+.groupListing .open-exit-active form {
+	max-height: 0px;
+	opacity: 0;
+	transition: 0.5s ease-in-out;
+}
+
+.groupListing .open-exit-done form {
+	display: none;
+}
+
+.groupContainer {
+	align-items: flex-start;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.addGroupForm.open-enter h3 {
+	background-color: var(--proj-red);
+	color: white;
+	font-weight: normal;
+	margin: 0px 40px;
+	padding: 2px 8px;
+}
+
+.addGroupForm.open-enter-active h3, .addGroupForm.open-exit h3 button {
+	background-color: initial;
+	color: inherit;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+}
+
+.addGroupForm.open-exit-active h3 button {
+	background-color: var(--proj-red);
+	color: white;
+	font-weight: normal;
+	margin: 0px 40px;
+	padding: 2px 8px;
+}
+
+.addGroupForm.open-enter-active h3, .addGroupForm.open-exit-active h3 button {
+	transition: 0.5s ease-in-out;
+}
+
+@media screen and (max-width: 575px) {
+	.addGroupForm form {
+		align-items: stretch;
+	}
+
+	.addGroupForm form > div {
+		align-items: center;
+	}
+
+	.addGroupForm form input {
+		width: 100%;
+	}
+
+	.addGroupForm.open-enter-active, .addGroupForm.open-enter-done {
+		width: 100%;
+	}
+
+	.groupListing button {
+		min-height: 32px;
+		min-width: 32px;
+	}
+}

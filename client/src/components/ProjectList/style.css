@@ -1,0 +1,60 @@
+.projectList button {
+	background-color: var(--proj-red);
+	color: white;
+	cursor: pointer;
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+.projectList button:hover {
+	background-color: var(--proj-highlight);
+}
+
+.projectList > div {
+	display: none;
+	max-height: 0px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.projectList .open-enter {
+	display: block;
+	opacity: 0;
+}
+
+.projectList .open-enter-active {
+	max-height: 400px;
+	opacity: 1;
+	transition: 0.5s ease-in-out;
+}
+
+.projectList .open-enter-done {
+	display: block;
+	max-height: 400px;
+	overflow: auto;
+}
+
+.projectList .open-exit {
+	display: block;
+	max-height: 400px;
+	opacity: 1;
+	overflow: hidden;
+}
+
+.projectList .open-exit-active {
+	max-height: 0px;
+	opacity: 0;
+	transition: 0.5s ease-in-out;
+}
+
+.projectList .open-exit-done {
+	display: none;
+}
+
+@media screen and (max-width: 575px) {
+	.projectList button {
+		min-height: 32px;
+		min-width: 32px;
+	}
+}
