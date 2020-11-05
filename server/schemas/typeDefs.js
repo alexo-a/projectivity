@@ -50,6 +50,11 @@ type TimeSheetEntry {
 	note: String
 }
 
+type ProjectGroupListing {
+	administrator: [ProjectGroup]
+	member: [ProjectGroup]
+}
+
 type ProjectListing {
 	administrator: [Project]
 	manager: [Project]
@@ -59,10 +64,12 @@ type ProjectListing {
 type Query {
 	me: User
 	user(email: String!): User
+	findUser(searchField: String!): User
 	users: [User]
 	projects(groupId: ID): [Project]
 	tasks(projectId: ID!): [Task]
 	timesheets(userId: ID, projectId: ID, taskId: ID, start: String, end: String): [TimeSheetEntry]
+	myGroups: ProjectGroupListing
 	myProjects: ProjectListing
 	myTasks: [Task]
 }

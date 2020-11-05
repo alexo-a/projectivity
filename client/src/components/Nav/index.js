@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { 
-    faUserClock, faTasks, faChartPie, faUserCircle, faChevronDown, faUserCog, faDoorOpen, faHouseUser
+    faUserClock, faTasks, faGlobe, faChartPie, faUserCircle, faChevronDown, faUserCog, faDoorOpen, faHouseUser
 } from '@fortawesome/free-solid-svg-icons'
 
 function Nav() {
@@ -27,6 +27,11 @@ function Nav() {
                         <Link to="/timesheet"><li>
                                     <FontAwesomeIcon icon={faUserClock} className="navIcon" /><span className="show-sm-up">Timesheet</span>
                         </li></Link>
+                        <Link to="/groups">
+                            <li>
+                                <FontAwesomeIcon icon={faGlobe} className="navIcon" /><span className="show-sm-up"> Groups</span>
+                            </li>
+                        </Link>
                         <Link to="/projects"><li className="navGroup">
                                 <div className="flex align-center">
                                     <FontAwesomeIcon icon={faTasks} className="navIcon" /><span className="show-sm-up">Projects</span>

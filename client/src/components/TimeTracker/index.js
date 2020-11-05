@@ -118,7 +118,6 @@ function TimeTracker() {
 		dispatch({ type: CLEAR_TIMESHEET_TASK });
 	}
 
-	// TODO - Error alerts should go to a modal system!!
 	const submitTimesheet = async function(event) {
 		event.preventDefault();
 
@@ -194,7 +193,10 @@ function TimeTracker() {
 	}
 
 	if (!currentTask) {
+		document.querySelector("body").style.marginBottom = "";
 		return <></>;
+	} else {
+		document.querySelector("body").style.marginBottom = "60px";
 	}
 
 	return (

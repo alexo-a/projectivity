@@ -21,7 +21,10 @@ const resolvers = {
 			return User.findOne({ email })
 			.select("-__v -password")
 			.populate("groups");
-			// TODO - Populate anything?
+		},
+		findUser: async (parent, { searchField }) => {
+			return User.findOne({ $or: [ { username: searchField }, { email: searchField } ]})
+			.select("-__v -password");
 		},
 		// get all users
 		users: async () => {
@@ -69,6 +72,31 @@ const resolvers = {
 				return await TimeSheetEntry.find(searchFields);
 			}
 			
+			throw new AuthenticationError('Not logged in');
+		},
+		myGroups: async (parent, args, context) => {
+			if (context.user) {
+				let result = {};
+				let groups = await ProjectGroup.find(
+					{
+						$or: [
+							{ administrator: context.user._id },
+							{ managers: context.user._id },
+							{ employees: context.user._id }
+						]
+					}
+				)
+				.populate("administrator")
+				.populate("managers")
+				.populate("employees")
+				.populate("projects");
+
+				result.administrator = groups.filter(curGroup => curGroup.administrator._id == context.user._id);
+				result.member = groups.filter(curGroup => curGroup.administrator._id != context.user._id);
+
+				return result;
+			}
+
 			throw new AuthenticationError('Not logged in');
 		},
 		myProjects: async (parent, args, context) => {

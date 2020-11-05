@@ -9,6 +9,7 @@ import TimeTracker from './components/TimeTracker';
 import AlertModal from './components/AlertModal';
 import Timesheet from './pages/Timesheet';
 import Reports from './pages/Reports';
+import ProjectGroups from './pages/ProjectGroups';
 import Projects from './pages/Projects';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -50,7 +51,10 @@ function App() {
               </Route>
               <Route exact path="/reports">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
-              </Route>        
+              </Route>
+              <Route exact path="/groups">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <ProjectGroups />}
+              </Route>
               <Route exact path="/projects">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
               </Route>

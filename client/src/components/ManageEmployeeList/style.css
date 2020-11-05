@@ -1,0 +1,82 @@
+.employeeList {
+	margin-bottom: 10px;
+}
+
+.employeeList button {
+	background-color: var(--proj-red);
+	color: white;
+	cursor: pointer;
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+.employeeList button:hover {
+	background-color: var(--proj-highlight);
+}
+
+.employeeList > div {
+	align-items: flex-end;
+	display: none;
+	flex-direction: column;
+	max-height: 0px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.employeeList ol {
+	align-self: stretch;
+}
+
+.employeeList .open-enter {
+	display: flex;
+	opacity: 0;
+}
+
+.employeeList .open-enter-active {
+	max-height: 400px;
+	opacity: 1;
+	transition: 0.5s ease-in-out;
+}
+
+.employeeList .open-enter-done {
+	display: flex;
+	max-height: 400px;
+	overflow: auto;
+}
+
+.employeeList .open-exit {
+	display: flex;
+	max-height: 400px;
+	opacity: 1;
+	overflow: hidden;
+}
+
+.employeeList .open-exit-active {
+	max-height: 0px;
+	opacity: 0;
+	transition: 0.5s ease-in-out;
+}
+
+.employeeList .open-exit-done {
+	display: none;
+}
+
+input {
+	margin-right: 4px;
+}
+
+input.userOk {
+	color: green;
+}
+
+@media screen and (max-width: 575px) {
+	.employeeList button {
+		min-height: 32px;
+		min-width: 32px;
+	}
+
+	.employeeList button[name='addButton'] {
+		width: auto;
+	}
+}
