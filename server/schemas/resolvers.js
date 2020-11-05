@@ -33,10 +33,10 @@ const resolvers = {
 			.populate("managers")
 			.populate("tasks");
 		},
-		tasks: async (parent, { taskId }) => {
-			return Task.find({ task: taskId })
-			.populate("entries");
-		},
+        tasks: async (parent, { projectId }) => {
+            return Task.find({ project: projectId })
+                .populate("entries");
+        },
 		timesheets: async (parent, { userId, projectId, taskId, start, end }, context) => {
 			if (context.user) {
 				if ((!userId) && (!projectId) && (!taskId)) {
@@ -66,8 +66,9 @@ const resolvers = {
 					searchFields.start = { $lte: Date.parse(end) };
 				}
 
-				return await TimeSheetEntry.find(searchFields);
-			}
+                return await TimeSheetEntry.find(searchFields)
+                .populate({path: "task", populate: {path: "project"}});
+            }
 			
 			throw new AuthenticationError('Not logged in');
 		},
