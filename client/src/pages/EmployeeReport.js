@@ -113,7 +113,24 @@ function EmployeeReport() {
                 </div >
                 <div className="row">
                     <div className="mx-3">
-
+                        <div class="row border-bottom bg-dark text-light font-weight-bold align-bottom">
+                            <div class="col-3">
+                                Project Name
+                            </div>
+                            <div class="col-9">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Task Description
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        Task ID
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        Hours
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {dataTree ? (
                             <>
                                 {dataTree.map(project => (

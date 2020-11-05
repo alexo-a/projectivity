@@ -1,8 +1,9 @@
 import React from "react";
-import { getCurrentWeekInfo } from "../utils/helpers"
-import Auth from "../utils/auth";
+import { getCurrentWeekInfo } from "../../utils/helpers"
+import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
-import { QUERY_PROJECT_TIMESHEETS } from "../utils/queries";
+import { QUERY_PROJECT_TIMESHEETS } from "../../utils/queries";
+import moment from "moment";
 
 function processProjectTimeSheets(timesheets) {
 
@@ -40,7 +41,7 @@ function processProjectTimeSheets(timesheets) {
             }
         }
     }
-    console.log(compilation)
+    //console.log(compilation)
     return compilation
 }
 
@@ -51,9 +52,9 @@ function ProjectReport() {
     const weekStart = weekInfo.weekStartDate;
 
     const userInfo = Auth.getUserInfo();
-    console.log(userInfo)
-    //const username = userInfo.username;
-    //TODO change the below line to a proper variable
+    //console.log(userInfo)
+
+    //TODO change the below two lines to a proper variable
     const projectId = "5fa099f5a8cd115d30f4789a";
     const projectTitle = "Licensed Steel Pizza";
 
@@ -64,18 +65,19 @@ function ProjectReport() {
             }
         }
     );
-
+    let compilationInfo = [];
     const timesheets = data?.timesheets || {};
 
-    let hours = 0;
-    let dataTree = {}
+    let today = moment().format("Do MMMM YYYY");
+
     if (loading) {
         return null
     }
     if (!loading) {
 
-        console.dir(timesheets)
-        const compilationInfo = processProjectTimeSheets(timesheets)
+        //console.dir(timesheets)
+        compilationInfo = processProjectTimeSheets(timesheets)
+        console.dir(compilationInfo)
     }
 
 
@@ -102,28 +104,56 @@ function ProjectReport() {
                 </div >
                 <div className="row">
                     <div className="mx-3">
-
-                        {dataTree ? (
+                        <div class="row border-bottom bg-dark text-light font-weight-bold align-bottom">
+                            <div class="col-3">
+                                Task
+                            </div>
+                            <div class="col text-center">
+                                TaskID
+                            </div>
+                            <div class="col text-center">
+                                Status
+                            </div>
+                            <div class="col-5">
+                                <div class="row">
+                                    <div class="col-8 text-center">
+                                        Employee Name
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        Hours
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {compilationInfo ? (
                             <>
-                                {dataTree.map(project => (
-                                    <div className="row py-2 border-bottom border-dark" key={project.title}>
-                                        <div className="my-auto col-xs-3">
-                                            {project.title}
+                                {compilationInfo.map(task => (
+                                    <div class="row py-2 border-bottom">
+                                        <div class="col-3">
+                                            {task.taskTitle}
                                         </div>
-                                        < div className="col-xs-9">
-                                            {project.tasksWithDuration.map(task => (
+                                        <div class="col text-center">In Progress</div>
+                                        <div class="col-5">
+                                            {task.users.map(taskUser => {
+                                                return (
+                                                    <div class="row">
+                                                        <div class="col-8 text-center">
+                                                            {taskUser.username}
+                                                        </div>
+                                                        <div class="col-4 text-center">
+                                                            {taskUser.duration}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
 
-                                                <div className="row" key={task.title}>
-                                                    <div className="col-xs-8">
-                                                        {task.title}
-                                                    </div>
-                                                    <div className="col-xs=4 text-center my-auto">
-                                                        {task.duration}
-                                                    </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-8 text-center"></div>
+                                                <div class="border-top col-4 text-center font-weight-bold">
+                                                    {task.totalTime}
                                                 </div>
-
-                                            ))}
-
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
