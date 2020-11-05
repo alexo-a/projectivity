@@ -67,9 +67,8 @@ const resolvers = {
 				}
 
                 return await TimeSheetEntry.find(searchFields)
-                .populate("task")
-                .populate("project");
-			}
+                .populate({path: "task", populate: {path: "project"}});
+            }
 			
 			throw new AuthenticationError('Not logged in');
 		},
