@@ -11,7 +11,9 @@ const StoreProvider = ({ value = [], ...props }) => {
 			_id: "5f9ddb8d2fe5b33e703d52c7",
 			title: "Promote Synergy",
 			description: "This is test data.  It should be removed from utils/GlobalState.js once a method for selecting tasks is created.",
-		}
+		},
+		employeeModalOpen: false,
+		employeeModalTask: {}
 	  });
 	return <Provider value={[state, dispatch]} {...props} />;
 };

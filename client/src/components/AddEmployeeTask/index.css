@@ -1,0 +1,18 @@
+.addEmployeeModal {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    padding: .5rem;
+    background: white;
+    color: var(--charcoal);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-shadow: 0px 0px 25px -1px rgb(0,0,0,0.1);
+}
+
+.addedUser {
+    background: var(--active);
+    color: white;
+}

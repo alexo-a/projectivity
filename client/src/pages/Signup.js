@@ -20,6 +20,7 @@ function Signup(props)  {
                   variables: { ...formState }
                 });
                 console.log(data); 
+                setFormState({email: '', username: '', password: '', passwordCheck: ''})
                 Auth.login(data.addUser.token);
             } catch (e) {
                 e.message.includes('is shorter than the minimum allowed length') ? 
@@ -53,8 +54,8 @@ function Signup(props)  {
     };
 
     const passCheckStatus =
-        !formState.password.length ? ''
-        : formState.passwordCheck === formState.password && formState.passwordCheck.length < 5 ? 'passCheckTrue'
+        !formState.password.length && formState.passwordCheck.length > 5 ? ''
+        : formState.passwordCheck === formState.password ? 'passCheckTrue'
         : 'passCheckFalse'
 
     return (
