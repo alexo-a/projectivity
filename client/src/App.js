@@ -14,6 +14,7 @@ import ProjectGroups from './pages/ProjectGroups';
 import Projects from './pages/Projects';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import EmployeeReport from './pages/EmployeeReport';
 
 const client = new ApolloClient({
   request: (operation) => {
@@ -46,7 +47,7 @@ function App() {
               <Route exact path="/">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
               </Route>
-              <Route exact path="/reports">
+              <Route exact path="/reports/:id">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
               </Route>
               <Route exact path="/groups">
@@ -54,6 +55,9 @@ function App() {
               </Route>
               <Route exact path="/projects/:id">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
+              </Route>
+              <Route exact path="/reports">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <EmployeeReport />}
               </Route>
             </div>
           </StoreProvider>

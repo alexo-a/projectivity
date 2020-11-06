@@ -29,21 +29,21 @@ function Nav() {
     return (
         <header className="navContainer">
             <div className="navBar">
-                <a href="/" className="flex align-center"><img src={logo} alt="Projectivity Logo" className="logo-img show-sm-up"/><h1 className="logo-title show-lg-up">Projectivity</h1></a>
+                <a href="/" className="flex align-center"><img src={logo} alt="Projectivity Logo" className="logo-img show-sm-up"/><h1 className="logo-title show-xl-up">Projectivity</h1></a>
                 <nav>
                     <ul className="flex align-center">
-                        <Link to="/"><li><FontAwesomeIcon icon={faHouseUser} className="navIcon" /><span className="show-md-up">Dashboard</span></li></Link>
+                        <Link to="/"><li><FontAwesomeIcon icon={faHouseUser} className="navIcon" /><span className="show-lg-up">Dashboard</span></li></Link>
                         <Link to="/timesheet"><li>
-                                    <FontAwesomeIcon icon={faUserClock} className="navIcon" /><span className="show-md-up">Timesheet</span>
+                                    <FontAwesomeIcon icon={faUserClock} className="navIcon" /><span className="show-lg-up">Timesheet</span>
                         </li></Link>
                         <Link to="/groups">
                             <li>
-                                <FontAwesomeIcon icon={faGlobe} className="navIcon" /><span className="show-sm-up"> Groups</span>
+                                <FontAwesomeIcon icon={faGlobe} className="navIcon" /><span className="show-lg-up"> Groups</span>
                             </li>
                         </Link>
                         <Link to="/projects"><li className="navGroup">
                                 <div className="flex align-center">
-                                    <FontAwesomeIcon icon={faTasks} className="navIcon" /><span className="show-md-up">Projects</span>
+                                    <FontAwesomeIcon icon={faTasks} className="navIcon" /><span className="show-lg-up">Projects</span>
                                 </div>
                                 <FontAwesomeIcon icon={faChevronDown} className="navChevron" />
                                 <div className="dropdownContainer">
@@ -88,13 +88,15 @@ function Nav() {
                         </li></Link>
                        <li className="navGroup">
                                 <div className="flex align-center">
-                                    <FontAwesomeIcon icon={faChartPie} className="navIcon" /><span className="show-md-up">Reports</span>
+                                    <FontAwesomeIcon icon={faChartPie} className="navIcon" /><span className="show-lg-up">Reports</span>
                                     <div className="dropdownContainer">
                                         <div className="dropdownModal">
                                             <div className="dropdownGroup">
-                                                <div className="dropdownTitleGroup userReportLink">
-                                                    <FontAwesomeIcon icon={faUser} className="dropdownIcon"></FontAwesomeIcon><p className="dropdownItemTitle">&nbsp;&nbsp;&nbsp;{me.username}</p>
-                                                </div>
+                                                <Link to="/reports">
+                                                    <div className="dropdownTitleGroup userReportLink">
+                                                        <FontAwesomeIcon icon={faUser} className="dropdownIcon"></FontAwesomeIcon><p className="dropdownItemTitle">&nbsp;&nbsp;&nbsp;{me.username}</p>
+                                                    </div>
+                                                </Link>
                                             </div>
                                             <div className="dropdownGroup">
                                             {projects && 

@@ -1,7 +1,11 @@
+const momentRandom = require('moment-random');
+
 const faker = require('faker');
 const bcrypt = require("bcrypt");
 const db = require('../config/connection');
 const { ProjectGroup, Project, Task, TimeSheetEntry, User } = require('../models');
+const { findOne } = require('../models/User');
+
 
 const dataToGenerate = 50;
 
@@ -90,6 +94,7 @@ db.once('open', async () => {
     }
 
     const projects = await Project.find();
+    const tasks = []
 
     // add some tasks
     for (let index = 0; index < projects.length; index++) {
@@ -101,6 +106,7 @@ db.once('open', async () => {
 
             const taskId = await Task.create({ title, description, project });
             await Project.updateOne({ _id: project }, { $addToSet: { tasks: taskId } });
+            tasks.push(taskId);
         }
     }
 
@@ -121,8 +127,21 @@ db.once('open', async () => {
         }
     }
 
-    //const data = await Project.find();
-    //console.log(data);
+    for (let index = 0; index < tasks.length; index++) {
+        const taskId = tasks[index];
+        const task = await Task.findOne({ _id: taskId });
+        const employee = task.employees[0];
+        const start = momentRandom('2013-02-08 10:30:26', '2013-02-08 09:30:26')
+        const end = momentRandom('2013-02-08 15:30:26', '2013-02-08 12:30:26')
+        const entries = await TimeSheetEntry.create({ task: task, start: start, end: end, user: employee });
+
+        console.log(entries);
+    }
+
+
+
+    const data = await User.find();
+    console.log(data);
   
     console.log('all done!');
     process.exit(0);

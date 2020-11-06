@@ -2,6 +2,7 @@ import React from "react";
 import { getCurrentWeekInfo } from "../../utils/helpers"
 import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
+import { useParams } from 'react-router-dom';
 import { QUERY_PROJECT_TIMESHEETS } from "../../utils/queries";
 import moment from "moment";
 
@@ -55,13 +56,13 @@ function ProjectReport() {
     //console.log(userInfo)
 
     //TODO change the below two lines to a proper variable
-    const projectId = "5fa099f5a8cd115d30f4789a";
+    const { id: projectId } = useParams();
     const projectTitle = "Licensed Steel Pizza";
 
     const { loading, data } = useQuery(QUERY_PROJECT_TIMESHEETS,
         {
             variables: {
-                projectId//, start: new Date(weekStart)
+                projectId
             }
         }
     );
