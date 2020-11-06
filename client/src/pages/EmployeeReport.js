@@ -9,7 +9,7 @@ function processTimeSheets(timesheets) {
     let compilation = [];
     let uniqueProjects = new Set();
     let sum = 0;
-    for ( let i in timesheets) {
+    for (let i in timesheets) {
 
         //add the project title of the timesheet to the uniqueProjects *SET*
         //sets don't allow duplicate values, so this gets updated only once for each unique project in a week's timesheet logs
@@ -21,7 +21,7 @@ function processTimeSheets(timesheets) {
         //loop through the compilation array to see if there's already a task._id entry matching this timesheet's task._id
         //if there is, add this timesheet's duration to that of the entry already in compilation[]
         for (let j in compilation) {
-            if ((timesheets[i].task._id=== compilation[j][1])) {
+            if ((timesheets[i].task._id === compilation[j][1])) {
                 compilation[j][2] += duration
                 flag = true;
                 break
@@ -36,27 +36,27 @@ function processTimeSheets(timesheets) {
                 timesheets[i].task.title
             ])
         };
-       
+
     }
     sum = sum.toFixed(2)
-    
+
     //console.log(compilation)
     //console.log(uniqueProjects)
     let dataTree = []
-    uniqueProjects.forEach(proj=> {dataTree.push({title: proj, tasksWithDuration:[]})})
-    
+    uniqueProjects.forEach(proj => { dataTree.push({ title: proj, tasksWithDuration: [] }) })
+
     compilation.forEach(uniqueTask => {
-        for (let i=0; i < dataTree.length; i++) {
-            if(uniqueTask[0]===dataTree[i].title){
-                dataTree[i].tasksWithDuration.push({title: uniqueTask[3], duration: uniqueTask[2]})
+        for (let i = 0; i < dataTree.length; i++) {
+            if (uniqueTask[0] === dataTree[i].title) {
+                dataTree[i].tasksWithDuration.push({ title: uniqueTask[3], duration: uniqueTask[2] })
                 break;
             }
         }
     })
 
     //console.log(dataTree)
-    
-    return { compilation, sum, dataTree}
+
+    return { compilation, sum, dataTree }
 }
 
 function EmployeeReport() {
@@ -81,7 +81,7 @@ function EmployeeReport() {
     );
 
     const timesheets = data?.timesheets || {};
-    
+
     if (loading) {
         return null
     }
@@ -89,79 +89,62 @@ function EmployeeReport() {
     if (!loading) {
         //console.dir(timesheets)
         const compilationInfo = processTimeSheets(timesheets)
-        dataTree= compilationInfo.dataTree
-        hours = compilationInfo.sum        
+        dataTree = compilationInfo.dataTree
+        hours = compilationInfo.sum
     }
 
     return (
-        <div className="bootstrap-wrapper">
-            <div className="container-fluid">
-                <div className="row">
-                    <h2 className="text-center" id="projectName">
-                        Weekly Project Report for {username}
-                    </h2>
+        <div>
+            <h2 className="text-center" id="projectName">
+                Weekly Project Report for {username}
+            </h2>
+            <h3 className="text-center" id="date">
+                Week of {weekStart} (W{weekNumber})
+            </h3>
+            <h5 className="text-center">
+                Time Logged: <span>{hours}</span>
+            </h5>
+            <div className="mx-3">
+                <div className="employee-table-title bold align-bottom">
+                    <div className="text-mid">
+                        Project Name
+                    </div>
+                    <div className="text-mid">
+                        Task Description
+                    </div>
+                    <div className="text-mid text-center">
+                        Hours
+                    </div>
                 </div>
-                <div className="row">
-                    <h3 className="text-center" id="date">
-                        Week of {weekStart} (W{weekNumber})
-                    </h3>
-                </div>
-                <div className="row">
-                    <h5 className="text-center">
-                        Time Logged this Week: <span>{hours}</span>
-                    </h5>
-                </div >
-                <div className="row">
-                    <div className="mx-3">
-                        <div class="row border-bottom bg-dark text-light font-weight-bold align-bottom">
-                            <div class="col-3">
-                                Project Name
-                            </div>
-                            <div class="col-9">
-                                <div class="row">
-                                    <div class="col-6">
-                                        Task Description
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        Task ID
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        Hours
-                                    </div>
+                {dataTree ? (
+                    <>
+                        {dataTree.map(project => (
+                            <div className="project-container border-bottom" key={project.title}>
+                                <div className="text-mid pl-5">
+                                    {project.title}
+                                </div>
+                                < div className="employee-task-container">
+                                    {project.tasksWithDuration.map(task => (
+
+                                        <div className="row" key={task.title}>
+                                            <div className="">
+                                                {task.title}
+                                            </div>
+                                            <div className="text-center text-mid">
+                                                {task.duration}
+                                            </div>
+                                        </div>
+
+                                    ))}
+
                                 </div>
                             </div>
-                        </div>
-                        {dataTree ? (
-                            <>
-                                {dataTree.map(project => (
-                                    <div className="row py-2 border-bottom border-dark" key={project.title}>
-                                        <div className="my-auto col-xs-3">
-                                            {project.title}
-                                        </div>
-                                        < div className="col-xs-9">
-                                            {project.tasksWithDuration.map(task => (
+                        ))}
 
-                                                <div className="row" key={task.title}>
-                                                    <div className="col-xs-8">
-                                                        {task.title}
-                                                    </div>
-                                                    <div className="col-xs=4 text-center my-auto">
-                                                        {task.duration}
-                                                    </div>
-                                                </div>
-                                            
-                                            ))}
-
-                                        </div>
-                                    </div>  
-                                ))}
-
-                            </>
-                        ) : null }
-                    </div>
-                </div >
+                    </>
+                ) : null}
             </div >
-        </div>
+        </div >
     )
 }
 export default EmployeeReport;
