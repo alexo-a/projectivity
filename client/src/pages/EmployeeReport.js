@@ -3,12 +3,44 @@ import { getCurrentWeekInfo } from "../utils/helpers"
 import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TIMESHEETS } from "../utils/queries";
-
+import EmployeeReportChart from "../components/EmployeeReportChart"
+/*
+{
+    labels: ['January', 'February', 'March',
+        'April', 'May'],
+        datasets: [
+            {
+                label: 'Rainfall',
+                backgroundColor: [
+                    '#B21F00',
+                    '#C9DE00',
+                    '#2FDE00',
+                    '#00A6B4',
+                    '#6800B4'
+                ],
+                hoverBackgroundColor: [
+                    '#501800',
+                    '#4B5000',
+                    '#175000',
+                    '#003350',
+                    '#35014F'
+                ],
+                data: [65, 59, 80, 81, 56]
+            }
+        ]
+}
+*/
 function processTimeSheets(timesheets) {
     //processed the time sheets, extracting the project info, task info, and duration info.
     //logs this data as objects in the compilation array
     let totalHours=0;
-    
+    let dataForChart={
+        labels: [],
+        datasets: [{
+            label: "Task Data",
+            data: []
+        }]
+    }
     //keeps track of all the unique projects so the operations afterward are smoother
     let uniqueProjects = new Set(timesheets.map(timesheet => {
         return timesheet.task.project._id
@@ -58,17 +90,27 @@ function processTimeSheets(timesheets) {
             }
         }
     }
+    for (let i in compilation){
+        console.log("here")
+        for (let j in compilation[i].tasks){
+            console.log("here2")
+            let newLabel = compilation[i].projectTitle + " - " + compilation[i].tasks[j].taskTitle
+            let newData = compilation[i].tasks[j].duration
+            console.log(newLabel, newData)
+            dataForChart.labels.push(newLabel);
+            dataForChart.datasets[0].data.push(newData)
+        }
+    }
+    console.log(dataForChart)
     //you must import util for the following line to work:
     //console.log(util.inspect(compilation, true, null, true))
-    return {compilation, totalHours}
+    return {compilation, totalHours, dataForChart}
 }
 
 function EmployeeReport() {
     const weekInfo = getCurrentWeekInfo();
     const weekNumber = weekInfo.weekNumber;
     const weekStart = weekInfo.weekStartDate;
-    let hours = 0;
-    let dataTree = {}
     const userInfo = Auth.getUserInfo();
     const username = userInfo.username;
     const userId = userInfo._id;
@@ -85,7 +127,8 @@ function EmployeeReport() {
     );
 
     const timesheets = data?.timesheets || {};
-    let compilationInfo = [];
+    let compilationInfo = {};
+
     if (loading) {
         return null
     }
@@ -93,8 +136,7 @@ function EmployeeReport() {
     if (!loading) {
         //console.log(JSON.stringify(timesheets))
         compilationInfo = processTimeSheets(timesheets)
-        //dataTree = compilationInfo.dataTree
-        //hours = compilationInfo.sum
+        console.log(compilationInfo.dataForChart)
     }
 
     return (
@@ -146,6 +188,8 @@ function EmployeeReport() {
                     </>
                 ) : null}
             </div >
+            <EmployeeReportChart data={compilationInfo.dataForChart} />
+
         </div >
     )
 }
