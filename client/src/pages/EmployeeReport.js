@@ -5,58 +5,62 @@ import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TIMESHEETS } from "../utils/queries";
 
 function processTimeSheets(timesheets) {
-    //processes timesheets array, extracting the task title, task id, timesheet duration, and project title.
-    let compilation = [];
-    let uniqueProjects = new Set();
-    let sum = 0;
-    for (let i in timesheets) {
+    //processed the time sheets, extracting the project info, task info, and duration info.
+    //logs this data as objects in the compilation array
+    let totalHours=0;
+    
+    //keeps track of all the unique projects so the operations afterward are smoother
+    let uniqueProjects = new Set(timesheets.map(timesheet => {
+        return timesheet.task.project._id
+    }));
 
-        //add the project title of the timesheet to the uniqueProjects *SET*
-        //sets don't allow duplicate values, so this gets updated only once for each unique project in a week's timesheet logs
-        uniqueProjects.add(timesheets[i].task.project.title)
-
-        const duration = parseFloat(((parseInt(timesheets[i].end) - parseInt(timesheets[i].start)) / 3600000))
-        sum += duration
-        let flag = false;
-        //loop through the compilation array to see if there's already a task._id entry matching this timesheet's task._id
-        //if there is, add this timesheet's duration to that of the entry already in compilation[]
-        for (let j in compilation) {
-            if ((timesheets[i].task._id === compilation[j][1])) {
-                compilation[j][2] += duration
-                flag = true;
-                break
-            }
-        };
-        //if there wasn't a match in the previous loop, there's no task with a matching ._id in compilation... add the data from this timesheet to compilation
-        if (!flag) {
-            compilation.push([
-                timesheets[i].task.project.title,
-                timesheets[i].task._id,
-                duration.toFixed(2),
-                timesheets[i].task.title
-            ])
-        };
-
-    }
-    sum = sum.toFixed(2)
-
-    //console.log(compilation)
-    //console.log(uniqueProjects)
-    let dataTree = []
-    uniqueProjects.forEach(proj => { dataTree.push({ title: proj, tasksWithDuration: [] }) })
-
-    compilation.forEach(uniqueTask => {
-        for (let i = 0; i < dataTree.length; i++) {
-            if (uniqueTask[0] === dataTree[i].title) {
-                dataTree[i].tasksWithDuration.push({ title: uniqueTask[3], duration: uniqueTask[2] })
-                break;
-            }
+    //turn that uniqueProjects set into the compilation array of objects
+    let compilation = [...uniqueProjects].map(id => {
+        return {
+            projectId: id,
+            projectTitle: "",
+            tasks: [],
+            totalTime: 0
         }
     })
+    for (let i in timesheets) {
+        //cleanly assemble data from the timesheet
+        let log = {
+            projectId: timesheets[i].task.project._id,
+            projectTitle: timesheets[i].task.project.title,
+            taskId: timesheets[i].task._id,
+            taskTitle: timesheets[i].task.title,
+            duration: parseFloat(((parseInt(timesheets[i].end) - parseInt(timesheets[i].start)) / 3600000).toFixed(2))
+        }
+        totalHours +=log.duration;
+        for (let j in compilation) {
+            //try to find a match for the task _id to add to that duration ...
+            if (log.projectId === compilation[j].projectId) {
+                compilation[j].projectTitle = log.projectTitle;
+                compilation[j].totalTime += log.duration;
 
-    //console.log(dataTree)
-
-    return { compilation, sum, dataTree }
+                let timesheetLogged = false;
+                for (let k in compilation[j].tasks) {
+                    if (log.taskId === compilation[j].tasks[k].taskId) {
+                        compilation[j].tasks[k].duration += log.duration;
+                        timesheetLogged = true
+                        break
+                    }
+                }
+                if (!timesheetLogged) {
+                    //... or create a new one
+                    compilation[j].tasks.push({
+                        taskId: log.taskId,
+                        taskTitle: log.taskTitle,
+                        duration: log.duration
+                    })
+                }
+            }
+        }
+    }
+    //you must import util for the following line to work:
+    //console.log(util.inspect(compilation, true, null, true))
+    return {compilation, totalHours}
 }
 
 function EmployeeReport() {
@@ -81,16 +85,16 @@ function EmployeeReport() {
     );
 
     const timesheets = data?.timesheets || {};
-
+    let compilationInfo = [];
     if (loading) {
         return null
     }
 
     if (!loading) {
-        //console.dir(timesheets)
-        const compilationInfo = processTimeSheets(timesheets)
-        dataTree = compilationInfo.dataTree
-        hours = compilationInfo.sum
+        //console.log(JSON.stringify(timesheets))
+        compilationInfo = processTimeSheets(timesheets)
+        //dataTree = compilationInfo.dataTree
+        //hours = compilationInfo.sum
     }
 
     return (
@@ -102,7 +106,7 @@ function EmployeeReport() {
                 Week of {weekStart} (W{weekNumber})
             </h3>
             <h5 className="text-center">
-                Time Logged: <span>{hours}</span>
+                Time Logged: <span>{compilationInfo.totalHours}</span>
             </h5>
             <div className="mx-3">
                 <div className="employee-table-title bold align-bottom">
@@ -116,25 +120,23 @@ function EmployeeReport() {
                         Hours
                     </div>
                 </div>
-                {dataTree ? (
+                {compilationInfo.compilation ? (
                     <>
-                        {dataTree.map(project => (
-                            <div className="project-container border-bottom" key={project.title}>
+                        {compilationInfo.compilation.map(project => (
+                            <div className="project-container border-bottom" key={project.projectTitle}>
                                 <div className="text-mid pl-5">
-                                    {project.title}
+                                    {project.projectTitle}
                                 </div>
                                 < div className="employee-task-container">
-                                    {project.tasksWithDuration.map(task => (
-
-                                        <div className="row" key={task.title}>
-                                            <div className="">
-                                                {task.title}
+                                    {project.tasks.map(task => (
+                                        <>
+                                            <div className="" key={task.taskTitle}>
+                                                {task.taskTitle}
                                             </div>
                                             <div className="text-center text-mid">
                                                 {task.duration}
                                             </div>
-                                        </div>
-
+                                        </>
                                     ))}
 
                                 </div>

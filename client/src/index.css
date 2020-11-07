@@ -540,7 +540,8 @@ input.createClockInTaskName {
 }
 .employee-table-title {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 2fr 2fr 1fr;
+    column-gap: 10px;
     grid-auto-rows: minmax(30px, auto);
     background-color:  #333333;
     color: white;
@@ -558,7 +559,8 @@ input.createClockInTaskName {
 }
 .project-container {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 2fr 2fr 1fr;
+    column-gap: 10px;
 }
 
 .table-title {
