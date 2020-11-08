@@ -92,8 +92,8 @@ type Mutation {
 	updateProject(_id: ID!, title: String, description: String): Project
 	addManagerToProject(projectId: ID!, userId: ID!): Project
 	removeManagerFromProject(projectId: ID!, userId: ID!): Project
-	addTask(projectId: ID!, title: String!): Task
-	updateTask(_id: ID!, title: String, description: String): Task
+	addTask(projectId: ID!, title: String!, description: String): Task
+	updateTaskStatus(id: ID!, completed: Boolean!): Task
 	addEmployeesToTask(taskId: ID!, userId: [ID!]): Task
 	removeEmployeeFromTask(taskId: ID!, userId: ID!): Task
 	addTimeSheetEntry(taskId: ID!, start: String!, end: String!, note: String): TimeSheetEntry

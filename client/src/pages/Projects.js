@@ -3,16 +3,16 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks'
 import { QUERY_PROJECT } from '../utils/queries';
 import { useStoreContext } from '../utils/GlobalState';
-import KanbanTask from '../components/KanbanTask'
-import AddEmployeeTask from '../components/AddEmployeeTask'
+import KanbanTask from '../components/KanbanTask';
+import AddEmployeeTask from '../components/AddEmployeeTask';
+import AddTask from '../components/AddTask';
 
 import './index.css'
+import { FORCE_RENDER } from '../utils/actions';
 
 function Projects() {
     const [state, dispatch] = useStoreContext();
-    const { id: projectId } = useParams();
-
-    console.log(state.employeeModalOpen, state.employeeModalTask);
+    const { id: projectId, userId: userId } = useParams();
 
     const { loading, data } = useQuery(QUERY_PROJECT, {
         variables: { id: projectId }
@@ -26,13 +26,34 @@ function Projects() {
             <></>
         )
     }
-    console.log(data);
+
+    if (state.forceRender) {
+        dispatch({
+            type: FORCE_RENDER,
+            forceRender: false
+        });
+    }
+ 
+    const managers = project.managers.map(manager => manager._id);
+    
+    if (userId === group.administrator._id) {
+        project.role = 'admin';
+    } 
+    else if (managers.includes(userId)) {
+        project.role = 'manager';
+    } else {
+        project.role = 'employee';
+    }
+
     const toDoTasks = project.tasks.filter(task => task.entries.length === 0).map(task => {task.class = 'toDo'; return task});
-    const inProgressTasks = project.tasks.filter(task => task.entries.length > 0).map(task => {task.class = 'inProgress'; return task});
+    const inProgressTasks = project.tasks.filter(task => task.entries.length > 0 && !task.completed).map(task => {task.class = 'inProgress'; return task});
     const completedTasks = project.tasks.filter(task => task.completed).map(task => {task.class = 'completed'; return task});
 
     return(
         <div className="componentContainer">
+            <h3 className='projectTitle'>{project.title}</h3>
+            <strong className="projectSubtitle">{group.title}</strong>
+            { project.role !== 'employee' && <AddTask group={group}></AddTask>}
             <div className="kanbanContainer">
                 <div className="kanbanCell">
                     <div className="kanbanTitle left">

@@ -1,0 +1,38 @@
+.addTaskForm {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.addTaskContainer {
+    max-width: 75vw;
+    background-color: var(--background);
+    border-radius: 5px;
+    margin-top: 3rem;
+    border: 1px solid var(--gray);
+}
+
+.addTaskForm input {
+    margin: 1rem;
+    width: 100%;
+    background: white;
+    height: 2.6rem;
+    border: 1px solid var(--gray);
+}
+
+.addTaskForm .description {
+    width: 30rem;
+    max-width: 50vw;
+}
+
+.addTaskForm .title {
+    width: 20rem;
+    max-width: 30vw;
+}
+
+.addTaskForm button {
+    margin: 1rem;
+    white-space: nowrap;
+    width: fit-content;
+}

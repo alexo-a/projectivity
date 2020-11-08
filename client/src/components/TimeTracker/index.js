@@ -199,10 +199,10 @@ function TimeTracker() {
 		>
 			<footer>
 				<div>
-					<div className="taskTitle">{currentTask.title}</div>
+					<div className="trackedTaskTitle">{currentTask.title}</div>
 					<div className="timerHolder">
 						<div>{formatTimeSpan(timerState)}</div>
-						<button type="button" onClick={toggleExpand}>
+						<button type="button" className="redButton" onClick={toggleExpand}>
 							<FontAwesomeIcon icon={(openState) ? faChevronDown : faChevronUp} />
 						</button>
 					</div>
@@ -233,7 +233,7 @@ function TimeTracker() {
 					</div>
 					<div>
 						<input name="timeSheetNote" type="text" placeholder="Add a note (optional)" maxLength="255"></input>
-						<button type="submit">Submit</button>
+						<button type="submit" className="redButton">Submit</button>
 					</div>
 				</form>
 			</footer>

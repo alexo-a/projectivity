@@ -5,7 +5,7 @@ import {
 	CLEAR_TIMESHEET_TASK,
 	SHOW_ALERT_MODAL,
 	CLEAR_ALERT_MODAL, 
-	OPEN_ADD_EMPLOYEE_MODAL
+	OPEN_ADD_EMPLOYEE_MODAL, FORCE_RENDER
 } from './actions';
 
 export const reducer = (state, action) => {
@@ -40,6 +40,12 @@ export const reducer = (state, action) => {
 				employeeModalTask: action.employeeModalTask,
 				employeeModalOpen: action.employeeModalOpen
 			}
+
+		case FORCE_RENDER:
+			return {
+				...state,
+				forceRender: action.forceRender
+			}	
 		default:
 			return state;
 	}

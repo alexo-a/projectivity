@@ -4,7 +4,7 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import { CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
-    faPlus
+    faChevronUp, faChevronDown, faPlus
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FIND_USER } from "../../utils/queries";
@@ -84,7 +84,7 @@ function ManageEmployeeList({ employees, label, addCallback }) {
 
 	return (
 		<div className="employeeList">
-			<button type="button" title={(!employees.length) ? "Add " + label : ""} onClick={toggleOpenState}>{expandButtonText()}</button>
+			<button type="button" title={(!employees.length) ? "Add " + label : ""} onClick={toggleOpenState}>{expandButtonText()} <FontAwesomeIcon icon={(openState) ? faChevronUp : faChevronDown} /></button>
 			<CSSTransition
 				in={openState}
 				timeout={500}
@@ -100,7 +100,7 @@ function ManageEmployeeList({ employees, label, addCallback }) {
 					</ol>
 					<div>
 						{(addingUser) ? (<input name="addUser" onChange={checkEmployee} className={(data?.findUser) ? "userOk" : ""}></input>) : <></> }
-						<button name="addButton" type="button" title={"Add " + label} onClick={addEmployee}>
+						<button name="addButton" type="button" title={"Add " + label} className="redButton" onClick={addEmployee}>
 							<FontAwesomeIcon icon={faPlus} />
 						</button>
 					</div>
