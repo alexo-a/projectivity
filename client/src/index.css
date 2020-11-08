@@ -2,10 +2,11 @@
     --proj-red: #c02828;
     --proj-highlight: #c83c38;
     --success: #3aba71;
+    --deny: #ff807c;
     --active: #765ae0; 
     --charcoal: #4d5054;
     --gray: #bababa;
-    --light-gray: #e0e0e0;
+    --light-gray: #e7e7e7;
     --background: #f5f5f5;
 }
 
@@ -271,6 +272,87 @@ input.warning:-webkit-autofill {
 
 .userNavGroup:hover .dropdownContainer, .navGroup:hover .dropdownContainer {
     display: block;
+    z-index: 200;
+}
+
+/* TIMESHEET */
+.timesheet {
+    min-height: 400px;
+}
+
+.timesheet div.timesheetEntry {
+    align-items: center;
+    background-color: var(--background);
+    border-radius: 5px;
+    display: flex;
+    padding: 2px 40px 2px 8px;
+    margin: 4px 0px;
+    position: relative;
+}
+
+.timesheet div.timesheetEntry > div {
+    margin: 2px 8px;
+    white-space: nowrap;
+}
+
+.timesheet div.timesheetEntry > div:first-child {
+    width: 100%;
+}
+
+.timesheet div.rdt {
+    display: inline-block;
+}
+
+.timesheet div.rdt > input {
+    margin: 0;
+    width: 128px;
+}
+
+.timesheet .editControls {
+    align-items: center;
+    bottom: 0px;
+    display: none;
+    justify-content: flex-end;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: auto !important;
+}
+
+.timesheet .editControls.shown {
+    display: flex;
+}
+
+.timesheet .editControls span {
+    color: silver;
+    cursor: pointer;
+}
+
+.timesheet .editControls span[name='accept']:hover {
+    color: var(--success);
+}
+
+.timesheet .editControls span[name='cancel']:hover {
+    color: var(--deny);
+}
+
+.timesheet .editControls span + span {
+    margin-left: 4px;
+}
+
+.timesheetNav {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.timesheetNav div {
+    color: var(--proj-red);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.timesheetNav div:hover {
+    color: var(--proj-highlight);
 }
 
 /* DROPDOWN */ 
@@ -424,6 +506,16 @@ input.createClockInTaskName {
 
 .createClockIn span {
     font-size: 1rem;
+}
+
+/* LOADING SPINNER */
+div.loading {
+	background-image: url('./assets/images/loading.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100px;
+	margin: 100px auto 0px auto;
+	width: 100px;
 }
 
 /* FLEX UTILITIES */
@@ -604,4 +696,10 @@ input.createClockInTaskName {
 
 .pl-5{
     padding-left: 5px;
+}
+
+@media screen and (max-width: 980px) {
+    .timesheet div.timesheetEntry {
+        flex-wrap: wrap;
+    }
 }

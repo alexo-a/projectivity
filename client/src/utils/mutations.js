@@ -66,6 +66,30 @@ export const ADD_TIMESHEET_ENTRY = gql`
   }
 `;
 
+export const UPDATE_TIMESHEET_ENTRY = gql`
+mutation updateTimeSheetEntry($entryId: ID!, $start: String, $end: String, $note: String) {
+  updateTimeSheetEntry(entryId: $entryId, start: $start, end: $end, note: $note) {
+    _id
+    user {
+      _id
+    }
+    task {
+      _id
+      title
+    }
+    start
+    end
+    note
+  }
+}
+`;
+
+export const DELETE_TIMESHEET_ENTRY = gql`
+mutation deleteTimeSheetEntry($entryId: ID!) {
+  deleteTimeSheetEntry(entryId: $entryId)
+}
+`;
+
 export const REMOVE_EMPLOYEE_FROM_TASK = gql`
   mutation removeEmployeeFromTask($taskId: ID!, $userId: ID!) {
     removeEmployeeFromTask(taskId: $taskId, userId: $userId) {

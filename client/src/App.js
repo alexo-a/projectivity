@@ -45,6 +45,9 @@ function App() {
               <Route exact path="/login" component={Login}/>
               <Route exact path="/signup" component={Signup}/>
               <Route exact path="/">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Dashboard />}
+              </Route>
+              <Route exact path="/timesheet">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
               </Route>
               <Route exact path="/reports/:id">

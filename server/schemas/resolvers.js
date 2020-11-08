@@ -81,11 +81,13 @@ const resolvers = {
 				}
 
 				if (start) {
-					searchFields.start = { $gte: Date.parse(start) };
-				}
-
-				if (end) {
-					searchFields.start = { $lte: Date.parse(end) };
+					if (end) {
+						searchFields.$and = [ { start: { $gte: start } }, { start: { $lt: end } } ];
+					} else {
+						searchFields.start = { $gte: start };
+					}
+				} else if (end) {
+					searchFields.start = { $lt: end };
 				}
 
                 return await TimeSheetEntry.find(searchFields)
@@ -407,6 +409,14 @@ const resolvers = {
 			
 			throw new AuthenticationError("You need to be logged in!");
 		},
+		deleteTimeSheetEntry: async(parent, args, context) => {
+			if (context.user) {
+				await TimeSheetEntry.findByIdAndDelete(args.entryId);
+				return "Success!";
+			}
+			
+			throw new AuthenticationError("You need to be logged in!");
+		}
 	}
 };
 

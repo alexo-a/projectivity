@@ -98,6 +98,7 @@ type Mutation {
 	removeEmployeeFromTask(taskId: ID!, userId: ID!): Task
 	addTimeSheetEntry(taskId: ID!, start: String!, end: String!, note: String): TimeSheetEntry
 	updateTimeSheetEntry(entryId: ID!, start: String, end: String, note: String): TimeSheetEntry
+	deleteTimeSheetEntry(entryId: ID!): String
 }
 `;
 

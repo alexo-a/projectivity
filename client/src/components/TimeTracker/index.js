@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { CSSTransition } from "react-transition-group";
 import moment from "moment";
+import { formatTimeSpan } from "../../utils/helpers";
 
 import { ADD_TIMESHEET_ENTRY } from "../../utils/mutations";
 import { CLEAR_TIMESHEET_TASK, SHOW_ALERT_MODAL } from "../../utils/actions";
@@ -46,15 +47,6 @@ function TimeTracker() {
 		setStartTime(new Date(Date.now()));
 		setEndTime(undefined);
 	}, [ currentTask ]);
-
-	const formatTimer = function(timer) {
-		if (timer >= 0) {
-			let minutes = timer % 60;
-			return Math.floor(timer / 60) + ":" + ((minutes < 10) ? "0" : "") + minutes;
-		} else {
-			return "N/A";
-		}
-	}
 
 	const toggleExpand = function(event) {
 		setOpenState(!openState);
@@ -209,7 +201,7 @@ function TimeTracker() {
 				<div>
 					<div className="taskTitle">{currentTask.title}</div>
 					<div className="timerHolder">
-						<div>{formatTimer(timerState)}</div>
+						<div>{formatTimeSpan(timerState)}</div>
 						<button type="button" onClick={toggleExpand}>
 							<FontAwesomeIcon icon={(openState) ? faChevronDown : faChevronUp} />
 						</button>
