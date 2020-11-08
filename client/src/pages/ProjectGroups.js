@@ -98,7 +98,7 @@ function ProjectGroups() {
                     <h3>
                         { (showAddGroup) ?
                             "Adding a Group" :
-                            (<button type="button" onClick={toggleAddingGroup}>
+                            (<button type="button" className="redButton" onClick={toggleAddingGroup}>
                                 <FontAwesomeIcon icon={faPlus} />
                                 Add a Group
                             </button>)
@@ -110,8 +110,8 @@ function ProjectGroups() {
                             <input name="newGroupName"></input>
                         </div>
                         <div>
-                            <button type="submit" onClick={submitNewGroup}>Add</button>
-                            <button type="button" onClick={toggleAddingGroup}>Cancel</button>
+                            <button type="submit" className="redButton" onClick={submitNewGroup}>Add</button>
+                            <button type="button" className="redButton" onClick={toggleAddingGroup}>Cancel</button>
                         </div>
                     </form>
                 </div>

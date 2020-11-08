@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { CSSTransition } from "react-transition-group";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+    faChevronUp, faChevronDown, faPlus
+} from "@fortawesome/free-solid-svg-icons";
 import "./style.css";
 
 function ProjectList({ projects }) {
@@ -24,7 +28,7 @@ function ProjectList({ projects }) {
 
 	return (
 		<div className="projectList">
-			<button type="button" onClick={toggleOpenState}>{expandButtonText()}</button>
+			<button type="button" onClick={toggleOpenState}>{expandButtonText()} <FontAwesomeIcon icon={(openState) ? faChevronUp : faChevronDown} /></button>
 			<CSSTransition
 				in={openState}
 				timeout={500}

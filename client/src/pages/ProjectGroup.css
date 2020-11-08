@@ -1,14 +1,13 @@
 .groupListing button {
-	background-color: var(--proj-red);
-	color: white;
 	cursor: pointer;
 	margin: 0px;
 	min-height: 24px;
 	padding: 2px 8px;
+	transition: 0.25s;
 }
 
 .groupListing button:hover {
-	background-color: var(--proj-highlight);
+	background-color: white;
 }
 
 .groupListing form {
