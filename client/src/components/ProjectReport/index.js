@@ -75,96 +75,70 @@ function ProjectReport() {
         return null
     }
     if (!loading) {
-
-        //console.dir(timesheets)
+        console.dir(timesheets)
         compilationInfo = processProjectTimeSheets(timesheets)
         console.dir(compilationInfo)
     }
 
 
     return (
-        <div className="bootstrap-wrapper">
-            <div className="container-fluid">
-                <div className="row">
-                    <h2 className="text-center" id="projectName">
-                        {projectTitle}
-                    </h2>
+        <div>
+            <h2 className="text-center" id="projectName">{projectTitle}</h2>
+            <h3 className="text-center" id="reportDescription">Project Progress Report</h3>
+            <h3 className="text-center" id="date">As of {today}</h3>
+            <h5 className="text-center">Task View</h5>
+
+            <div className="">
+                <div className="table-title border-bottom bg-dark text-light bold align-bottom">
+                    <div className="text-mid">
+                        Task
+                    </div>
+                    <div className="text-center text-mid">
+                        Status
+                    </div>
+                    <div className="text-center text-mid">
+                        Employee Name
+                    </div>
+                    <div className="text-center text-mid">
+                        Hours
+                    </div>
                 </div>
-                <div className="row">
-                    <h3 className="text-center" id="date">
-                        Project Progress Report
-                    </h3>
-                </div>
-                <div className="row">
-                    <h3 className="text-center" id="date">
-                        As of {today}
-                    </h3>
-                </div>
-                <div className="row">
-                    <h6>Task View</h6>
-                </div >
-                <div className="row">
-                    <div className="mx-3">
-                        <div class="row border-bottom bg-dark text-light font-weight-bold align-bottom">
-                            <div class="col-3">
-                                Task
-                            </div>
-                            <div class="col text-center">
-                                TaskID
-                            </div>
-                            <div class="col text-center">
-                                Status
-                            </div>
-                            <div class="col-5">
-                                <div class="row">
-                                    <div class="col-8 text-center">
-                                        Employee Name
-                                    </div>
-                                    <div class="col-4 text-center">
-                                        Hours
+
+                {compilationInfo ? (
+                    <>
+                        {compilationInfo.map(task => (
+                            <div className="task-container py-2 border-bottom">
+                                <div className="title-box">
+                                    {task.taskTitle}
+                                </div>
+                                <div className="text-center">
+                                    {task.status ? "Completed" : "In Progress"}
+                                </div>
+                                <div className="employee-container">
+                                    {task.users.map(taskUser => {
+                                        return (
+                                            <>
+                                                <div className="text-center" key={taskUser.username}>
+                                                    {taskUser.username}
+                                                </div>
+                                                <div className="text-center" key={taskUser.duration}>
+                                                    {taskUser.duration}
+                                                </div>
+                                            </>
+                                        )
+                                    })}
+                                    <div></div>
+                                    <div className="employee-total text-center bold">
+                                        {task.totalTime}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {compilationInfo ? (
-                            <>
-                                {compilationInfo.map(task => (
-                                    <div class="row py-2 border-bottom">
-                                        <div class="col-3">
-                                            {task.taskTitle}
-                                        </div>
-                                        <div class="col text-center">In Progress</div>
-                                        <div class="col-5">
-                                            {task.users.map(taskUser => {
-                                                return (
-                                                    <div class="row">
-                                                        <div class="col-8 text-center">
-                                                            {taskUser.username}
-                                                        </div>
-                                                        <div class="col-4 text-center">
-                                                            {taskUser.duration}
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })}
+                        ))}
 
-                                            
-                                            <div class="row">
-                                                <div class="col-8 text-center"></div>
-                                                <div class="border-top col-4 text-center font-weight-bold">
-                                                    {task.totalTime}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-
-                            </>
-                        ) : null}
-                    </div>
-                </div >
-            </div >
-        </div>
+                    </>
+                ) : null}
+            </div>
+        </div >
     )
 }
 export default ProjectReport;

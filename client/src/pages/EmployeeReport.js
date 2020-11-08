@@ -138,9 +138,9 @@ function EmployeeReport() {
     }
 
     return (
-        <div>
+        <div key="EmployeeReport">
             <h2 className="text-center" id="projectName">
-                Weekly Project Report for {username}
+                Weekly Progress Report for {username}
             </h2>
             <h3 className="text-center" id="date">
                 Week of {weekStart} (W{weekNumber})
@@ -161,10 +161,10 @@ function EmployeeReport() {
                     </div>
                 </div>
                 {compilationInfo.compilation ? (
-                    <>
+                    <div key="test3242342">
                         {compilationInfo.compilation.map(project => (
                             <div className="project-container border-bottom" key={project.projectTitle}>
-                                <div className="text-mid pl-5">
+                                <div className="text-mid pl-5" key="projectTitle">
                                     {project.projectTitle}
                                 </div>
                                 < div className="employee-task-container">
@@ -183,7 +183,7 @@ function EmployeeReport() {
                             </div>
                         ))}
 
-                    </>
+                    </div>
                 ) : null}
             </div >
             <EmployeeReportChart data={compilationInfo.dataForChart} username={username} />
