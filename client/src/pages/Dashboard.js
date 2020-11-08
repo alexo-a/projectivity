@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TASKS } from "../utils/queries";
+import { useStoreContext } from '../utils/GlobalState';
+import { ADD_TIMESHEET_TASK} from "../utils/actions"
+
 
 function parseTasks(tasks) {
     //keeps track of all the unique projects so the operations afterward are smoother
@@ -46,7 +49,7 @@ function parseTasks(tasks) {
 }
 
 function Dashboard() {
-
+    const [state, dispatch] = useStoreContext();
     const userInfo = Auth.getUserInfo();
     const username = userInfo.username;
     const userId = userInfo._id;
@@ -64,8 +67,32 @@ function Dashboard() {
         results = parseTasks(tasks)
         //console.log(JSON.stringify(tasks))
     }
+/*
+    useEffect(() => {
+        if (results) {
+            dispatch({
+                type: ADD_TIMESHEET_TASK,
+                task: categoryData.categories
+            });
+            categoryData.categories.forEach(category => {
+                idbPromise('categories', 'put', category);
+            });
+        } else if (!loading) {
+            idbPromise('categories', 'get').then(categories => {
+                dispatch({
+                    type: UPDATE_CATEGORIES,
+                    categories: categories
+                });
+            });
+        }
+    }, [categoryData, loading, dispatch]);*/
 
-
+    const handleClick = task => {
+        dispatch({
+            type: ADD_TIMESHEET_TASK,
+            task: task
+        });
+    };
     return(
         <div>
             <h2>Dashboard</h2>
@@ -88,9 +115,11 @@ function Dashboard() {
                                                     <div className="" key={task.taskTitle}>
                                                         {task.taskTitle}
                                                     </div>
-                                                    <div className="">
-                                                        {/* TODO put button here to select task */}
-                                                    </div>
+                                                    <button className='taskSelect' onClick={() => {
+                                                        handleClick(task);
+                                                    }}>
+                                                        Select
+                                                    </button>
                                                 </>
                                             ))}
 
