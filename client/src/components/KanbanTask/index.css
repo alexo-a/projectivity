@@ -15,11 +15,6 @@
     border: none;
 }
 
-.taskTitle:hover{
-    border: 1px dashed var(--gray);
-    cursor: pointer;
-}
-
 .toDo {
     background: rgb(192, 40, 40, 0.1);
 }
@@ -50,6 +45,47 @@ blockquote {
     margin: 0;
     padding: .5rem;
     width: 100%;
+}
+
+.markComplete, .markIncomplete {
+    font-family: "Raleway", sans-serif;
+    font-size: .9rem;
+    font-weight: lighter;
+    padding: 0 .2rem 0 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.markComplete {
+    color: var(--success);
+}
+
+.markIncomplete {
+    color: var(--success);
+}
+
+.markIncomplete:hover {
+    color: var(--active);
+}
+
+
+.markIncomplete span {
+    font-family: 'Raleway', sans-serif;
+    padding-right: 1rem;
+}
+
+.markComplete span, .markIncomplete span {
+    visibility: hidden;
+}
+
+.markComplete:hover span, .markIncomplete:hover span {
+    visibility: visible;
+}
+
+.taskTitleGroup {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
 
 .taskExpandButton {

@@ -3,10 +3,12 @@ import { useMutation } from '@apollo/react-hooks'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useStoreContext } from "../../utils/GlobalState";
 import { OPEN_ADD_EMPLOYEE_MODAL } from "../../utils/actions";
-import { REMOVE_EMPLOYEE_FROM_TASK } from '../../utils/mutations'
+import { REMOVE_EMPLOYEE_FROM_TASK } from '../../utils/mutations';
+import { UPDATE_TASK_STATUS } from '../../utils/mutations';
 import { 
      faChevronUp, faTimes, faPlus, faCheck
 } from '@fortawesome/free-solid-svg-icons';
+import UpdateTask from '../../components/UpdateTask' 
 
 import './index.css'
 
@@ -16,6 +18,7 @@ function KanbanTask({ task, project, group }) {
     const [deleteState, setDeleteState] = useState({ selected: false, id: ''});
 
     const [removeEmployeeFromTask, { error }] = useMutation(REMOVE_EMPLOYEE_FROM_TASK);
+    
 
     const toggleExpand = function() {
 		setExpandState(!expandState);
@@ -28,7 +31,7 @@ function KanbanTask({ task, project, group }) {
         });
     }
 
-    function toggleEmployeeModal(task) {
+    function toggleEmployeeModal() {
         dispatch({ 
             type: OPEN_ADD_EMPLOYEE_MODAL,
             employeeModalOpen: true,
@@ -52,12 +55,17 @@ function KanbanTask({ task, project, group }) {
             console.error(e);
         }
     }
+
     
     return (
         <div className="taskContainer">
             <div className={`taskBox ${!expandState && 'taskClosed'}`}>
                 <div className={`taskTitle ${task.class}`}>
-                    <p>{task.title}</p> 
+                    <div className="taskTitleGroup">
+                        <p>{task.title}</p>{ project.role !== 'employee' && task.class !== 'toDo' &&
+                                <UpdateTask task={task}></UpdateTask>
+                            }
+                    </div>
                     <blockquote className={`${!expandState && 'taskClosed'}`}>{task.description}</blockquote>
                 </div>
                 <div className={`taskInfoDisplay ${!expandState && 'taskClosed'}`}>
@@ -65,18 +73,18 @@ function KanbanTask({ task, project, group }) {
                         {task.employees.map(employee => (
                             <div key={employee._id} className="taskedEmployee">
                                 <strong>{employee.username}</strong>
-                                <div className="removeEmployeeGroup">
+                                { project.role !== 'employee' && <div className="removeEmployeeGroup">
                                     <FontAwesomeIcon icon={ faTimes } className={`removeEmployee ${deleteState.selected && deleteState.id === employee._id && 'deleteable'}`} onClick={() => toggleDelete(employee._id)}></FontAwesomeIcon>
                                     <FontAwesomeIcon icon={ faCheck } className={`removeEmployeeConfirm ${deleteState.selected && deleteState.id === employee._id && 'deleteable'}`} onClick={handleDelete}></FontAwesomeIcon>
-                                </div>
+                                </div>}
                             </div>
                         ))}
-                        <div className="addEmployee">
+                        { project.role !== 'employee' && <div className="addEmployee">
                                 <div className="addEmployeeButton">
-                                    <strong onClick={() => toggleEmployeeModal(task)}>Add Employee</strong>
+                                    <strong onClick={toggleEmployeeModal}>Add Employee</strong>
                                     <FontAwesomeIcon icon={ faPlus }></FontAwesomeIcon>
                                 </div>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>

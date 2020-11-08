@@ -51,7 +51,7 @@ function Nav() {
                                     <div className="dropdownGroup"> 
                                         {projects && 
                                         projects.administrator.map(project => ( 
-                                            <Link to={`/projects/${project._id}`} key={project._id}>
+                                            <Link to={`/projects/${project._id}/${me._id}`} key={project._id}>
                                                 <div className="dropdownTitleGroup">
                                                     <p className="dropdownItemTitle">{project.title}</p>{ project === projects.administrator[0] && <strong>administrator</strong>}
                                                 </div>
@@ -61,7 +61,7 @@ function Nav() {
                                         <div className="dropdownGroup"> 
                                         {projects && 
                                         projects.manager.map(project => (
-                                            <Link to={`/projects/${project._id}`} key={project._id}>
+                                            <Link to={`/projects/${project._id}/${me._id}`} key={project._id}>
                                                 <div className="dropdownTitleGroup">
                                                     <p className="dropdownItemTitle">{project.title}</p>{ project === projects.manager[0] && <strong>manager</strong>}  
                                                 </div>
@@ -71,7 +71,7 @@ function Nav() {
                                         <div className="dropdownGroup"> 
                                         {projects && 
                                         projects.employee.map(project => (
-                                            <Link to={`/projects/${project._id}`} key={project._id}>
+                                            <Link to={`/projects/${project._id}/${me._id}`} key={project._id}>
                                                 <div className="dropdownTitleGroup">
                                                     <p className="dropdownItemTitle">{project.title}</p>{ project === projects.employee[0] && <strong>employee</strong>} 
                                                 </div>
