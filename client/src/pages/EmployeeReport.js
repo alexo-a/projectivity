@@ -91,9 +91,7 @@ function processTimeSheets(timesheets) {
         }
     }
     for (let i in compilation){
-        console.log("here")
         for (let j in compilation[i].tasks){
-            console.log("here2")
             let newLabel = compilation[i].projectTitle + " - " + compilation[i].tasks[j].taskTitle
             let newData = compilation[i].tasks[j].duration
             console.log(newLabel, newData)
@@ -188,7 +186,7 @@ function EmployeeReport() {
                     </>
                 ) : null}
             </div >
-            <EmployeeReportChart data={compilationInfo.dataForChart} />
+            <EmployeeReportChart data={compilationInfo.dataForChart} username={username} />
 
         </div >
     )
