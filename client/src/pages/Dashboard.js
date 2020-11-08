@@ -86,7 +86,7 @@ function Dashboard() {
             });
         }
     }, [categoryData, loading, dispatch]);*/
-
+console.dir(state)
     const handleClick = task => {
         dispatch({
             type: ADD_TIMESHEET_TASK,
