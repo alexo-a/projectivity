@@ -22,9 +22,7 @@ function AddEmployeeTask() {
     }
 
     if (!selectedState.length) {
-       const users = state.employeeModalTask.employees.map(employee => employee._id);
-       setSelectedState(users);
-       console.log(selectedState)
+       const users = state.employeeModalTask.group.map(employee => employee._id);
     }
 
 
@@ -62,6 +60,7 @@ function AddEmployeeTask() {
                 employeeModalOpen: false,
                 employeeModalTask: {}
             });
+            setSelectedState([]);
         } catch (e) {
             console.error(e);
         }
