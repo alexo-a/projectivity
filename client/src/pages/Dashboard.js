@@ -3,8 +3,8 @@ import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TASKS } from "../utils/queries";
 import { useStoreContext } from '../utils/GlobalState';
-import { ADD_TIMESHEET_TASK} from "../utils/actions"
-
+import { ADD_TIMESHEET_TASK, SHOW_ALERT_MODAL} from "../utils/actions"
+import { idbPromise } from '../../utils/helpers';
 
 function parseTasks(tasks) {
     //keeps track of all the unique projects so the operations afterward are smoother
@@ -67,8 +67,8 @@ function Dashboard() {
         results = parseTasks(tasks)
         //console.log(JSON.stringify(tasks))
     }
-/*
-    useEffect(() => {
+
+    /*useEffect(() => {
         if (results) {
             dispatch({
                 type: ADD_TIMESHEET_TASK,
@@ -85,53 +85,75 @@ function Dashboard() {
                 });
             });
         }
-    }, [categoryData, loading, dispatch]);*/
-console.dir(state)
+    }, [results, loading, dispatch]);*/
+
+    console.dir(state)
+
+
     const handleClick = task => {
-        dispatch({
-            type: ADD_TIMESHEET_TASK,
-            task: task
-        });
+        function okay (){
+            dispatch({
+                type: ADD_TIMESHEET_TASK,
+                task: { description: task.taskDescription, title: task.taskTitle, _id: task.taskId }
+            });
+        }
+        //if already selected
+        if (state.timeSheetTask){
+            dispatch({
+                type: SHOW_ALERT_MODAL,
+                modal: {
+                    title: "Proceed?",
+                    text: "The task you selected is different than the previous selection.\n\n Do you want to activate this new task?",
+                    buttons: {
+                        Yes: okay,
+                        No: null
+                    }
+                }
+            });
+        }
+        else {
+            okay();
+        }
+
+ 
+        
     };
     return(
         <div>
             <h2>Dashboard</h2>
-
             <h5>Your Current Tasks:</h5>
-
             <div className="componentContainer">
-                <div className="kanbanContainer">
+                {results ? (
+                    <div key="a">
+                        {results.map(project => (
+                            <div className="kanbanContainer">
+                            <div className="project-container" key={project.projectTitle}>
+                                <div className="" key="projectTitle">
+                                    {project.projectTitle}
+                                </div>
+                                < div className="employee-task-container">
+                                    {project.tasks.map(task => (
+                                        <>
+                                            <div className="" key={task.taskTitle}>
+                                                {task.taskTitle}
+                                            </div>
+                                            <button className='taskSelect' onClick={() => {
+                                                handleClick(task);
+                                            }}>
+                                                Select
+                                            </button>
+                                        </>
+                                    ))}
 
-                        {results ? (
-                            <div key="a">
-                                {results.map(project => (
-                                    <div className="project-container border-bottom" key={project.projectTitle}>
-                                        <div className="" key="projectTitle">
-                                            {project.projectTitle}
-                                        </div>
-                                        < div className="employee-task-container">
-                                            {project.tasks.map(task => (
-                                                <>
-                                                    <div className="" key={task.taskTitle}>
-                                                        {task.taskTitle}
-                                                    </div>
-                                                    <button className='taskSelect' onClick={() => {
-                                                        handleClick(task);
-                                                    }}>
-                                                        Select
-                                                    </button>
-                                                </>
-                                            ))}
-
-                                        </div>
-                                    </div>
-                                ))}
+                                </div>
                             </div>
-                        ) : null}
+                            </div>
+                        ))}
+                    </div>
+                ) : null}
 
                 </div>
             </div>
-        </div>
     );
 }
 
