@@ -4,33 +4,33 @@ const faker = require('faker');
 const bcrypt = require("bcrypt");
 const db = require('../config/connection');
 const { ProjectGroup, Project, Task, TimeSheetEntry, User } = require('../models');
-const { findOne } = require('../models/User');
+
 
 
 const dataToGenerate = 50;
 
 db.once('open', async () => {
-  await ProjectGroup.deleteMany({});
-  await Project.deleteMany({});
-  await Task.deleteMany({});
-  await TimeSheetEntry.deleteMany({});
-  await User.deleteMany({});
+    await ProjectGroup.deleteMany({});
+    await Project.deleteMany({});
+    await Task.deleteMany({});
+    await TimeSheetEntry.deleteMany({});
+    await User.deleteMany({});
 
-  // create user data
-  const userData = [];
+    // create user data
+    const userData = [];
 
-  for (let i = 0; i < dataToGenerate; i += 1) {
-    const username = faker.internet.userName();
-    const email = faker.internet.email(username);
-    let password = 'password';
-    password = await bcrypt.hash(password, 10);
+    for (let i = 0; i < dataToGenerate; i += 1) {
+        const username = faker.internet.userName();
+        const email = faker.internet.email(username);
+        let password = 'password';
+        password = await bcrypt.hash(password, 10);
 
-    userData.push({ username, email, password });
-  }
+        userData.push({ username, email, password });
+    }
 
-  console.log(userData);
+    console.log(userData);
 
-  const createdUsers = await User.collection.insertMany(userData);
+    const createdUsers = await User.collection.insertMany(userData);
 
     // create project groups 
     const groupData = []
@@ -134,6 +134,7 @@ db.once('open', async () => {
         const start = momentRandom('2013-02-08 10:30:26', '2013-02-08 09:30:26')
         const end = momentRandom('2013-02-08 15:30:26', '2013-02-08 12:30:26')
         const entries = await TimeSheetEntry.create({ task: task, start: start, end: end, user: employee });
+        await Task.updateOne({ _id: task }, { $addToSet: { entries: entries } });
 
         console.log(entries);
     }

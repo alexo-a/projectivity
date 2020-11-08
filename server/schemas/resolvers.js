@@ -341,9 +341,9 @@ const resolvers = {
 			
 			throw new AuthenticationError("You need to be logged in!");
 		},
-		addTask: async(parent, { projectId, title }, context) => {
+		addTask: async(parent, { projectId, title, description }, context) => {
 			if (context.user) {
-				const task = await Task.create({ project: projectId, title });
+				const task = await Task.create({ project: projectId, title, description });
 			
 				await Project.findOneAndUpdate(
 					{ _id: projectId },
@@ -356,10 +356,11 @@ const resolvers = {
 			
 			throw new AuthenticationError('You need to be logged in!');
 		},
-		updateTask: async(parent, args, context) => {
+		updateTaskStatus: async(parent, { id, completed }, context) => {
+			console.log(id);
 			if (context.user) {
-				return await Task.findByIdAndUpdate(args._id, args, { new: true })
-				.populate("employees");
+				const response = await Task.findOneAndUpdate({ _id: id }, { $set: { completed: completed }}, { new: true });
+				return response; 
 			}
 			
 			throw new AuthenticationError("You need to be logged in!");
@@ -395,6 +396,7 @@ const resolvers = {
 			if (context.user) {
 				const timeSheetEntry = await TimeSheetEntry.create({ task: taskId, start, end, note, user: context.user._id });
 		  
+				await Task.updateOne({ _id: task }, { $addToSet: { entries: timeSheetEntry } });
 				return timeSheetEntry;
 			}
 		  

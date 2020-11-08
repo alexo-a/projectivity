@@ -58,6 +58,7 @@ query timesheets ($userId: ID,  $start: String, $end: String){
 export const QUERY_PROJECT = gql`
     query project($id: ID!) {
         project(id: $id) {
+            _id
             title
             description
             managers {

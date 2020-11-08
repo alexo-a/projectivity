@@ -95,3 +95,21 @@ export const UPDATE_EMPLOYEES_TASK =gql`
     }
   }
 `
+export const UPDATE_TASK_STATUS = gql `
+  mutation updateTaskStatus($id: ID!, $completed: Boolean!) {
+    updateTaskStatus(id: $id, completed: $completed) {
+      _id
+      title
+      completed
+    }
+  }
+`
+export const ADD_TASK = gql `
+  mutation addtask($projectId: ID!, $title: String!, $description: String) {
+    addTask(projectId: $projectId, title: $title, description: $description) {
+      _id
+      title
+      description
+    }
+  }
+`

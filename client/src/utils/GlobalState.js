@@ -13,7 +13,8 @@ const StoreProvider = ({ value = [], ...props }) => {
 			description: "This is test data.  It should be removed from utils/GlobalState.js once a method for selecting tasks is created.",
 		},
 		employeeModalOpen: false,
-		employeeModalTask: {}
+		employeeModalTask: {},
+		forceRender: false
 	  });
 	return <Provider value={[state, dispatch]} {...props} />;
 };
