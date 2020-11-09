@@ -84,7 +84,7 @@ button.redButton {
 	padding: 2px 8px;
 }
 
-button.redButton {
+button.redButton:hover {
 	background-color: var(--proj-highlight) !important;
 }
 
