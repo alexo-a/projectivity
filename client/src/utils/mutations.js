@@ -36,6 +36,16 @@ mutation createProjectGroup($title: String!) {
 }
 `;
 
+export const CREATE_PROJECT = gql`
+mutation createProject($groupId: ID!, $title: String!, $description: String) {
+  addProject(groupId: $groupId, title: $title, description: $description) {
+    _id
+    title
+    description
+  }
+}
+`;
+
 export const ADD_MANAGER_TO_GROUP = gql`
 mutation addManagerToProjectGroup($groupId: ID!, $userId: ID!) {
   addManagerToProjectGroup(groupId: $groupId, userId: $userId) {

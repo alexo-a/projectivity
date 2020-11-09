@@ -10,7 +10,7 @@
 	background-color: white;
 }
 
-.groupListing form {
+.addGroupForm form {
 	display: none;
 	max-height: 0px;
 	overflow: hidden;
@@ -82,37 +82,37 @@
 	transition: 0.5s ease-in;
 }
 
-.groupListing .open-enter form {
+.groupListing .open-enter.addGroupForm form {
 	display: flex;
 	opacity: 0;
 }
 
-.groupListing .open-enter-active form {
+.groupListing .open-enter-active.addGroupForm form {
 	max-height: 400px;
 	opacity: 1;
 	transition: 0.5s ease-in-out;
 }
 
-.groupListing .open-enter-done form {
+.groupListing .open-enter-done.addGroupForm form {
 	display: flex;
 	max-height: 400px;
 	overflow: auto;
 }
 
-.groupListing .open-exit form {
+.groupListing .open-exit.addGroupForm form {
 	display: flex;
 	max-height: 400px;
 	opacity: 1;
 	overflow: hidden;
 }
 
-.groupListing .open-exit-active form {
+.groupListing .open-exit-active.addGroupForm form {
 	max-height: 0px;
 	opacity: 0;
 	transition: 0.5s ease-in-out;
 }
 
-.groupListing .open-exit-done form {
+.groupListing .open-exit-done.addGroupForm form {
 	display: none;
 }
 

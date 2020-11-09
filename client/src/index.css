@@ -1,6 +1,7 @@
 :root {
     --proj-red: #c02828;
     --proj-highlight: #c83c38;
+    --button-default: #f0f0f0;
     --success: #3aba71;
     --deny: #ff807c;
     --active: #765ae0; 
@@ -45,6 +46,7 @@ a:hover {
 
 /* button */
 button {
+    background-color: var(--button-default);
     border: none;
     border-radius: 5px;
     outline: none;

@@ -88,7 +88,7 @@ type Mutation {
 	removeManagerFromProjectGroup(groupId: ID!, userId: ID!): ProjectGroup
 	addEmployeeToProjectGroup(groupId: ID!, userId: ID!): ProjectGroup
 	removeEmployeeFromProjectGroup(groupId: ID!, userId: ID!): ProjectGroup
-	addProject(groupId: ID!, title: String!): Project
+	addProject(groupId: ID!, title: String!, description: String): Project
 	updateProject(_id: ID!, title: String, description: String): Project
 	addManagerToProject(projectId: ID!, userId: ID!): Project
 	removeManagerFromProject(projectId: ID!, userId: ID!): Project

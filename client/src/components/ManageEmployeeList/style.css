@@ -11,6 +11,10 @@
 	white-space: nowrap;
 }
 
+.employeeList button:not(.redButton) {
+	border: solid 1px silver;
+}
+
 .employeeList ol {
 	align-self: stretch;
 }
@@ -58,7 +62,7 @@ input.userOk {
 }
 
 @media screen and (max-width: 575px) {
-	.employeeList button {
+	.employeeList button, .employeeList input {
 		min-height: 32px;
 		min-width: 32px;
 	}
