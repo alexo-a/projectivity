@@ -123,7 +123,7 @@ function EmployeeReport() {
                 Week of {weekStart} (W{weekNumber})
             </h3>
             <h5 className="text-center">
-                Time Logged: <span>{compilationInfo.totalHours}</span>
+                        Time Logged: <span>{compilationInfo.totalHours.toFixed(2)}</span>
             </h5>
             <div className="mx-3">
                 <div className="employee-table-title bold align-bottom">

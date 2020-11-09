@@ -30,24 +30,24 @@
 
 
 
-# Projectivity
+<h1 align="center">Projectivity</h1>
 <br />
 
 
 <p align="center">
   <a href="https://github.com/alexo-a/projectivity">
-    <img src="?raw=true" alt="Logo" width="200" height="125">
+    <img src="client\src\assets\images\Projectivity.png?raw=true" alt="Logo" width="200" height="200">
   </a>
 
 
 
   <p align="center">
-    A social-distancing-friendly approach to the classic book club.
+    A simple, easy-to-use time-tracking and project management app.
     <br />
     <a href="https://github.com/alexo-a/projectivity"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="">View Deployed Application</a>
+    <a href="https://evening-dawn-14533.herokuapp.com/">View Deployed Application</a>
     ·
     <a href="https://github.com/alexo-a/projectivity/issues">Report Bug</a>
     ·
@@ -72,11 +72,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Projectivity is a lean and clean 
+Projectivity is a lean, clean, productivity machine.  Built to be a clean, simple time-tracking app for project management, Projectivity simplifies project management by giving users a single place to track their time for multiple projects in one single location. Each project is broken down into multiple tasks that can be assigned to one or more users. Users are then able to log time for a task. When desired, users can view a report of their work the current week. Managers for a project can see progress reports for the entire length of the project at any time.
 
 <br>
 
-![Project Screenshot](/Snapshot.png?raw=true)
+![Project Screenshot](./Snapshot.png?raw=true)
 
 
 
@@ -94,11 +94,10 @@ Projectivity is a lean and clean
 * [if-env](https://www.npmjs.com/package/if-env)
 * [font-awesome](https://fontawesome.com/)
 * [apollo](https://www.apollographql.com/)
-* [chart.js]()
-* [chartjs-plugin-colorschemes]()
-* [graphql]()
-* [graphql-tag]()
-* [jwt-decode]()
+* [chart.js](https://www.chartjs.org/)
+* [chartjs-plugin-colorschemes](https://nagix.github.io/chartjs-plugin-colorschemes/)
+* [graphql](https://graphql.org/)
+* [jwt-decode](https://jwt.io/)
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -106,7 +105,7 @@ Projectivity is a lean and clean
 <!--Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.-->
 
 
-Open the link above to create an account and get started! You can search local clubs or create your own for a book of your choice. If you see a discussion topic, feel free to contribute or create your own topic. Other users can be privately messaged at your convenience.
+Open the link above to create an account and get started! 
 
 <!--_For more examples, please refer to the [Documentation](https://example.com)_-->
 
@@ -149,32 +148,3 @@ Distributed under the MIT License. See `LICENSE` for more information.-->
 [Bob Feuestein](https://github.com/TheBobbyLlama) - thebobbyllama@yahoo.com
 
 Project Link: [https://github.com/alexo-a/projectivity](https://github.com/alexo-a/projectivity)
-
-
-
-<!-- ACKNOWLEDGEMENTS 
-## Acknowledgements
-
-* []()
-* []()
-* []()-->
-
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=flat-square
-[contributors-url]: https://github.com/alexo-a/password-generator/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
-[forks-url]: https://github.com/alexo-a/password-generator/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=flat-square
-[stars-url]: https://github.com/alexo-a/password-generator/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
-[issues-url]: https://github.com/alexo-a/password-generator/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat-square
-<!--[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt-->
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
