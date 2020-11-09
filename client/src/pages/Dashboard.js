@@ -60,7 +60,11 @@ function Dashboard() {
         { variables: { userId } } );
 
     let {dashboardTasks: tasks} = state; //data?.myTasks || null;
-
+    
+    function addIDBTasks (tasksIn) {
+        tasks.push(tasksIn)
+    }
+        
     useEffect(() => {
         if (data) {
             dispatch({
@@ -72,12 +76,12 @@ function Dashboard() {
             });
         } else if (!loading) {
             idbPromise('dashboard', 'get').then(tasks => {
-
+                //addIDBTasks(tasks)
                 //TODO how can I pass out the stored tasks?
-                /*dispatch({
+                dispatch({
                     type: UPDATE_DASHBOARD_TASKS,
                     dashboardTasks: tasks
-                });*/
+                });
 
             });
         }
@@ -102,7 +106,7 @@ function Dashboard() {
             });
         }
         //if already selected
-        if (state.timeSheetTask){
+        if (state.timeSheetTask && state.timeSheetTask._id !== task.taskId){
             dispatch({
                 type: SHOW_ALERT_MODAL,
                 modal: {
@@ -119,6 +123,7 @@ function Dashboard() {
             okay();
         }
     };
+    console.dir(state);
     return(
         <div>
             <h2>Dashboard</h2>
@@ -141,7 +146,7 @@ function Dashboard() {
                                             <button className='taskSelect' onClick={() => {
                                                 handleClick(task);
                                             }}>
-                                                Select
+                                                {state.timeSheetTask && task.taskId === state.timeSheetTask._id ? "Selected" : "Select"}
                                             </button>
                                         </>
                                     ))}
