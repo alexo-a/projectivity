@@ -399,7 +399,7 @@ const resolvers = {
 			if (context.user) {
 				const timeSheetEntry = await TimeSheetEntry.create({ task: taskId, start, end, note, user: context.user._id });
 		  
-				await Task.updateOne({ _id: task }, { $addToSet: { entries: timeSheetEntry } });
+				await Task.updateOne({ _id: taskId }, { $addToSet: { entries: timeSheetEntry } });
 				return timeSheetEntry;
 			}
 		  
