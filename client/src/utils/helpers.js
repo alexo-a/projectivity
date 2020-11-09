@@ -22,7 +22,7 @@ export function idbPromise(storeName, method, object) {
       let db, tx, store;
       request.onupgradeneeded = function(e) {
         const db = request.result;
-        //db.createObjectStore('dashboard', { keyPath: '_id' });
+        db.createObjectStore('dashboard'/*, { keyPath: '_id' }*/);
       };
   
       request.onerror = function(e) {

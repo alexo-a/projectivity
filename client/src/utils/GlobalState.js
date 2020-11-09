@@ -8,7 +8,8 @@ const StoreProvider = ({ value = [], ...props }) => {
 	// Set default state here.
 	const [state, dispatch] = useProjectivityReducer({
 		employeeModalOpen: false,
-		employeeModalTask: {},
+        employeeModalTask: {},
+        dashboardTasks: []
 	  });
 	return <Provider value={[state, dispatch]} {...props} />;
 };

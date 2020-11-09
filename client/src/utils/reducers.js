@@ -5,7 +5,9 @@ import {
 	CLEAR_TIMESHEET_TASK,
 	SHOW_ALERT_MODAL,
 	CLEAR_ALERT_MODAL, 
-	OPEN_ADD_EMPLOYEE_MODAL, FORCE_RENDER
+    OPEN_ADD_EMPLOYEE_MODAL, 
+    FORCE_RENDER,
+    UPDATE_DASHBOARD_TASKS
 } from './actions';
 
 export const reducer = (state, action) => {
@@ -14,7 +16,12 @@ export const reducer = (state, action) => {
 			return {
 				...state,
 				timeSheetTask: action.task
-			}
+            }
+        case UPDATE_DASHBOARD_TASKS:
+            return {
+                ...state, 
+                dashboardTasks: action.tasks
+            }
 		case CLEAR_TIMESHEET_TASK: {
 				let tmpState = { ...state };
 

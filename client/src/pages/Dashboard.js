@@ -3,12 +3,15 @@ import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TASKS } from "../utils/queries";
 import { useStoreContext } from '../utils/GlobalState';
-import { ADD_TIMESHEET_TASK, SHOW_ALERT_MODAL} from "../utils/actions"
-//import { idbPromise } from '../../utils/helpers';
+import { ADD_TIMESHEET_TASK, SHOW_ALERT_MODAL, UPDATE_DASHBOARD_TASKS} from "../utils/actions"
+import { idbPromise } from '../utils/helpers';
+// util is useful for debugging. use: console.log(util.inspect(**item**,true,null,true))
+//import util from "util";
 
 function parseTasks(tasks) {
     //keeps track of all the unique projects so the operations afterward are smoother
     let uniqueProjects = new Set(tasks.map(task => {
+        console.log(`uniqueProjects: ${task}`)
         return task.project._id
     }));
 
@@ -51,41 +54,44 @@ function parseTasks(tasks) {
 function Dashboard() {
     const [state, dispatch] = useStoreContext();
     const userInfo = Auth.getUserInfo();
-    const username = userInfo.username;
     const userId = userInfo._id;
-
     //get the logged-in user's assigned tasks.
     const { loading, data } = useQuery(QUERY_MY_TASKS,
         { variables: { userId } } );
 
-    const tasks = data?.myTasks || {};
-    let results=[]
+    let {dashboardTasks: tasks} = state; //data?.myTasks || null;
+
+    useEffect(() => {
+        if (data) {
+            dispatch({
+                type: UPDATE_DASHBOARD_TASKS,
+                tasks: data.myTasks 
+            });
+            data.myTasks.forEach(task => {
+                idbPromise('dashboard', 'put', task);
+            });
+        } else if (!loading) {
+            idbPromise('dashboard', 'get').then(tasks => {
+
+                //TODO how can I pass out the stored tasks?
+                /*dispatch({
+                    type: UPDATE_DASHBOARD_TASKS,
+                    dashboardTasks: tasks
+                });*/
+
+            });
+        }
+    }, [data, loading, dispatch]);
+
     if (loading) {
         return null
     }
     if (!loading) {
-        results = parseTasks(tasks)
+        //results = parseTasks(tasks)
         //console.log(JSON.stringify(tasks))
     }
 
-    /*useEffect(() => {
-        if (results) {
-            dispatch({
-                type: ADD_TIMESHEET_TASK,
-                task: categoryData.categories
-            });
-            categoryData.categories.forEach(category => {
-                idbPromise('categories', 'put', category);
-            });
-        } else if (!loading) {
-            idbPromise('categories', 'get').then(categories => {
-                dispatch({
-                    type: UPDATE_CATEGORIES,
-                    categories: categories
-                });
-            });
-        }
-    }, [results, loading, dispatch]);*/
+
 
 
     const handleClick = task => {
@@ -112,18 +118,15 @@ function Dashboard() {
         else {
             okay();
         }
-
- 
-        
     };
     return(
         <div>
             <h2>Dashboard</h2>
             <h5>Your Current Tasks:</h5>
             <div className="componentContainer">
-                {results ? (
+                {tasks.length>0 ? (
                     <div key="a">
-                        {results.map(project => (
+                        {parseTasks(tasks).map(project => (
                             <div className="kanbanContainer">
                             <div className="project-container" key={project.projectTitle}>
                                 <div className="" key="projectTitle">
