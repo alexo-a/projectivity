@@ -114,6 +114,8 @@ function EmployeeReport() {
 
     return (
         <div key="EmployeeReport">
+            {compilationInfo.compilation.length > 0 ? (
+                <>
             <h2 className="text-center" id="projectName">
                 Weekly Progress Report for {username}
             </h2>
@@ -162,8 +164,9 @@ function EmployeeReport() {
                 ) : null}
             </div >
             <EmployeeReportChart data={compilationInfo.dataForChart} username={username} />
-
-        </div >
+            </>
+            ) : <h2>You don't have any timesheets logged this week!</h2>}
+        </div>
     )
 }
 export default EmployeeReport;

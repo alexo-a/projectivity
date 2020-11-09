@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TASKS } from "../utils/queries";
 import { useStoreContext } from '../utils/GlobalState';
 import { ADD_TIMESHEET_TASK, SHOW_ALERT_MODAL} from "../utils/actions"
-import { idbPromise } from '../../utils/helpers';
+//import { idbPromise } from '../../utils/helpers';
 
 function parseTasks(tasks) {
     //keeps track of all the unique projects so the operations afterward are smoother
