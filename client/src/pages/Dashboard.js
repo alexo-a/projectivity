@@ -87,8 +87,6 @@ function Dashboard() {
         }
     }, [results, loading, dispatch]);*/
 
-    console.dir(state)
-
 
     const handleClick = task => {
         function okay (){
