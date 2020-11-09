@@ -1,16 +1,3 @@
-.projectList button {
-	background-color: var(--proj-red);
-	color: white;
-	cursor: pointer;
-	margin: 0px;
-	min-height: 24px;
-	padding: 2px 8px;
-}
-
-.projectList button:hover {
-	background-color: var(--proj-highlight);
-}
-
 .projectList > div {
 	display: none;
 	max-height: 0px;

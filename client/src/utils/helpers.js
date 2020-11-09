@@ -11,7 +11,7 @@ export function formatTimeSpan(timeSpan) {
 
 export function getCurrentWeekInfo() {
     const weekNumber=moment().week();
-    const weekStartDate=moment().startOf("week").format("Do MMMM YYYY")
+    const weekStartDate=moment().startOf("week").format("D MMMM YYYY")
 
     return {weekStartDate, weekNumber}
 }

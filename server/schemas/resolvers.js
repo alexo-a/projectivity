@@ -170,7 +170,8 @@ const resolvers = {
 		myTasks: async (parent, args, context) => {
 			if (context.user) {
 				return Task.find({ employees: context.user._id })
-				.populate("employees");
+                .populate("employees")
+                .populate("project");
 			}
 
 			throw new AuthenticationError('You need to be logged in!');

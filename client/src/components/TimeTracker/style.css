@@ -37,8 +37,6 @@ footer form > div > div {
 }
 
 footer button {
-	background-color: var(--proj-red);
-	color: white;
 	cursor: pointer;
 	margin: 0px;
 	min-height: 24px;
@@ -46,7 +44,7 @@ footer button {
 }
 
 footer button:hover {
-	background-color: var(--proj-highlight);
+	background-color: white;
 }
 
 footer form button[type='submit'] {
@@ -110,12 +108,12 @@ footer.open-exit-done form, footer.open-exit-done .taskDescription {
 	display: none;
 }
 
-.taskTitle {
+.trackedTaskTitle {
 	font-weight: bold;
 	margin-right: 8px !important;
 }
 
-footer.open-enter .taskTitle::after, footer.open-exit .taskTitle::after, footer.open-exit-done .taskTitle::after {
+footer.open-enter .trackedTaskTitle::after, footer.open-exit .trackedTaskTitle::after, footer.open-exit-done .trackedTaskTitle::after {
 	content: ':';
 }
 

@@ -73,6 +73,19 @@ button.success:hover {
     background: rgb(72, 199, 127, 0.8);
 }
 
+button.redButton {
+	background-color: var(--proj-red) !important;
+	color: white !important;
+	cursor: pointer;
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+button.redButton {
+	background-color: var(--proj-highlight) !important;
+}
+
 /* card */
 .card {
     border: 1px solid var(--charcoal);

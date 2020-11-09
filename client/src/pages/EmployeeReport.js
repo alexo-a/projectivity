@@ -4,32 +4,7 @@ import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TIMESHEETS } from "../utils/queries";
 import EmployeeReportChart from "../components/EmployeeReportChart"
-/*
-{
-    labels: ['January', 'February', 'March',
-        'April', 'May'],
-        datasets: [
-            {
-                label: 'Rainfall',
-                backgroundColor: [
-                    '#B21F00',
-                    '#C9DE00',
-                    '#2FDE00',
-                    '#00A6B4',
-                    '#6800B4'
-                ],
-                hoverBackgroundColor: [
-                    '#501800',
-                    '#4B5000',
-                    '#175000',
-                    '#003350',
-                    '#35014F'
-                ],
-                data: [65, 59, 80, 81, 56]
-            }
-        ]
-}
-*/
+
 function processTimeSheets(timesheets) {
     //processed the time sheets, extracting the project info, task info, and duration info.
     //logs this data as objects in the compilation array
@@ -139,6 +114,8 @@ function EmployeeReport() {
 
     return (
         <div key="EmployeeReport">
+            {compilationInfo.compilation.length > 0 ? (
+                <>
             <h2 className="text-center" id="projectName">
                 Weekly Progress Report for {username}
             </h2>
@@ -187,8 +164,9 @@ function EmployeeReport() {
                 ) : null}
             </div >
             <EmployeeReportChart data={compilationInfo.dataForChart} username={username} />
-
-        </div >
+            </>
+            ) : <h2>You don't have any timesheets logged this week!</h2>}
+        </div>
     )
 }
 export default EmployeeReport;

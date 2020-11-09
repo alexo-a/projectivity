@@ -33,7 +33,13 @@ export const QUERY_MY_TASKS = gql`
     query {
         myTasks {
             _id
-            project
+            title
+            description
+            completed
+            project {
+                _id
+                title
+            }
         }
     }
 `

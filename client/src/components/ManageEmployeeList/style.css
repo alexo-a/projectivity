@@ -2,19 +2,6 @@
 	margin-bottom: 10px;
 }
 
-.employeeList button {
-	background-color: var(--proj-red);
-	color: white;
-	cursor: pointer;
-	margin: 0px;
-	min-height: 24px;
-	padding: 2px 8px;
-}
-
-.employeeList button:hover {
-	background-color: var(--proj-highlight);
-}
-
 .employeeList > div {
 	align-items: flex-end;
 	display: none;
