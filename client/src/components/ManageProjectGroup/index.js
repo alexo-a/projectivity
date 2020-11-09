@@ -43,7 +43,7 @@ function ManageProjectGroup({ group }) {
 				type: SHOW_ALERT_MODAL,
 				modal: {
 					title: "Error",
-					text: e
+					text: e.toString()
 				}
 			});
         }
@@ -62,7 +62,7 @@ function ManageProjectGroup({ group }) {
 			<h3>{group.title}</h3>
 			<ManageEmployeeList employees={group.managers} label="Manager" addCallback={doAddManager} />
 			<ManageEmployeeList employees={group.employees} label="Employee" addCallback={doAddEmployee} />
-			<ProjectList projects={group.projects} />
+			<ProjectList projects={group.projects} administrator={true} groupId={group._id} />
 		</div>
 	);
 }
