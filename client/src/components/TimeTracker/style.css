@@ -1,7 +1,7 @@
 footer {
 	background-color: var(--light-gray);
-	border-left: 1px solid var(--charcoal);
-	border-top: 1px solid var(--charcoal);
+	border-left: 1px solid gray;
+	border-top: 1px solid gray;
 	border-top-left-radius: 5px;
 	bottom: 0px;
 	padding: 12px;
@@ -50,6 +50,11 @@ footer button:hover {
 footer form button[type='submit'] {
 	padding: 8px 12px;
 }
+
+footer button:not(.redButton) {
+	border: solid 1px silver;
+}
+
 
 footer form > div *:not(:last-child) {
 	margin-right: 4px;
@@ -138,17 +143,13 @@ footer.open-enter .trackedTaskTitle::after, footer.open-exit .trackedTaskTitle::
 		margin-left: 0px;
 	}
 
-	footer button {
+	footer button, footer input {
 		min-height: 32px;
 		min-width: 32px;
 	}
 
-	footer input {
-		height: 24px;
-	}
-
 	input[name='timeSheetNote'] {
 		margin: 0px 32px 8px 32px !important;
-		width: 100%;
+		width: 95%;
 	}
 }

@@ -125,7 +125,7 @@ function ProjectGroups() {
                                 return (<div key={curGroup._id} className="projectGroup card">
                                     <h3>{curGroup.title}</h3>
                                     <p>
-                                        <strong>Administrator:</strong>
+                                        <strong>Administrator: </strong>
                                         {curGroup.administrator.username}
                                     </p>
                                     <ProjectList projects={curGroup.projects} />

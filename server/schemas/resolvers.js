@@ -292,9 +292,9 @@ const resolvers = {
 			
 			throw new AuthenticationError("You need to be logged in!");
 		},
-		addProject: async(parent, { groupId, title }, context) => {
+		addProject: async(parent, { groupId, title, description }, context) => {
 			if (context.user) {
-				const project = await Project.create({ group: groupId, title });
+				const project = await Project.create({ group: groupId, title, description });
 			
 				await ProjectGroup.findOneAndUpdate(
 					{ _id: groupId, administrator: context.user._id },

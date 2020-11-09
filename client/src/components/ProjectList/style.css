@@ -1,12 +1,60 @@
 .projectList > div {
+	align-items: flex-end;
 	display: none;
+	flex-direction: column;
 	max-height: 0px;
 	overflow: hidden;
 	white-space: nowrap;
 }
 
+.projectList form {
+	align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+	transition: 0.5s;
+	width: 300px;
+}
+
+.projectList form > div {
+	align-items: center;
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+}
+
+.projectList input.invalid {
+	border-color: var(--deny);
+}
+
+.projectList textarea {
+	resize: none;
+	height: 100px;
+	margin-top: 4px;
+	width: 100%;
+}
+
+.projectList ol {
+	align-self: stretch;
+}
+
+.projectList button:not(.redButton) {
+	border: solid 1px silver;
+}
+
+.projectList button.empty {
+	cursor: default;
+}
+
+.projectList button.empty:hover {
+	background-color: var(--button-default);
+}
+
+.projectList button span:not(:last-child)::after {
+	content: ' ';
+}
+
 .projectList .open-enter {
-	display: block;
+	display: flex;
 	opacity: 0;
 }
 
@@ -17,13 +65,13 @@
 }
 
 .projectList .open-enter-done {
-	display: block;
+	display: flex;
 	max-height: 400px;
 	overflow: auto;
 }
 
 .projectList .open-exit {
-	display: block;
+	display: flex;
 	max-height: 400px;
 	opacity: 1;
 	overflow: hidden;
@@ -39,9 +87,43 @@
 	display: none;
 }
 
+.projectList form input, .projectList form textarea {
+	display: none;
+}
+
+.projectList form.adding-enter input, .projectList form.adding-enter textarea {
+	display: initial;
+	opacity: 0;
+}
+
+.projectList form.adding-enter-active input, .projectList form.adding-enter-active textarea, .projectList form.adding-enter-done input, .projectList form.adding-enter-done textarea {
+	display: initial;
+	opacity: 1;
+	transition: 0.5s;
+}
+
+.projectList form.adding-exit input, .projectList form.adding-exit textarea {
+	display: initial;
+	opacity: 1;
+}
+
+.projectList form.adding-exit-active input, .projectList form.adding-exit-active textarea {
+	display: initial;
+	opacity: 0;
+	transition: 0.5s;
+}
+
 @media screen and (max-width: 575px) {
-	.projectList button {
+	.projectList button, .projectList input {
 		min-height: 32px;
 		min-width: 32px;
+	}
+
+	.projectList button[name='addButton'] {
+		width: auto;
+	}
+
+	.projectList form {
+		width: 100%;
 	}
 }

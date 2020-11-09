@@ -1,5 +1,6 @@
 .projectGroup {
 	background-color: var(--light-gray);
+	border-color: gray;
 	border-radius: 5px;
 	margin: 10px;
 	min-width: 400px;
@@ -13,5 +14,6 @@
 @media screen and (max-width: 575px) {
 	.projectGroup {
 		min-width: 100%;
+		width: 100%;
 	}
 }

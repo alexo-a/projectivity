@@ -6,14 +6,17 @@ export const QUERY_MY_PROJECTS = gql`
             administrator {
                 _id
                 title
+                description
             }
             manager {
                 _id
                 title
+                description
             }
             employee {
                 _id
                 title
+                description
                 tasks {
                     title
                     entries {
