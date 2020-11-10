@@ -80,7 +80,7 @@ function Dashboard() {
                 //TODO how can I pass out the stored tasks?
                 dispatch({
                     type: UPDATE_DASHBOARD_TASKS,
-                    dashboardTasks: tasks
+                    tasks
                 });
 
             });
@@ -95,9 +95,6 @@ function Dashboard() {
         //console.log(JSON.stringify(tasks))
     }
 
-
-
-
     const handleClick = task => {
         function okay (){
             dispatch({
@@ -106,7 +103,9 @@ function Dashboard() {
             });
         }
         //if already selected
-        if (state.timeSheetTask && state.timeSheetTask._id !== task.taskId){
+        if (state.timeSheetTask) {
+            if (state.timeSheetTask._id === task.taskId) return;
+
             dispatch({
                 type: SHOW_ALERT_MODAL,
                 modal: {
@@ -123,13 +122,15 @@ function Dashboard() {
             okay();
         }
     };
-    console.dir(state);
+
+    //console.dir(state);
+
     return(
         <div>
             <h2>Dashboard</h2>
             <h5>Your Current Tasks:</h5>
             <div className="componentContainer">
-                {tasks.length>0 ? (
+                {tasks.length > 0 ? (
                     <div key="a">
                         {parseTasks(tasks).map(project => (
                             <div className="kanbanContainer">
