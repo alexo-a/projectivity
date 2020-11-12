@@ -10,7 +10,7 @@ import { useStoreContext } from '../../utils/GlobalState';
 
 import "./style.css";
 
-function ManageProjectGroup({ group }) {
+function ManageProjectGroup({ group, refetch }) {
 	const [state, dispatch] = useStoreContext();
 	const [addManagerToGroup, ignoreMe] = useMutation(ADD_MANAGER_TO_GROUP);
 	const [addEmployeeToGroup, ignoreMe2] = useMutation(ADD_EMPLOYEE_TO_GROUP);

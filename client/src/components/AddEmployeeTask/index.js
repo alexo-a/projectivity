@@ -44,7 +44,6 @@ function AddEmployeeTask() {
 
     async function handleSubmitUsers(event) {
         event.preventDefault();
-        console.log(selectedState);
         if (selectedState[0] === 'placeholder') {
             return
         }

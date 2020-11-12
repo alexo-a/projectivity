@@ -56,6 +56,8 @@ function KanbanTask({ task, project, group }) {
         }
     }
 
+    console.log(task)
+
     
     return (
         <div className="taskContainer">
@@ -79,7 +81,8 @@ function KanbanTask({ task, project, group }) {
                                 </div>}
                             </div>
                         ))}
-                        { project.role !== 'employee' && <div className="addEmployee">
+                        { project.role !== 'employee' && 
+                        <div className="addEmployee">
                                 <div className="addEmployeeButton">
                                     <strong onClick={toggleEmployeeModal}>Add Employee</strong>
                                     <FontAwesomeIcon icon={ faPlus }></FontAwesomeIcon>
