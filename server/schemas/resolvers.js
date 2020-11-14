@@ -171,7 +171,8 @@ const resolvers = {
 			if (context.user) {
 				return Task.find({ employees: context.user._id })
                 .populate("employees")
-                .populate("project");
+				//.populate("project");
+				.populate({ path: 'project', populate: { path: "managers" } });
 			}
 
 			throw new AuthenticationError('You need to be logged in!');

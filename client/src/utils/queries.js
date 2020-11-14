@@ -42,6 +42,11 @@ export const QUERY_MY_TASKS = gql`
             project {
                 _id
                 title
+                description
+                managers {
+                    _id
+                    username
+                }
             }
         }
     }
