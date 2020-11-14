@@ -1,22 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks'
-import { QUERY_PROJECT } from '../utils/queries';
 import { useStoreContext } from '../utils/GlobalState';
+import { useQuery } from '@apollo/react-hooks';
+import { QUERY_PROJECT } from '../utils/queries';
+import { useMutation } from '@apollo/react-hooks';
+import { ADD_TASK } from '../utils/mutations'
+import { OPEN_ADD_EMPLOYEE_MODAL } from '../utils/actions'
+
+
 import KanbanTask from '../components/KanbanTask';
 import AddEmployeeTask from '../components/AddEmployeeTask';
-import AddTask from '../components/AddTask';
-
-import './index.css'
-import { FORCE_RENDER } from '../utils/actions';
+import './index.css';
 
 function Projects() {
     const [state, dispatch] = useStoreContext();
     const { id: projectId, userId: userId } = useParams();
-
-    const { loading, data } = useQuery(QUERY_PROJECT, {
+    const [addTask, { error }] = useMutation(ADD_TASK);
+    const { loading, data, refetch } = useQuery(QUERY_PROJECT, {
         variables: { id: projectId }
     });
+
+    const [formState, setFormState] = useState({ 
+        title: '', description: ''
+    });
+
+    const handleFormSubmit = async event => {
+        event.preventDefault();
+        try {
+            const mutationResponse = await addTask({ variables: { 
+                projectId: projectId,
+                title: formState.title || '(no title)', 
+                description: formState.description || '(no description)'
+            } })
+
+            const task = mutationResponse.data.addTask;
+
+            dispatch({ 
+                type: OPEN_ADD_EMPLOYEE_MODAL,
+                employeeModalOpen: true,
+                employeeModalTask: {...task, group: group.employees }
+            });
+        } catch (e) {
+            console.error(e);
+            return
+        }
+        setFormState({
+            title: '', description: ''
+        });
+        refetch();
+    };
+
+    
+    const handleChange = event => {
+        
+        const { name, value } = event.target;
+        console.log(name);
+        setFormState({
+          ...formState,
+          [name]: value
+        });
+    };
 
     const project = data?.project || {};
     const group = data?.groupByProject || {};
@@ -27,13 +70,6 @@ function Projects() {
         )
     }
 
-    if (state.forceRender) {
-        dispatch({
-            type: FORCE_RENDER,
-            forceRender: false
-        });
-    }
- 
     const managers = project.managers.map(manager => manager._id);
     
     if (userId === group.administrator._id) {
@@ -53,7 +89,36 @@ function Projects() {
         <div className="componentContainer">
             <h3 className='projectTitle'>{project.title}</h3>
             <strong className="projectSubtitle">{group.title}</strong>
-            { project.role !== 'employee' && <AddTask group={group}></AddTask>}
+
+            { project.role !== 'employee' && 
+            <div className="addTaskContainer">
+                <form className="form addTaskForm" onSubmit={handleFormSubmit}>
+                    <div className="formItem title">
+                        <input
+                            name='title'
+                            type='text'
+                            id='title'
+                            placeholder='Title'
+                            value={formState.title}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="formItem description">
+                        <input
+                            name='description'
+                            type='text'
+                            id='description'
+                            placeholder='Description'
+                            value={formState.description}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button type="submit" className="success">
+                        Add Task
+                    </button>
+                </form>    
+            </div>}
+
             <div className="kanbanContainer">
                 <div className="kanbanCell">
                     <div className="kanbanTitle left">

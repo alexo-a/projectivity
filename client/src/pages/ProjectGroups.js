@@ -18,7 +18,7 @@ import "./ProjectGroup.css";
 
 function ProjectGroups() {
     const [state, dispatch] = useStoreContext();
-    const { loading, data } = useQuery(MY_GROUPS);
+    const { loading, data, refetch } = useQuery(MY_GROUPS);
     const [ showAddGroup, setShowAddGroup ] = useState(false);
     const [createProjectGroup, { error }] = useMutation(CREATE_PROJECT_GROUP);
 

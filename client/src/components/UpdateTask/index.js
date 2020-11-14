@@ -47,7 +47,7 @@ function UpdateTask({ task }) {
 
     else {
         return (
-            <div className="markComplete flex align-center" onClick={handleTaskStatus}>Mark Complete<span>!</span></div>
+            <div className="markComplete flex align-center" onClick={handleTaskStatus}>Mark Complete</div>
         )
     }
 }

@@ -83,6 +83,7 @@ export const QUERY_PROJECT = gql`
             tasks {
                 _id
                 title
+                description
                 employees {
                     _id
                     username

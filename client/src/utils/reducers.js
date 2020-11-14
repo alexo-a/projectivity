@@ -6,7 +6,7 @@ import {
 	SHOW_ALERT_MODAL,
 	CLEAR_ALERT_MODAL, 
     OPEN_ADD_EMPLOYEE_MODAL, 
-    FORCE_RENDER,
+    UPDATE_TODO_COUNT,
     UPDATE_DASHBOARD_TASKS
 } from './actions';
 
@@ -48,10 +48,10 @@ export const reducer = (state, action) => {
 				employeeModalOpen: action.employeeModalOpen
 			}
 
-		case FORCE_RENDER:
+		case UPDATE_TODO_COUNT:
 			return {
 				...state,
-				forceRender: action.forceRender
+				toDoCount: action.toDoCount
 			}	
 		default:
 			return state;

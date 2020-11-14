@@ -9,7 +9,8 @@ const StoreProvider = ({ value = [], ...props }) => {
 	const [state, dispatch] = useProjectivityReducer({
 		employeeModalOpen: false,
         employeeModalTask: {},
-        dashboardTasks: []
+		dashboardTasks: [],
+		toDoCount: 0,
 	  });
 	return <Provider value={[state, dispatch]} {...props} />;
 };

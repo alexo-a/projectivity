@@ -37,7 +37,7 @@
 blockquote {
     margin: .5rem;
     font-weight: lighter;
-    font-size: .8rem;
+    font-size: .9rem;
 }
 
 .taskTitle p {
@@ -65,7 +65,7 @@ blockquote {
 }
 
 .markIncomplete:hover {
-    color: var(--active);
+    color: rgb(224, 47, 47, 0.8);
 }
 
 
