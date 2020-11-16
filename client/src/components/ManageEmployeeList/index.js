@@ -21,9 +21,11 @@ function ManageEmployeeList({ employees, label, addCallback }) {
 	const employeeNames = employees.map(curEmployee => curEmployee.username).sort();
 
 	const addEmployee = async function() {
-		if (data) {
+		if ((addingUser) && (data)) {
 			if (data.findUser) {
 				addCallback(data.findUser._id);
+				setAddingUser(false);
+				findUser({ variables: { searchField: "" }}); // Run a dummy query to get invalid results.
 			} else {
 				alert("Invalid user!");
 			}

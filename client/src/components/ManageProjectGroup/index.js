@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from '@apollo/react-hooks';
 
 import ManageEmployeeList from "../ManageEmployeeList";
@@ -12,6 +12,7 @@ import "./style.css";
 
 function ManageProjectGroup({ group, refetch }) {
 	const [state, dispatch] = useStoreContext();
+	const [rerenderState, setRerenderState] = useState(0); // Dummy state to force rendering.
 	const [addManagerToGroup, ignoreMe] = useMutation(ADD_MANAGER_TO_GROUP);
 	const [addEmployeeToGroup, ignoreMe2] = useMutation(ADD_EMPLOYEE_TO_GROUP);
 
@@ -38,6 +39,7 @@ function ManageProjectGroup({ group, refetch }) {
 			);
 			
 			group[propName] = groupResult.data[mutName][propName];
+			setRerenderState(rerenderState + 1);
 		} catch (e) {
 			dispatch({
 				type: SHOW_ALERT_MODAL,

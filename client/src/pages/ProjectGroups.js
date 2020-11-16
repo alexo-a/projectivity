@@ -60,7 +60,7 @@ function ProjectGroups() {
 				type: SHOW_ALERT_MODAL,
 				modal: {
 					title: "Error",
-					text: e
+					text: e.toString()
 				}
 			});
         }

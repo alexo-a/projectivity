@@ -29,9 +29,19 @@ mutation createProjectGroup($title: String!) {
   addProjectGroup(title: $title) {
     _id
     title
-    managers
-    employees
-    projects
+    managers {
+      _id
+      username
+    }
+    employees {
+      _id
+      username
+    }
+    projects {
+      _id
+      title
+      description
+    }
   }
 }
 `;
