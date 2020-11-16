@@ -15,6 +15,7 @@ import "./style.css";
 
 function ProjectList({ projects, administrator, groupId }) {
 	const [state, dispatch] = useStoreContext();
+	const [rerenderState, setRerenderState] = useState(0); // Dummy state to force rendering.
 	const [openState, setOpenState] = useState(false);
 	const [addingProject, setAddingProject] = useState(false);
 	const [newProjectName, setNewProjectName] = useState("");
@@ -51,6 +52,11 @@ function ProjectList({ projects, administrator, groupId }) {
 			try {
 				setAddingProject(false);
 
+				if (!newProjectName) {
+					setNewProjectDescription("");
+					return;
+				}
+
 				const projectResult = await createProject( {
 					variables: {
 						groupId,
@@ -62,6 +68,7 @@ function ProjectList({ projects, administrator, groupId }) {
 				setNewProjectName("");
 				setNewProjectDescription("");
 				projects.push(projectResult.data.addProject);
+				setRerenderState(rerenderState + 1);
 			} catch (e) {
 				dispatch({
 					type: SHOW_ALERT_MODAL,
@@ -79,11 +86,12 @@ function ProjectList({ projects, administrator, groupId }) {
 	}
 
 	const validateProjectName = function(event) {
+		setNewProjectName(event.target.value);
+
 		if (!event.target.value) {
 			event.target.className = "invalid";
 		} else {
 			event.target.className = "";
-			setNewProjectName(event.target.value);
 		}
 	}
 
@@ -115,13 +123,13 @@ function ProjectList({ projects, administrator, groupId }) {
 					>
 						<form>
 							<div>
-								<input name="addProjectName" placeholder="Project Name" onChange={validateProjectName} onBlur={validateProjectName}></input>
+								<input name="addProjectName" placeholder="Project Name" value={newProjectName} onChange={validateProjectName} onBlur={validateProjectName}></input>
 								<button name="addButton" type="button" title="Add Project" className="redButton" onClick={addProject}>
 									<FontAwesomeIcon icon={faPlus} />
 								</button>
 							</div>
 							<div>
-								<textarea name="addProjectDescription" placeholder="Project description (optional)" onChange={descriptionChanged}></textarea>
+								<textarea name="addProjectDescription" placeholder="Project description (optional)" value={newProjectDescription} onChange={descriptionChanged}></textarea>
 							</div>
 						</form>
 					</CSSTransition>}
