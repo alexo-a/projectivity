@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, ProjectGroup, Project, Task, TimeSheetEntry } = require("../models");
+const { User, ProjectGroup, Project, Task, TimeSheetEntry, Conversation } = require("../models");
 const { populate } = require("../models/User");
 const { signToken } = require("../utils/auth");
 
@@ -173,6 +173,14 @@ const resolvers = {
                 .populate("employees")
 				//.populate("project");
 				.populate({ path: 'project', populate: { path: "managers" } });
+			}
+
+			throw new AuthenticationError('You need to be logged in!');
+		},
+		myConversations: async (parent, args, context) => {
+			if (context.user) {
+				return Conversation.find({ participants: context.user._id })
+				.populate("participants");
 			}
 
 			throw new AuthenticationError('You need to be logged in!');
@@ -420,7 +428,80 @@ const resolvers = {
 			}
 			
 			throw new AuthenticationError("You need to be logged in!");
-		}
+		},
+		startConversation: async (parent, { participants, initialMessage }, context) => {
+			if (context.user) {
+				// Instead of outright creating a new conversation, use updateOne + upsert ('update or insert') flag to add to an existing valid conversation if it exists.
+				return await Conversation.findOneAndUpdate(
+					{ participants: { $all: participants }},
+					{
+						participants,
+						$push: {
+							messages: {
+								sender: context.user._id,
+								message: initialMessage
+							}
+						},
+						read: [ context.user._id ]
+					},
+					{ upsert: true, new: true, runValidators: true });
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		},
+		joinConversation: async (parent, { conversationId, userId }, context) => {
+			if (context.user) {
+				return await Conversation.findByIdAndUpdate(conversationId, {
+					$addToSet: {
+						participants: userId
+					}
+				},
+				{ new: true });
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		},
+		leaveConversation: async (parent, { conversationId, userId }, context) => {
+			if (context.user) {
+				return await Conversation.findByIdAndUpdate(conversationId, {
+					$pull: {
+						participants: userId
+					}
+				},
+				{ new: true });
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		},
+		sendConversationMessage: async (parent, { conversationId, message }, context) => {
+			if (context.user) {
+				return await Conversation.findByIdAndUpdate(conversationId, {
+					$push: {
+						messages: {
+							sender: context.user._id,
+							message
+						}
+					}
+				},
+				{ new: true, runValidators: true });
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		},
+		markConversationRead: async (parent, { conversationId }, context) => {
+			if (context.user) {
+				await Conversation.findByIdAndUpdate(conversationId, {
+					$addToSet: {
+						read: context.user._id
+					}
+				},
+				{ new: true });
+
+				return true;
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		},
 	}
 };
 

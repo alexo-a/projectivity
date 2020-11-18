@@ -51,6 +51,19 @@ type TimeSheetEntry {
 	note: String
 }
 
+type ConversationMessage {
+	_id: ID
+	sender: User
+	sent: String
+}
+
+type Conversation {
+	_id: ID
+	participants: [User]
+	messages: [ConversationMessage]
+	read: [User]
+}
+
 type ProjectGroupListing {
 	administrator: [ProjectGroup]
 	member: [ProjectGroup]
@@ -76,6 +89,7 @@ type Query {
 	myGroups: ProjectGroupListing
 	myProjects: ProjectListing
 	myTasks: [Task]
+	myConversations: [Conversation]
 }
 
 type Mutation {
@@ -99,6 +113,11 @@ type Mutation {
 	addTimeSheetEntry(taskId: ID!, start: String!, end: String!, note: String): TimeSheetEntry
 	updateTimeSheetEntry(entryId: ID!, start: String, end: String, note: String): TimeSheetEntry
 	deleteTimeSheetEntry(entryId: ID!): String
+	startConversation(participants: [ID!], initialMessage: String): Conversation
+	joinConversation(conversationId: ID!, userId: ID!): Conversation
+	leaveConverstaion(conversationId: ID!, userId: ID!): Conversation
+	sendConversationMessage(conversationId: ID!, message: String!): Conversation
+	markConversationRead(conversationId: ID!): Boolean
 }
 `;
 
