@@ -54,6 +54,7 @@ type TimeSheetEntry {
 type ConversationMessage {
 	_id: ID
 	sender: User
+	message: String
 	sent: String
 }
 
@@ -115,7 +116,7 @@ type Mutation {
 	deleteTimeSheetEntry(entryId: ID!): String
 	startConversation(participants: [ID!], initialMessage: String): Conversation
 	joinConversation(conversationId: ID!, userId: ID!): Conversation
-	leaveConverstaion(conversationId: ID!, userId: ID!): Conversation
+	leaveConversation(conversationId: ID!, userId: ID!): Conversation
 	sendConversationMessage(conversationId: ID!, message: String!): Conversation
 	markConversationRead(conversationId: ID!): Boolean
 }

@@ -157,3 +157,56 @@ export const ADD_TASK = gql `
     }
   }
 `
+
+export const START_CONVERSATION = gql`
+mutation startConversation($participants: [ID!], $initialMessage: String) {
+  startConversation(participants: $participants, initialMessage: $initialMessage) {
+    _id
+    participants {
+      _id
+      username
+    }
+    messages {
+      _id
+      sender {
+        username
+      }
+      message
+      sent
+    }
+    read {
+      _id
+    }
+  }
+}
+`;
+
+export const JOIN_CONVERSATION = gql`
+mutation joinConversation($conversationId: ID!, $userId: ID!) {
+  joinConversation(conversationId: $conversationId, userId: $userId) {
+    _id
+  }
+}
+`;
+
+export const LEAVE_CONVERSATION = gql`
+mutation leaveConversation($conversationId: ID!, $userId: ID!) {
+  leaveConversation(conversationId: $conversationId, userId: $userId) {
+    _id
+  }
+}
+`;
+
+export const SEND_CONVERSATION_MESSAGE = gql`
+mutation sendConversationMessage($conversationId: ID!, $message: String!) {
+  sendConversationMessage(conversationId: $conversationId, message: $message) {
+    _id
+  }
+}
+`;
+
+export const MARK_CONVERSATION_READ = gql`
+mutation markConversationRead($conversationId: ID!) {
+  markConversationRead(conversationId: $conversationId)
+}
+`;

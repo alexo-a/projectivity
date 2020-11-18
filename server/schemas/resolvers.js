@@ -180,7 +180,8 @@ const resolvers = {
 		myConversations: async (parent, args, context) => {
 			if (context.user) {
 				return Conversation.find({ participants: context.user._id })
-				.populate("participants");
+				.populate("participants")
+				.populate({path: "messages", populate: {path: "sender"}});
 			}
 
 			throw new AuthenticationError('You need to be logged in!');
@@ -431,20 +432,19 @@ const resolvers = {
 		},
 		startConversation: async (parent, { participants, initialMessage }, context) => {
 			if (context.user) {
-				// Instead of outright creating a new conversation, use updateOne + upsert ('update or insert') flag to add to an existing valid conversation if it exists.
-				return await Conversation.findOneAndUpdate(
-					{ participants: { $all: participants }},
-					{
-						participants,
-						$push: {
-							messages: {
-								sender: context.user._id,
-								message: initialMessage
-							}
-						},
-						read: [ context.user._id ]
-					},
-					{ upsert: true, new: true, runValidators: true });
+				const convo = await Conversation.create({
+					participants,
+					messages: [
+						{
+							sender: context.user._id,
+							message: initialMessage
+						}
+					],
+					read: [ context.user._id ]
+				});
+
+				// TODO - Do we really NEED to immediately query the Conversation we just made???
+				return await Conversation.findById(convo._id).populate("participants").populate({path: "messages", populate: {path: "sender"}});
 			}
 
 			throw new AuthenticationError("You need to be logged in!");
@@ -456,7 +456,9 @@ const resolvers = {
 						participants: userId
 					}
 				},
-				{ new: true });
+				{ new: true })
+				.populate("participants")
+				.populate({path: "messages", populate: {path: "sender"}});
 			}
 
 			throw new AuthenticationError("You need to be logged in!");
@@ -468,7 +470,9 @@ const resolvers = {
 						participants: userId
 					}
 				},
-				{ new: true });
+				{ new: true })
+				.populate("participants")
+				.populate({path: "messages", populate: {path: "sender"}});
 			}
 
 			throw new AuthenticationError("You need to be logged in!");
@@ -483,7 +487,9 @@ const resolvers = {
 						}
 					}
 				},
-				{ new: true, runValidators: true });
+				{ new: true, runValidators: true })
+				.populate("participants")
+				.populate({path: "messages", populate: {path: "sender"}});
 			}
 
 			throw new AuthenticationError("You need to be logged in!");

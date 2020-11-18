@@ -170,6 +170,26 @@ query {
   }
 `;
 
+export const MY_CONVERSATIONS = gql`
+query {
+    myConversations {
+      _id
+      participants {
+        _id
+        username
+      }
+      messages {
+        _id
+        sender {
+          username
+        }
+        message
+        sent
+      }
+    }
+  }
+`;
+
 export const FIND_USER = gql`
 query findUser($searchField: String!) {
 	findUser(searchField: $searchField) {
