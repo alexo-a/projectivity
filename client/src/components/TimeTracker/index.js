@@ -185,10 +185,7 @@ function TimeTracker() {
 	}
 
 	if (!currentTask) {
-		document.querySelector("body").style.marginBottom = "";
 		return <></>;
-	} else {
-		document.querySelector("body").style.marginBottom = "60px";
 	}
 
 	return (

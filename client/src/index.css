@@ -44,6 +44,10 @@ a:hover {
     color: #1967d4;
 }
 
+body {
+    margin-bottom: 60px;
+}
+
 /* button */
 button {
     background-color: var(--button-default);
@@ -473,6 +477,25 @@ input.warning:-webkit-autofill {
     font-size: 1rem;
 }
 
+/* USER DISPLAY */
+span.displayUser {
+    color: var(--active);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+span.displayUser svg {
+    color: var(--active);
+    font-size: small;
+    margin-left: 4px;
+    opacity: 0.5;
+    transition: 0.5s;
+}
+
+span.displayUser:hover svg {
+    opacity: 0.75;
+}
+
 /* TIMESHEET */
 .createClockIn {
     display: flex;
@@ -642,6 +665,9 @@ div.loading {
     }
     .navIcon { 
         font-size: 1.2rem;
+    }
+    span.displayUser:not(:hover) {
+        color: inherit;
     }
 }
 

@@ -40,9 +40,9 @@ function App() {
                 <Nav></Nav>
                 <Conversations />
                 <TimeTracker></TimeTracker>
-                <AlertModal></AlertModal>
               </>
             ) : (<></>)}
+            <AlertModal></AlertModal>
             <div className="container">
               <Route exact path="/login" component={Login}/>
               <Route exact path="/signup" component={Signup}/>

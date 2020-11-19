@@ -169,6 +169,7 @@ mutation startConversation($participants: [ID!], $initialMessage: String) {
     messages {
       _id
       sender {
+        _id
         username
       }
       message

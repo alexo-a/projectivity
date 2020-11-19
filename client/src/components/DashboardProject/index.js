@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useStoreContext } from '../../utils/GlobalState';
 
 import { CSSTransition } from "react-transition-group";
+import DisplayUser from '../DisplayUser';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
     faChevronUp, faChevronDown
@@ -13,11 +14,11 @@ function DashBoardProject({ project, selectTaskCallback }) {
 	const [state, dispatch] = useStoreContext();
 	const [ openState, setOpenState ] = useState(false);
 
+	const projectRef = useRef(null);
+
 	const toggleOpenState = function() {
 		setOpenState(!openState);
 	}
-
-	console.log(project.managers);
 
 	return (<div className="dashboardProject card">
 		<div className="projectTitle">
@@ -25,14 +26,15 @@ function DashBoardProject({ project, selectTaskCallback }) {
 			<button type="button" className="redButton" onClick={toggleOpenState}><FontAwesomeIcon icon={(openState) ? faChevronUp : faChevronDown} /></button>
 		</div>
 		<CSSTransition
+				nodeRef={projectRef}
 				in={openState}
 				timeout={500}
 				classNames="open"
 			>
-			<div className="projectDescription">
+			<div className="projectDescription" ref={projectRef}>
 				<p>
 					<strong>Managers: </strong>
-					{project.projectManagers.map(curManager => <span>{curManager.username}</span>)}
+					{project.projectManagers.map(curManager => <DisplayUser key={curManager._id} user={curManager} />)}
 				</p>
 				<p>{project.projectDescription}</p>
 			</div>

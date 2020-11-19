@@ -15,7 +15,7 @@
 }
 
 .conversationAlert:hover {
-	color: #404040;
+	color: var(--active);
 }
 
 .conversationAlert svg {
@@ -58,7 +58,7 @@
 	background-color: var(--background);
 	border-radius: 8px;
 	margin: 20px;
-	padding: 20px;
+	padding: 10px 20px;
 }
 
 .conversationModalBG h3 {
@@ -96,6 +96,9 @@
 	max-height: 95%;
 }
 
+.conversationModalList {
+	overflow-y: auto;
+}
 
 .conversationModalList > div {
 	border-right: solid 1px var(--light-gray);
@@ -169,7 +172,7 @@
 }
 
 .conversationModalMessages span {
-	color: var(--charcoal);
+	color: gray;
 	font-style: italic;
 	padding: 2px 8px;
 }
@@ -194,6 +197,7 @@
 	background-color: var(--active);
 	color: white;
 	margin-left: 50px;
+	opacity: 0.8;
 }
 
 .conversationModalInputs {
@@ -205,6 +209,9 @@
 }
 
 .conversationModalInputs button {
+	align-items: center;
+	display: flex;
+	justify-content: center;
 	margin-top: 4px;
 }
 
@@ -241,6 +248,7 @@
 	
 	.conversationModalList li:not(.active):hover {
 		background-color: var(--background);
+		color: var(--active);
 	}
 
 	.conversationModalList li svg {
@@ -248,7 +256,12 @@
 		transition: 0.5s;
 	}
 
-	.conversationModalList li:hover svg, .conversationModalList li.active svg {
+	.conversationModalList li:not(.active):hover svg {
+		color: var(--active);
+		opacity: 1;
+	}
+
+	.conversationModalList li.active svg {
 		opacity: 1;
 	}
 

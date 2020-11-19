@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLazyQuery } from '@apollo/react-hooks';
 
+import DisplayUser from "../DisplayUser";
 import { CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
@@ -18,7 +19,15 @@ function ManageEmployeeList({ employees, label, addCallback }) {
 
 	const [findUser, { data }] = useLazyQuery(FIND_USER);
 
-	const employeeNames = employees.map(curEmployee => curEmployee.username).sort();
+	const employeeSorted = Array.from(employees).sort((a, b) => {
+		if (a.username < b.username) {
+			return -1;
+		} else if (a.username > b.username) {
+			return 1;
+		} else {
+			return 0;
+		}
+	});
 
 	const addEmployee = async function() {
 		if ((addingUser) && (data)) {
@@ -94,9 +103,11 @@ function ManageEmployeeList({ employees, label, addCallback }) {
 			>
 				<div>
 					<ol>
-						{employeeNames.map(curEmployee => {
+						{employeeSorted.map(curEmployee => {
 							return (
-								<li>{curEmployee}</li>
+								<li>
+									<DisplayUser user={curEmployee} />
+								</li>
 							)
 						})}
 					</ol>

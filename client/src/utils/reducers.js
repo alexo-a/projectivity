@@ -7,7 +7,9 @@ import {
 	CLEAR_ALERT_MODAL, 
     OPEN_ADD_EMPLOYEE_MODAL, 
     UPDATE_TODO_COUNT,
-    UPDATE_DASHBOARD_TASKS
+	UPDATE_DASHBOARD_TASKS,
+	QUEUE_CONVERSATION,
+	UNQUEUE_CONVERSATION
 } from './actions';
 
 export const reducer = (state, action) => {
@@ -53,6 +55,18 @@ export const reducer = (state, action) => {
 				...state,
 				toDoCount: action.toDoCount
 			}	
+		case QUEUE_CONVERSATION:
+			return {
+				...state,
+				conversation: action.participants
+			}
+		case UNQUEUE_CONVERSATION: {
+			let tmpState = { ...state };
+
+			delete tmpState.conversation;
+
+			return tmpState;
+		}
 		default:
 			return state;
 	}
