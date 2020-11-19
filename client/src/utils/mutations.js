@@ -200,7 +200,16 @@ mutation leaveConversation($conversationId: ID!, $userId: ID!) {
 export const SEND_CONVERSATION_MESSAGE = gql`
 mutation sendConversationMessage($conversationId: ID!, $message: String!) {
   sendConversationMessage(conversationId: $conversationId, message: $message) {
-    _id
+    _id,
+    messages {
+      _id
+      sender {
+        _id
+        username
+      }
+      message
+      sent
+    }
   }
 }
 `;

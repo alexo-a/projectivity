@@ -181,10 +181,14 @@ query {
       messages {
         _id
         sender {
+          _id
           username
         }
         message
         sent
+      }
+      read {
+          _id
       }
     }
   }

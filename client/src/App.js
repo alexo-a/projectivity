@@ -6,6 +6,7 @@ import Auth from "./utils/auth";
 import Dashboard from './pages/Dashboard';
 import { StoreProvider } from './utils/GlobalState';
 import Nav from './components/Nav';
+import Conversations from './components/Conversations';
 import TimeTracker from './components/TimeTracker';
 import AlertModal from './components/AlertModal';
 import Timesheet from './pages/Timesheet';
@@ -37,6 +38,7 @@ function App() {
             {Auth.loggedIn() ? (
               <>
                 <Nav></Nav>
+                <Conversations />
                 <TimeTracker></TimeTracker>
                 <AlertModal></AlertModal>
               </>

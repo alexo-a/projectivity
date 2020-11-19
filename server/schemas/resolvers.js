@@ -485,7 +485,8 @@ const resolvers = {
 							sender: context.user._id,
 							message
 						}
-					}
+					},
+					read: [ context.user._id ]
 				},
 				{ new: true, runValidators: true })
 				.populate("participants")
