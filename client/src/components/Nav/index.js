@@ -41,11 +41,13 @@ function Nav() {
                                 <FontAwesomeIcon icon={faGlobe} className="navIcon" /><span className="show-lg-up"> Groups</span>
                             </li>
                         </Link>
-                        <Link to="/projects"><li className="navGroup">
-                                <div className="flex align-center">
-                                    <FontAwesomeIcon icon={faTasks} className="navIcon" /><span className="show-lg-up">Projects</span>
-                                </div>
-                                <FontAwesomeIcon icon={faChevronDown} className="navChevron" />
+                        <li className="navGroup">
+                            <Link to="/projects">
+                                    <div className="flex align-center">
+                                        <FontAwesomeIcon icon={faTasks} className="navIcon" /><span className="show-lg-up">Projects</span>
+                                    </div>
+                                    <FontAwesomeIcon icon={faChevronDown} className="navChevron" />
+                                </Link>
                                 <div className="dropdownContainer">
                                     <div className="dropdownModal">
                                     <div className="dropdownGroup"> 
@@ -80,7 +82,7 @@ function Nav() {
                                         </div>
                                     </div>
                                 </div>
-                        </li></Link>
+                        </li>
                        <li className="navGroup">
                                 <div className="flex align-center">
                                     <FontAwesomeIcon icon={faChartPie} className="navIcon" /><span className="show-lg-up">Reports</span>

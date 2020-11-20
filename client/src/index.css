@@ -265,6 +265,15 @@ input.warning:-webkit-autofill {
     margin: .1rem 0 0 .5rem;
 }
 
+.navGroup > a {
+    align-items: center;
+    display: flex;
+}
+
+.navGroup:hover > a {
+    color: var(--active);
+}
+
 .userIcon {
     font-size: 2.5rem;
     margin: .5rem;
