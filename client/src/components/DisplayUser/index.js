@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import Auth from "../../utils/auth";
 import { useStoreContext } from '../../utils/GlobalState';
 import { SHOW_ALERT_MODAL, QUEUE_CONVERSATION } from "../../utils/actions";
@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function DisplayUser({ user }) {
-    const [state, dispatch] = useStoreContext();
+    const [, dispatch] = useStoreContext();
 
     const handleClick = function() {
         if (Auth.loggedIn()) {

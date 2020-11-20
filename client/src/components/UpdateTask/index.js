@@ -7,13 +7,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 function UpdateTask({ task }) {
-    const [updateTaskStatus, { error }] = useMutation(UPDATE_TASK_STATUS);
-    const [refreshState, setRefreshState] = useState({refresh: true});
+    const [updateTaskStatus] = useMutation(UPDATE_TASK_STATUS);
+    const [, setRefreshState] = useState({refresh: true});
 
     const handleTaskStatus = async function() {
         if (!task.completed) {
             try {
-                const update = await updateTaskStatus({
+                await updateTaskStatus({
                     variables: {
                         id: task._id,
                         completed: true
@@ -26,7 +26,7 @@ function UpdateTask({ task }) {
         }
         if (task.completed) {
             try {
-                const update = await updateTaskStatus({
+                await updateTaskStatus({
                     variables: {
                         id: task._id,
                         completed: false

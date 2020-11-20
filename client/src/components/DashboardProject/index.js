@@ -11,7 +11,7 @@ import {
 import "./style.css";
 
 function DashBoardProject({ project, selectTaskCallback }) {
-	const [state, dispatch] = useStoreContext();
+	const [state] = useStoreContext();
 	const [ openState, setOpenState ] = useState(false);
 
 	const projectRef = useRef(null);

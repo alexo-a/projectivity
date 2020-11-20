@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { CSSTransition } from "react-transition-group";
 import moment from "moment";
@@ -25,7 +25,9 @@ function TimeTracker() {
 	const [timerState, setTimerState] = useState(0);
 	const currentTask = state.timeSheetTask;
 
-	const [addTimesheetEntry, { error }] = useMutation(ADD_TIMESHEET_ENTRY);
+	const [addTimesheetEntry] = useMutation(ADD_TIMESHEET_ENTRY);
+
+	const trackerRef = useRef(null);
 
 	// Timer hook.
 	useEffect(() => {
@@ -190,11 +192,12 @@ function TimeTracker() {
 
 	return (
 		<CSSTransition
+			nodeRef={trackerRef}
 			in={openState}
 			timeout={500}
 			classNames="open"
 		>
-			<footer>
+			<footer ref={trackerRef}>
 				<div>
 					<div className="trackedTaskTitle">{currentTask.title}</div>
 					<div className="timerHolder">

@@ -10,11 +10,11 @@ import { useStoreContext } from '../../utils/GlobalState';
 
 import "./style.css";
 
-function ManageProjectGroup({ group, refetch }) {
-	const [state, dispatch] = useStoreContext();
+function ManageProjectGroup({ group }) {
+	const [, dispatch] = useStoreContext();
 	const [rerenderState, setRerenderState] = useState(0); // Dummy state to force rendering.
-	const [addManagerToGroup, ignoreMe] = useMutation(ADD_MANAGER_TO_GROUP);
-	const [addEmployeeToGroup, ignoreMe2] = useMutation(ADD_EMPLOYEE_TO_GROUP);
+	const [addManagerToGroup] = useMutation(ADD_MANAGER_TO_GROUP);
+	const [addEmployeeToGroup] = useMutation(ADD_EMPLOYEE_TO_GROUP);
 
 	const doAddCallback = async function(propName, mutName, callback, userId) {
         if (!userId) {

@@ -18,12 +18,12 @@ import { useStoreContext } from '../utils/GlobalState';
 function Timesheet() {
     const userId = Auth.getUserInfo()._id;
 
-    const [state, dispatch] = useStoreContext();
+    const [, dispatch] = useStoreContext();
     const [editEntry, setEditEntry] = useState({});
     const [timeSheetStart, setTimeSheetStart] = useState(moment().startOf("week"));
 
-    const [updateTimesheetEntry, { updateError }] = useMutation(UPDATE_TIMESHEET_ENTRY);
-    const [deleteTimesheetEntry, { deleteError }] = useMutation(DELETE_TIMESHEET_ENTRY);
+    const [updateTimesheetEntry] = useMutation(UPDATE_TIMESHEET_ENTRY);
+    const [deleteTimesheetEntry] = useMutation(DELETE_TIMESHEET_ENTRY);
     const { loading, data } = useQuery(QUERY_MY_TIMESHEETS,
         {
             variables: {
@@ -130,7 +130,6 @@ function Timesheet() {
                 variables
             });
 
-            let updatedInfo = processTimesheetEntry(updateResponse.data.updateTimeSheetEntry);
             let changeMe = data.timesheets.findIndex(item => item._id === editEntry._id);
 
             data.timesheets[changeMe] = {

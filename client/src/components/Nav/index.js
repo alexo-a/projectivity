@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from "../../assets/images/Projectivity.png";
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-    faUserClock, faTasks, faGlobe, faChartPie, faUserCircle, faChevronDown, faUserCog, faDoorOpen, faHouseUser, faPlus, faUser
+    faUserClock, faTasks, faGlobe, faChartPie, faUserCircle, faChevronDown, faUserCog, faDoorOpen, faHouseUser, faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@apollo/react-hooks';
 import { QUERY_MY_PROJECTS } from '../../utils/queries';

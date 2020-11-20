@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useLazyQuery } from '@apollo/react-hooks';
 
 import DisplayUser from "../DisplayUser";
@@ -18,6 +18,8 @@ function ManageEmployeeList({ employees, label, addCallback }) {
 	const [addingUser, setAddingUser] = useState(false);
 
 	const [findUser, { data }] = useLazyQuery(FIND_USER);
+
+	const listRef = useRef(null);
 
 	const employeeSorted = Array.from(employees).sort((a, b) => {
 		if (a.username < b.username) {
@@ -97,15 +99,16 @@ function ManageEmployeeList({ employees, label, addCallback }) {
 		<div className="employeeList">
 			<button type="button" title={(!employees.length) ? "Add " + label : ""} onClick={toggleOpenState}>{expandButtonText()} <FontAwesomeIcon icon={(openState) ? faChevronUp : faChevronDown} /></button>
 			<CSSTransition
+				nodeRef={listRef}
 				in={openState}
 				timeout={500}
 				classNames="open"
 			>
-				<div>
+				<div ref={listRef}>
 					<ol>
 						{employeeSorted.map(curEmployee => {
 							return (
-								<li>
+								<li key={curEmployee._id}>
 									<DisplayUser user={curEmployee} />
 								</li>
 							)

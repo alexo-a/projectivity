@@ -67,9 +67,9 @@ function Dashboard() {
 
     let {dashboardTasks: tasks} = state; //data?.myTasks || null;
     
-    function addIDBTasks (tasksIn) {
+/*    function addIDBTasks (tasksIn) {
         tasks.push(tasksIn)
-    }
+    }*/
         
     useEffect(() => {
         if (data) {

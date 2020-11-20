@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useMutation } from '@apollo/react-hooks';
 
 import { CREATE_PROJECT } from "../../utils/mutations";
@@ -14,7 +14,7 @@ import {
 import "./style.css";
 
 function ProjectList({ projects, administrator, groupId }) {
-	const [state, dispatch] = useStoreContext();
+	const [, dispatch] = useStoreContext();
 	const [rerenderState, setRerenderState] = useState(0); // Dummy state to force rendering.
 	const [openState, setOpenState] = useState(false);
 	const [addingProject, setAddingProject] = useState(false);
@@ -22,7 +22,10 @@ function ProjectList({ projects, administrator, groupId }) {
 	const [newProjectDescription, setNewProjectDescription] = useState("");
 	const projectTitles = projects.map(curProject => curProject.title).sort();
 
-	const [createProject, { error }] = useMutation(CREATE_PROJECT);
+	const [createProject] = useMutation(CREATE_PROJECT);
+
+	const projectRef = useRef(null);
+	const addRef = useRef(null);
 
 	const toggleOpenState = function() {
 		if ((administrator) || (projects.length)) {
@@ -103,25 +106,27 @@ function ProjectList({ projects, administrator, groupId }) {
 		<div className="projectList">
 			<button type="button" className={(!administrator && !projects.length) ? "empty" : ""} onClick={toggleOpenState}><span>{expandButtonText()}</span>{!!projects.length && <FontAwesomeIcon icon={(openState) ? faChevronUp : faChevronDown} />}</button>
 			<CSSTransition
+				nodeRef={projectRef}
 				in={openState}
 				timeout={500}
 				classNames="open"
 			>
-				<div>
+				<div ref={projectRef}>
 					<ol>
 						{projectTitles.map(curProject => {
 							return (
-								<li>{curProject}</li>
+								<li key={curProject}>{curProject}</li>
 							)
 						})}
 					</ol>
 					{administrator &&
 					<CSSTransition
+						nodeRef={addRef}
 						in={addingProject}
 						timeout={500}
 						classNames="adding"
 					>
-						<form>
+						<form ref={addRef}>
 							<div>
 								<input name="addProjectName" placeholder="Project Name" value={newProjectName} onChange={validateProjectName} onBlur={validateProjectName}></input>
 								<button name="addButton" type="button" title="Add Project" className="redButton" onClick={addProject}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,11 +17,12 @@ import { useStoreContext } from '../utils/GlobalState';
 import "./ProjectGroup.css";
 
 function ProjectGroups() {
-    const [state, dispatch] = useStoreContext();
-    const { loading, data, refetch } = useQuery(MY_GROUPS);
+    const [, dispatch] = useStoreContext();
+    const { loading, data } = useQuery(MY_GROUPS);
     const [ showAddGroup, setShowAddGroup ] = useState(false);
-    const [createProjectGroup, { error }] = useMutation(CREATE_PROJECT_GROUP);
+    const [createProjectGroup] = useMutation(CREATE_PROJECT_GROUP);
 
+    const addRef = useRef(null);
     const groups = data?.myGroups;
 
     const toggleAddingGroup = function() {
@@ -81,7 +82,7 @@ function ProjectGroups() {
                         {
                             groups.administrator.map(curGroup =>{
                                 return (<ManageProjectGroup
-                                    key={curGroup.id}
+                                    key={curGroup._id}
                                     group={curGroup}
                                 />);
                             })
@@ -90,11 +91,12 @@ function ProjectGroups() {
                 </>
             ) : <></> }
             <CSSTransition
+                nodeRef={addRef}
                 in={showAddGroup}
                 timeout={500}
                 classNames="open"
 		    >
-                <div className="addGroupForm">
+                <div className="addGroupForm" ref={addRef}>
                     <h3>
                         { (showAddGroup) ?
                             "Adding a Group" :

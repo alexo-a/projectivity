@@ -10,7 +10,7 @@ function Signup(props)  {
         email: '', username: '', password: '', passwordCheck: ''
     });
     const [errorState, setErrorState] = useState({ user: false, email: false, password: false, passLength: false });
-    const [addUser, { error }] = useMutation(ADD_USER);
+    const [addUser] = useMutation(ADD_USER);
 
     const handleFormSubmit = async event => {
         event.preventDefault();

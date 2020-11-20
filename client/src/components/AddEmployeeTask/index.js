@@ -13,7 +13,7 @@ import './index.css'
 function AddEmployeeTask() {
     const [ state, dispatch ] = useStoreContext();
     const [ selectedState, setSelectedState ] = useState([]);
-    const [addEmployeesToTask, { error }] = useMutation(UPDATE_EMPLOYEES_TASK);
+    const [addEmployeesToTask] = useMutation(UPDATE_EMPLOYEES_TASK);
 
     if (!state.employeeModalOpen) {
         return (
@@ -21,9 +21,9 @@ function AddEmployeeTask() {
         )
     }
 
-    if (!selectedState.length) {
+/*    if (!selectedState.length) {
        const users = state.employeeModalTask.group.map(employee => employee._id);
-    }
+    }*/
 
 
     function handleToggleUser(id) {

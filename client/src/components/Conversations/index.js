@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import Auth from "../../utils/auth";
 import { CSSTransition } from "react-transition-group";
-import moment from "moment";
+//import moment from "moment";
 
 import { MY_CONVERSATIONS } from "../../utils/queries";
 import {
@@ -31,14 +31,13 @@ function Conversations() {
 	const [showMessageList, setShowMessageList] = useState(false);
 	//const [editingUsers, setEditingUsers] = useState(false);
 	const [curMessage, setCurMessage] = useState('');
-	const [rerenderState, setRerenderState] = useState(0); // Dummy state to force rendering.
 
-	const { loading, data } = useQuery(MY_CONVERSATIONS, { pollInterval: 5000 });
-	const [ startConversation, { startError } ] = useMutation(START_CONVERSATION);
-	//const [ addToConversation, { joinError } ] = useMutation(JOIN_CONVERSATION);
-	//const [ leaveConversation, { leaveError } ] = useMutation(LEAVE_CONVERSATION);
-	const [ sendMessage, { sendError } ] = useMutation(SEND_CONVERSATION_MESSAGE);
-	const [ markConversationRead, { readError } ] = useMutation(MARK_CONVERSATION_READ);
+	const { data } = useQuery(MY_CONVERSATIONS, { pollInterval: 5000 });
+	const [ startConversation ] = useMutation(START_CONVERSATION);
+	//const [ addToConversation ] = useMutation(JOIN_CONVERSATION);
+	//const [ leaveConversation ] = useMutation(LEAVE_CONVERSATION);
+	const [ sendMessage ] = useMutation(SEND_CONVERSATION_MESSAGE);
+	const [ markConversationRead ] = useMutation(MARK_CONVERSATION_READ);
 
 	const messageListRef = useRef(null);
 	const messageHistoryRef = useRef(null);
@@ -46,66 +45,66 @@ function Conversations() {
 	const myId = Auth.getUserInfo()._id;
 	const conversations = data?.myConversations || [];
 
-	const determineCurrentConversation = function() {
-		if (state.conversation) {
-			setOpenState(true);
-			setShowMessageList(true);
-			setActiveConvo('');
-
-			return {
-				participants: state.conversation,
-				messages: []
-			}
-		} else {
-			let myConvo = conversations.find(convo => convo._id === activeConvo) || { participants: [], messages: []};
-			setActiveConvo(myConvo._id);
-			return myConvo;
-		}
-	}
-
 	useEffect(() => {
+		const determineCurrentConversation = function() {
+			if (state.conversation) {
+				setOpenState(true);
+				setShowMessageList(true);
+				setActiveConvo('');
+	
+				return {
+					participants: state.conversation,
+					messages: []
+				}
+			} else {
+				let myConvo = data?.myConversations.find(convo => convo._id === activeConvo) || { participants: [], messages: []};
+				setActiveConvo(myConvo._id);
+				return myConvo;
+			}
+		}
+
 		setCurrentConvo(determineCurrentConversation());
-	}, [ activeConvo, state.conversation]);
+	}, [ activeConvo, state.conversation, data?.myConversations]);
 
 	// When we get back conversation info, set active convo to the newest one if user isn't currently using the widget.
 	useEffect(() => {
-		setUnreadCount(conversations.filter(convo => !convo.read.find(myRead => myRead._id === myId)).length);
+		if(data?.myConversations) {
+			setUnreadCount(data.myConversations.filter(convo => !convo.read.find(myRead => myRead._id === myId)).length);
 
-		if(conversations) {
 			if (!openState) {
 				let selectedConvo = -1;
 				let selectedDate = 0;
-				for(let i = 0; i < conversations.length; i++) {
-					if (conversations[i].messages[conversations[i].messages.length - 1].sent > selectedDate) {
+				for(let i = 0; i < data.myConversations.length; i++) {
+					if (data.myConversations[i].messages[data.myConversations[i].messages.length - 1].sent > selectedDate) {
 						selectedConvo = i;
 					}
 				}
 
-				setActiveConvo(selectedConvo < 0 ? '' : conversations[selectedConvo]._id);
+				setActiveConvo(selectedConvo < 0 ? '' : data.myConversations[selectedConvo]._id);
 			}
 		}
+	}, [data?.myConversations, myId, openState]);
 
-		setRerenderState(rerenderState + 1);
-	}, [conversations]);
+	useEffect(() => {
+		async function doUpdate() {
+			if (openState) {
+				messageHistoryRef.current.scrollTop = messageHistoryRef.current.scrollHeight;
+				messageInputRef.current.focus();
 
-	useEffect(async () => {
-		setRerenderState(rerenderState + 1);
-
-		if (openState) {
-			messageHistoryRef.current.scrollTop = messageHistoryRef.current.scrollHeight;
-			messageInputRef.current.focus();
-
-			if ((currentConvo._id) && (!currentConvo.read.find(myRead => myRead._id === myId))) {
-				try {
-					await markConversationRead({variables: { conversationId: currentConvo._id } });
-					currentConvo.read.push({ _id: myId });
-					setUnreadCount(conversations.filter(convo => !convo.read.find(myRead => myRead._id === myId)).length);
-				} catch (e) {
-					console.log(e.toString());
+				if ((currentConvo._id) && (!currentConvo.read.find(myRead => myRead._id === myId))) {
+					try {
+						await markConversationRead({variables: { conversationId: currentConvo._id } });
+						currentConvo.read.push({ _id: myId });
+						setUnreadCount(data.myConversations.filter(convo => !convo.read.find(myRead => myRead._id === myId)).length);
+					} catch (e) {
+						console.log(e.toString());
+					}
 				}
 			}
 		}
-	}, [ currentConvo.messages ]);
+
+		doUpdate();
+	}, [data?.myConversations, currentConvo, openState, myId, markConversationRead]);
 
 	const toggleOpenState = function() {
 		setOpenState(!openState);

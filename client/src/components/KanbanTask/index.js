@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useStoreContext } from "../../utils/GlobalState";
 import { OPEN_ADD_EMPLOYEE_MODAL } from "../../utils/actions";
 import { REMOVE_EMPLOYEE_FROM_TASK } from '../../utils/mutations';
-import { UPDATE_TASK_STATUS } from '../../utils/mutations';
+//import { UPDATE_TASK_STATUS } from '../../utils/mutations';
 import { 
      faChevronUp, faTimes, faPlus, faCheck
 } from '@fortawesome/free-solid-svg-icons';
@@ -13,11 +13,11 @@ import UpdateTask from '../../components/UpdateTask'
 import './index.css'
 
 function KanbanTask({ task, project, group }) {
-    const [state, dispatch] = useStoreContext();
+    const [, dispatch] = useStoreContext();
     const [expandState, setExpandState] = useState(false);
     const [deleteState, setDeleteState] = useState({ selected: false, id: ''});
 
-    const [removeEmployeeFromTask, { error }] = useMutation(REMOVE_EMPLOYEE_FROM_TASK);
+    const [removeEmployeeFromTask] = useMutation(REMOVE_EMPLOYEE_FROM_TASK);
     
 
     const toggleExpand = function() {
@@ -56,7 +56,7 @@ function KanbanTask({ task, project, group }) {
         }
     }
 
-    console.log(task)
+    //console.log(task)
 
     
     return (

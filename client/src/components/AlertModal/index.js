@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useStoreContext } from '../../utils/GlobalState';
 import { CLEAR_ALERT_MODAL } from "../../utils/actions";

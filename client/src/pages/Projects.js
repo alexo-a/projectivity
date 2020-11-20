@@ -13,9 +13,9 @@ import AddEmployeeTask from '../components/AddEmployeeTask';
 import './index.css';
 
 function Projects() {
-    const [state, dispatch] = useStoreContext();
-    const { id: projectId, userId: userId } = useParams();
-    const [addTask, { error }] = useMutation(ADD_TASK);
+    const [, dispatch] = useStoreContext();
+    const { id: projectId, userId } = useParams();
+    const [addTask] = useMutation(ADD_TASK);
     const { loading, data, refetch } = useQuery(QUERY_PROJECT, {
         variables: { id: projectId }
     });

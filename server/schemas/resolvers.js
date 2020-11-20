@@ -370,7 +370,6 @@ const resolvers = {
 			throw new AuthenticationError('You need to be logged in!');
 		},
 		updateTaskStatus: async(parent, { id, completed }, context) => {
-			console.log(id);
 			if (context.user) {
 				const response = await Task.findOneAndUpdate({ _id: id }, { $set: { completed: completed }}, { new: true });
 				return response; 
