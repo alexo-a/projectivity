@@ -45,6 +45,7 @@ function Conversations() {
 	const myId = Auth.getUserInfo()._id;
 	const conversations = data?.myConversations || [];
 
+	// Controls activeConvo and related settings.
 	useEffect(() => {
 		const determineCurrentConversation = function() {
 			if (state.conversation) {
@@ -88,8 +89,10 @@ function Conversations() {
 	useEffect(() => {
 		async function doUpdate() {
 			if (openState) {
-				messageHistoryRef.current.scrollTop = messageHistoryRef.current.scrollHeight;
-				messageInputRef.current.focus();
+				if (messageHistoryRef.current) {
+					messageHistoryRef.current.scrollTop = messageHistoryRef.current.scrollHeight;
+					messageInputRef.current.focus();
+				}
 
 				if ((currentConvo._id) && (!currentConvo.read.find(myRead => myRead._id === myId))) {
 					try {
@@ -109,11 +112,7 @@ function Conversations() {
 	const toggleOpenState = function() {
 		setOpenState(!openState);
 
-		if (openState) {
-			if ((!state.conversation) && (!activeConvo)) {
-
-			}
-		} else if (state.conversation) {
+		if (state.conversation) {
 			dispatch({ type: UNQUEUE_CONVERSATION });
 		}
 	}
@@ -197,7 +196,7 @@ function Conversations() {
 		}
 	}
 
-	if (!conversations?.length) {
+	if ((!conversations?.length) && (!currentConvo?.participants?.length)) {
 		return <></>;
 	}
 
