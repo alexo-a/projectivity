@@ -19,9 +19,13 @@ function DisplayUser({ user }) {
 				type: SHOW_ALERT_MODAL,
 				modal: {
 					title: "Sign Up Required",
-                    text: "You need an account to message other users.  Proceed to signup?",
+                    text: "You must be logged in to message other users.",
                     buttons: {
-                        Ok: () => {
+                        "Log In": () => {
+                            window.location.assign('/login');
+                            queueConversation();
+                        },
+                        "Sign Up": () => {
                             window.location.assign('/signup');
                             queueConversation();
                         },
