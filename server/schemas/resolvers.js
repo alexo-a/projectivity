@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, ProjectGroup, Project, Task, TimeSheetEntry, Conversation } = require("../models");
+const { User, ProjectGroup, Project, Task, TimeSheetEntry, Conversation, JobPosting } = require("../models");
 const { populate } = require("../models/User");
 const { signToken } = require("../utils/auth");
 
@@ -185,6 +185,27 @@ const resolvers = {
 			}
 
 			throw new AuthenticationError('You need to be logged in!');
+		},
+		getJobPosting: async (parent, {postId}, context) => {
+			return JobPosting.findById(postId)
+			.populate("owner")
+			.populate("group");
+		},
+		searchJobPostings: async (parent, { searchString, page, pageSize}, context) => {
+			const searchFilter = (searchString) ? { $text: { $search: searchString } } : {};
+			const totalCount = await JobPosting.find(searchFilter).countDocuments();
+			const postings = await JobPosting.find(searchFilter).populate("owner")
+												.populate("group")
+												.sort({ posted: -1 })
+												.skip(page * pageSize)
+												.limit(pageSize);
+
+			return {
+				page,
+				pageSize,
+				totalCount,
+				postings
+			};
 		}
 	},
 	Mutation: {
@@ -508,6 +529,31 @@ const resolvers = {
 
 			throw new AuthenticationError("You need to be logged in!");
 		},
+		addJobPosting: async (parent, { groupId, title, description }, context) => {
+			if (context.user) {
+				return JobPosting.create({group: groupId, owner: context.user._id, title, description });
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		},
+		updateJobPosting: async (parent, args, context) => {
+			if (context.user) {
+				return JobPosting.findOneAndUpdate({ _id: args.postId, owner: context.user._id }, args, { new: true })
+				.populate("group")
+				.populate("owner");
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		},
+		deleteJobPosting: async (parent, { postId }, context) => {
+			if (context.user) {
+				const result = await JobPosting.findOneAndDelete({ _id: postId, owner: context.user._id });
+
+				return !!result;
+			}
+
+			throw new AuthenticationError("You need to be logged in!");
+		}
 	}
 };
 

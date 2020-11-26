@@ -65,6 +65,15 @@ type Conversation {
 	read: [User]
 }
 
+type JobPosting {
+	_id: ID
+	title: String
+	description: String
+	owner: User
+	group: ProjectGroup
+	posted: String
+}
+
 type ProjectGroupListing {
 	administrator: [ProjectGroup]
 	member: [ProjectGroup]
@@ -74,6 +83,13 @@ type ProjectListing {
 	administrator: [Project]
 	manager: [Project]
 	employee: [Project]
+}
+
+type JobPostingPage {
+	page: Int
+	pageSize: Int
+	totalCount: Int
+	postings: [JobPosting]
 }
 
 type Query {
@@ -91,6 +107,8 @@ type Query {
 	myProjects: ProjectListing
 	myTasks: [Task]
 	myConversations: [Conversation]
+	getJobPosting(postId: ID!): JobPosting
+	searchJobPostings(searchString: String, page: Int!, pageSize: Int!): JobPostingPage
 }
 
 type Mutation {
@@ -119,6 +137,9 @@ type Mutation {
 	leaveConversation(conversationId: ID!, userId: ID!): Conversation
 	sendConversationMessage(conversationId: ID!, message: String!): Conversation
 	markConversationRead(conversationId: ID!): Boolean
+	addJobPosting(groupId: ID!, title: String!, description: String!): JobPosting
+	updateJobPosting(postId: ID!, title: String, description: String): JobPosting
+	deleteJobPosting(postId: ID!): Boolean
 }
 `;
 
