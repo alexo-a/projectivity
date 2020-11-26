@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useMutation } from '@apollo/react-hooks';
 import Auth from "../utils/auth";
 import { ADD_USER } from "../utils/mutations";
@@ -57,6 +57,10 @@ function Signup(props)  {
         !formState.password.length && formState.passwordCheck.length >= 5 ? ''
         : formState.passwordCheck === formState.password ? 'passCheckTrue'
         : 'passCheckFalse'
+
+    if (Auth.loggedIn()) {
+        return <Redirect to="/" />
+    }
 
     return (
         <div className="logInContainer">

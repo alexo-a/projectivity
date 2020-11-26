@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import logo from "../assets/images/Projectivity.png";
 import { useMutation } from '@apollo/react-hooks';
 import { LOGIN } from "../utils/mutations"
@@ -40,6 +40,10 @@ const Login = (props) => {
           [name]: value
         });
     };
+
+    if (Auth.loggedIn()) {
+        return <Redirect to="/" />
+    }
 
     return (
         <div className="logInContainer">
