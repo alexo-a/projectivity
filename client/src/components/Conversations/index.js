@@ -197,6 +197,10 @@ function Conversations() {
 		}
 	}
 
+	if (!conversations?.length) {
+		return <></>;
+	}
+
 	return <>
 	{openState && (<div className="conversationModalBG" onClick={modalClick}>
 		<div className="conversationModal">
