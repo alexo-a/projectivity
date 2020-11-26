@@ -220,13 +220,15 @@ function TimeTracker() {
 							/>
 							<button type="button" onClick={startTimeNow}>Now</button>
 						</div>
-						<div>
+						<div className="endTimeHolder">
 							<label htmlFor="endTime">End Time:</label>
 							<DateTime
 								value={endTime}
 								onChange={onEndTimeChanged}
 								closeOnSelect={true}
-								inputProps={{ name: "endTime" }}
+								renderInput={(props) => {
+									return <input {...props} name="endTime" autocomplete="off" value={(endTime) ? props.value : ''} />
+								}}
 							/>
 							<button type="button" onClick={endTimeNow}>Now</button>
 						</div>
