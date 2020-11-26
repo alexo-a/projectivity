@@ -1,5 +1,5 @@
 import React from "react";
-import { getCurrentWeekInfo } from "../../utils/helpers"
+import { getCurrentWeekInfo, createProjectReportPDF } from "../../utils/helpers"
 import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from 'react-router-dom';
@@ -13,7 +13,15 @@ function processProjectTimeSheets(timesheets) {
         return timesheet.task._id
     }));
 
-    compilation = [...uniqueTasks].map(id => { return { taskId: id, taskTitle: "", users: [], totalTime: 0 } })
+    compilation = [...uniqueTasks].map(id => {
+        return {
+            taskId: id, 
+            taskTitle: "", 
+            users: [], 
+            totalTime: 0,
+            status: "In Progress" 
+        } 
+    })
 
     for (let i in timesheets) {
         let log = {
@@ -26,7 +34,7 @@ function processProjectTimeSheets(timesheets) {
             if (log.taskId === compilation[j].taskId) {
                 compilation[j].taskTitle = log.taskTitle;
                 compilation[j].totalTime += log.duration;
-
+                compilation[j].status = timesheets[i].task.status ? "Complete" : "In Progress"
                 let timesheetLogged = false;
                 for (let k in compilation[j].users) {
                     if (log.username === compilation[j].users[k].username) {
@@ -36,7 +44,10 @@ function processProjectTimeSheets(timesheets) {
                     }
                 }
                 if (!timesheetLogged) {
-                    compilation[j].users.push({ username: log.username, duration: log.duration })
+                    compilation[j].users.push({ 
+                        username: log.username, 
+                        duration: log.duration 
+                    })
                 }
 
             }
@@ -80,9 +91,16 @@ function ProjectReport() {
         console.dir(compilationInfo)
     }
 
+    function generatePDF(data){
+        createProjectReportPDF(data, projectTitle)
+    }
 
     return (
         <div>
+            <div className="text-center">
+                <button onClick={() => {generatePDF(compilationInfo)}}>Download PDF Version</button>
+            </div>
+            
             <h2 className="text-center" id="projectName">{projectTitle}</h2>
             <h3 className="text-center" id="reportDescription">Project Progress Report</h3>
             <h3 className="text-center" id="date">As of {today}</h3>
