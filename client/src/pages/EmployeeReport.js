@@ -1,9 +1,10 @@
 import React from "react";
-import { getCurrentWeekInfo } from "../utils/helpers"
+import { createEmployeeReportPDF, getCurrentWeekInfo } from "../utils/helpers"
 import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TIMESHEETS } from "../utils/queries";
 import EmployeeReportChart from "../components/EmployeeReportChart"
+import util from "util"
 
 function processTimeSheets(timesheets) {
     //processed the time sheets, extracting the project info, task info, and duration info.
@@ -37,7 +38,7 @@ function processTimeSheets(timesheets) {
             projectTitle: timesheets[i].task.project.title,
             taskId: timesheets[i].task._id,
             taskTitle: timesheets[i].task.title,
-            duration: parseFloat(((parseInt(timesheets[i].end) - parseInt(timesheets[i].start)) / 3600000).toFixed(2))
+            duration: parseFloat(((parseInt(timesheets[i].end) - parseInt(timesheets[i].start)) / 3600000))//.toFixed(2))
         }
         totalHours +=log.duration;
         for (let j in compilation) {
@@ -68,33 +69,32 @@ function processTimeSheets(timesheets) {
     for (let i in compilation){
         for (let j in compilation[i].tasks){
             let newLabel = compilation[i].projectTitle + " - " + compilation[i].tasks[j].taskTitle
-            let newData = compilation[i].tasks[j].duration
-            console.log(newLabel, newData)
+            let newData = compilation[i].tasks[j].duration.toFixed(2)
+            //console.log(newLabel, newData)
             dataForChart.labels.push(newLabel);
             dataForChart.datasets[0].data.push(newData)
         }
     }
-    console.log(dataForChart)
+    //console.log(dataForChart)
     //you must import util for the following line to work:
-    //console.log(util.inspect(compilation, true, null, true))
+    //console.log(util.inspect(compilation, true, null, false))
     return {compilation, totalHours, dataForChart}
 }
 
 function EmployeeReport() {
     const weekInfo = getCurrentWeekInfo();
     const weekNumber = weekInfo.weekNumber;
-    const weekStart = weekInfo.weekStartDate;
+    const weekStartDate = weekInfo.weekStartDate;
+    const weekStartLegible = weekInfo.weekStartLegible;
     const userInfo = Auth.getUserInfo();
     const username = userInfo.username;
     const userId = userInfo._id;
-
-    //console.log(userInfo)
     //get the logged-in user's timesheets from the current week.
     const { loading, data } = useQuery(QUERY_MY_TIMESHEETS,
         {
             variables: {
                 userId,
-                start: new Date(weekStart)
+                start: new Date(weekStartDate)
             }
         }
     );
@@ -107,20 +107,28 @@ function EmployeeReport() {
     }
 
     if (!loading) {
-        //console.log(JSON.stringify(timesheets))
+        //console.log(util.inspect(timesheets, true, null, true))
         compilationInfo = processTimeSheets(timesheets)
-        console.log(compilationInfo.dataForChart)
+        //console.log(compilationInfo.dataForChart)
     }
+
+    function generateEmployeePDF(data){
+        createEmployeeReportPDF(data, username)
+    }
+    
 
     return (
         <div key="EmployeeReport">
             {compilationInfo.compilation.length > 0 ? (
                 <>
+                    <div className="text-center">
+                        <button onClick={() => { generateEmployeePDF(compilationInfo,username) }}>Download PDF Version</button>
+                    </div>
             <h2 className="text-center" id="projectName">
                 Weekly Progress Report for {username}
             </h2>
             <h3 className="text-center" id="date">
-                Week of {weekStart} (W{weekNumber})
+                Week of {weekStartLegible} (W{weekNumber})
             </h3>
             <h5 className="text-center">
                         Time Logged: <span>{compilationInfo.totalHours.toFixed(2)}</span>
@@ -151,7 +159,7 @@ function EmployeeReport() {
                                                 {task.taskTitle}
                                             </div>
                                             <div className="text-center text-mid">
-                                                {task.duration}
+                                                {task.duration.toFixed(2)}
                                             </div>
                                         </>
                                     ))}
@@ -163,6 +171,7 @@ function EmployeeReport() {
                     </div>
                 ) : null}
             </div >
+
             <EmployeeReportChart data={compilationInfo.dataForChart} username={username} />
             </>
             ) : <h2>You don't have any timesheets logged this week!</h2>}
