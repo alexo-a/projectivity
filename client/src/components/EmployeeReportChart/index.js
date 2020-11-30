@@ -3,6 +3,7 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import 'chartjs-plugin-colorschemes';
+import 'chartjs-plugin-labels';
 
 function EmployeeReportChart({ data, username, ref }) {
     var scheme = "office.Apothecary6"
@@ -24,6 +25,10 @@ function EmployeeReportChart({ data, username, ref }) {
         plugins: {
             colorschemes: {
                 scheme: scheme
+            },
+            labels: {
+                render: "value",
+                precision: 2
             }
         }
     }

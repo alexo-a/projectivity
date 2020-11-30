@@ -12,6 +12,7 @@
     "apollo-link-context": "^1.0.20",
     "chart.js": "^2.9.4",
     "chartjs-plugin-colorschemes": "^0.4.0",
+    "chartjs-plugin-labels": "^1.1.0",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "jwt-decode": "^3.0.0",
