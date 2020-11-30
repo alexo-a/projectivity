@@ -5,7 +5,6 @@ import ProjectReport from "../components/ProjectReport"
 function Reports() {
     return (
         <div>
-            Reports
             <ProjectReport />
         </div>
     )

@@ -16,6 +16,7 @@
     "graphql-tag": "^2.11.0",
     "jwt-decode": "^3.0.0",
     "moment": "^2.29.1",
+    "pdfmake": "^0.1.68",
     "react": "^17.0.1",
     "react-chartjs-2": "^2.11.1",
     "react-datetime": "^3.0.4",
