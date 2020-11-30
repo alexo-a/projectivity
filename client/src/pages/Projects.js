@@ -126,7 +126,7 @@ function Projects() {
                     </div>
                     <div className="kanbanBody">
                         {project &&
-                        toDoTasks.map(task => (<KanbanTask key={task.id} task={task} project={project} group={group} />)) 
+                        toDoTasks.map(task => (<KanbanTask key={task._id} task={task} project={project} group={group} />)) 
                         }
                     </div>
                 </div>
@@ -136,7 +136,7 @@ function Projects() {
                     </div>
                     <div className="kanbanBody">
                         {project &&
-                        inProgressTasks.map(task => (<KanbanTask key={task.id} task={task} project={project} group={group} />)) 
+                        inProgressTasks.map(task => (<KanbanTask key={task._id} task={task} project={project} group={group} />)) 
                         }
                     </div>
                 </div>
@@ -146,7 +146,7 @@ function Projects() {
                     </div>
                     <div className="kanbanBody">
                         {project &&
-                        completedTasks.map(task => (<KanbanTask key={task.id} task={task} project={project} group={group} />)) 
+                        completedTasks.map(task => (<KanbanTask key={task._id} task={task} project={project} group={group} />)) 
                         }
                     </div>
                 </div>

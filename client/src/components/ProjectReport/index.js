@@ -1,6 +1,6 @@
 import React from "react";
-import { getCurrentWeekInfo, createProjectReportPDF } from "../../utils/helpers"
-import Auth from "../../utils/auth";
+import {createProjectReportPDF } from "../../utils/helpers"
+//import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from 'react-router-dom';
 import { QUERY_PROJECT_TIMESHEETS } from "../../utils/queries";
@@ -83,9 +83,9 @@ function ProjectReport() {
         return null
     }
     if (!loading) {
-        console.dir(timesheets)
+        //console.dir(timesheets)
         compilationInfo = processProjectTimeSheets(timesheets)
-        console.dir(compilationInfo)
+        //console.dir(compilationInfo)
     }
 
     function generatePDF(data){
@@ -102,7 +102,7 @@ function ProjectReport() {
             <h2 className="text-center" id="projectName">{projectTitle}</h2>
             <h3 className="text-center" id="reportDescription">Project Progress Report</h3>
             <h3 className="text-center" id="date">As of {today}</h3>
-            <h5 className="text-center">Task View</h5>
+            {/*<h5 className="text-center">Task View</h5>*/}
 
             <div className="">
 
@@ -124,7 +124,7 @@ function ProjectReport() {
                 {compilationInfo ? (
                     <>
                         {compilationInfo.map(task => (
-                            <div className="task-container py-2 border-bottom">
+                            <div className="task-container py-2 border-bottom" key={task.taskTitle}>
                                 <div className="title-box">
                                     {task.taskTitle}
                                 </div>
@@ -132,21 +132,20 @@ function ProjectReport() {
                                     {task.status ? "Completed" : "In Progress"}
                                 </div>
                                 <div className="employee-container">
-                                    {task.users.map(taskUser => {
-                                        return (
-                                            <>
-                                                <div className="text-center" key={taskUser.username}>
+                                    {task.users.map(taskUser =>  (
+                                            <React.Fragment key={taskUser.username}>
+                                                <div className="text-center">
                                                     {taskUser.username}
                                                 </div>
                                                 <div className="text-center" key={taskUser.duration}>
                                                     {taskUser.duration.toFixed(2)}
                                                 </div>
-                                            </>
+                                            </React.Fragment>
                                         )
-                                    })}
+                                    )}
                                     <div></div>
                                     <div className="employee-total text-center bold">
-                                        {task.totalTime}
+                                        {task.totalTime.toFixed(2)}
                                     </div>
                                 </div>
                             </div>

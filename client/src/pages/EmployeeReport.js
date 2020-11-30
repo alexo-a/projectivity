@@ -4,7 +4,7 @@ import Auth from "../utils/auth";
 import { useQuery } from "@apollo/react-hooks";
 import { QUERY_MY_TIMESHEETS } from "../utils/queries";
 import EmployeeReportChart from "../components/EmployeeReportChart"
-import util from "util"
+//import util from "util"
 
 function processTimeSheets(timesheets) {
     //processed the time sheets, extracting the project info, task info, and duration info.
@@ -70,12 +70,10 @@ function processTimeSheets(timesheets) {
         for (let j in compilation[i].tasks){
             let newLabel = compilation[i].projectTitle + " - " + compilation[i].tasks[j].taskTitle
             let newData = compilation[i].tasks[j].duration.toFixed(2)
-            //console.log(newLabel, newData)
             dataForChart.labels.push(newLabel);
             dataForChart.datasets[0].data.push(newData)
         }
     }
-    //console.log(dataForChart)
     //you must import util for the following line to work:
     //console.log(util.inspect(compilation, true, null, false))
     return {compilation, totalHours, dataForChart}
@@ -89,6 +87,7 @@ function EmployeeReport() {
     const userInfo = Auth.getUserInfo();
     const username = userInfo.username;
     const userId = userInfo._id;
+
     //get the logged-in user's timesheets from the current week.
     const { loading, data } = useQuery(QUERY_MY_TIMESHEETS,
         {
@@ -115,65 +114,62 @@ function EmployeeReport() {
     function generateEmployeePDF(data){
         createEmployeeReportPDF(data, username)
     }
-    
 
     return (
         <div key="EmployeeReport">
             {compilationInfo.compilation.length > 0 ? (
-                <>
-                    <div className="text-center">
+                <div>
+                    <div className="text-center" key="button">
                         <button onClick={() => { generateEmployeePDF(compilationInfo,username) }}>Download PDF Version</button>
                     </div>
-            <h2 className="text-center" id="projectName">
-                Weekly Progress Report for {username}
-            </h2>
-            <h3 className="text-center" id="date">
-                Week of {weekStartLegible} (W{weekNumber})
-            </h3>
-            <h5 className="text-center">
+                    <h2 className="text-center" key="projectName">
+                        Weekly Progress Report for {username}
+                    </h2>
+                    <h3 className="text-center" key="date">
+                        Week of {weekStartLegible} (W{weekNumber})
+                    </h3>
+                    <h5 className="text-center" key="summary">
                         Time Logged: <span>{compilationInfo.totalHours.toFixed(2)}</span>
-            </h5>
-            <div className="mx-3">
-                <div className="employee-table-title bold align-bottom">
-                    <div className="text-mid">
-                        Project Name
-                    </div>
-                    <div className="text-mid">
-                        Task Description
-                    </div>
-                    <div className="text-mid text-center">
-                        Hours
-                    </div>
-                </div>
-                {compilationInfo.compilation ? (
-                    <div key="test3242342">
-                        {compilationInfo.compilation.map(project => (
-                            <div className="project-container border-bottom" key={project.projectTitle}>
-                                <div className="text-mid pl-5" key="projectTitle">
-                                    {project.projectTitle}
-                                </div>
-                                < div className="employee-task-container">
-                                    {project.tasks.map(task => (
-                                        <>
-                                            <div className="" key={task.taskTitle}>
-                                                {task.taskTitle}
-                                            </div>
-                                            <div className="text-center text-mid">
-                                                {task.duration.toFixed(2)}
-                                            </div>
-                                        </>
-                                    ))}
-
-                                </div>
+                    </h5>
+                    <div key="table">
+                        <div className="employee-table-title bold align-bottom">
+                            <div className="text-mid">
+                                Project Name
                             </div>
-                        ))}
+                            <div className="text-mid">
+                                Task Description
+                            </div>
+                            <div className="text-mid text-center">
+                                Hours
+                            </div>
+                        </div>
+                        {compilationInfo.compilation ? (
+                            <div>
+                                {compilationInfo.compilation.map((project, index) => (
+                                    <div className="project-container border-bottom" key={index}>
+                                        <div className="text-mid pl-5" key={project.projectTitle}>
+                                            {project.projectTitle}
+                                        </div>
+                                        < div className="employee-task-container">
+                                            {project.tasks.map(task => (
+                                                <React.Fragment key={task.taskTitle}>
+                                                    <div >
+                                                        {task.taskTitle}
+                                                    </div>
+                                                    <div className="text-center text-mid" key={`duration ${task.duration.toFixed(2)}`}>
+                                                        {task.duration.toFixed(2)}
+                                                    </div>
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : null}
+                    </div >
 
-                    </div>
-                ) : null}
-            </div >
-
-            <EmployeeReportChart data={compilationInfo.dataForChart} username={username} />
-            </>
+                    <EmployeeReportChart data={compilationInfo.dataForChart} username={username} />
+                </div>
             ) : <h2>You don't have any timesheets logged this week!</h2>}
         </div>
     )
