@@ -679,6 +679,22 @@ div.loading {
         color: inherit;
     }
 }
+@media (max-width: 576px) {
+
+    .navBar {
+        padding-left: 0rem;
+    }
+    .userIcon {
+        font-size: 1.5rem;
+        margin: 0rem;
+    }
+    .navBar ul {
+        padding-left: 0rem;
+    }
+    .navBar li {
+        padding: .2rem;
+    }
+}
 
 
 /* style for reports */
