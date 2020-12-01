@@ -76,7 +76,7 @@ Projectivity is a lean, clean, productivity machine.  Built to be a clean, simpl
 
 <br>
 
-![Project Screenshot](./Snapshot.png?raw=true)
+![Project Screenshot](./snapshot.png?raw=true)
 
 
 
