@@ -7,7 +7,7 @@ import logo from "../assets/images/Projectivity.png";
 
 function Signup(props)  {
     const [formState, setFormState] = useState({ 
-        email: '', username: '', password: '', passwordCheck: ''
+        email: '', username: '', password: undefined, passwordCheck: ''
     });
     const [errorState, setErrorState] = useState({ user: false, email: false, password: false, passLength: false });
     const [addUser] = useMutation(ADD_USER);
@@ -53,10 +53,11 @@ function Signup(props)  {
         });
     };
 
-    const passCheckStatus =
-        !formState.password.length && formState.passwordCheck.length >= 5 ? ''
-        : formState.passwordCheck === formState.password ? 'passCheckTrue'
-        : 'passCheckFalse'
+    let passCheckStatus = '';
+
+    if (formState.password !== undefined) {
+        passCheckStatus = ((formState.password.length >= 5) && (formState.password === formState.passwordCheck)) ? 'passCheckTrue' : 'passCheckFalse';
+    }
 
     if (Auth.loggedIn()) {
         return <Redirect to="/" />
