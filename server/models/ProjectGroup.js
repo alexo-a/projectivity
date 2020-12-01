@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
-const User = require("./User");
-const Project = require("./Project");
 
 const projectGroupSchema = new Schema({
 	title: {
@@ -10,9 +8,29 @@ const projectGroupSchema = new Schema({
 		required: true,
 		trim: true
 	},
-	administrator: User.schema,
-	managers: [User.schema],
-	employees: [User.schema],
+	administrator: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+		required: true
+	},
+	managers: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "User"
+		},
+	],
+	employees: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "User"
+		},
+	],
+	projects: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Project"
+		},
+	],
 });
 
 const ProjectGroup = mongoose.model("ProjectGroup", projectGroupSchema);

@@ -1,24 +1,74 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/react-hooks';
+import ApolloClient from 'apollo-boost';
+import Auth from "./utils/auth";
+
+import Dashboard from './pages/Dashboard';
+import { StoreProvider } from './utils/GlobalState';
+import Nav from './components/Nav';
+import Conversations from './components/Conversations';
+import TimeTracker from './components/TimeTracker';
+import AlertModal from './components/AlertModal';
+import Timesheet from './pages/Timesheet';
+import Reports from './pages/Reports';
+import ProjectGroups from './pages/ProjectGroups';
+import Projects from './pages/Projects';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import EmployeeReport from './pages/EmployeeReport';
+
+const client = new ApolloClient({
+  request: (operation) => {
+    const token = localStorage.getItem('id_token')
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    })
+  },
+  uri: '/graphql',
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <div>
+          <StoreProvider>
+            {Auth.loggedIn() ? (
+              <>
+                <Nav></Nav>
+                <Conversations />
+                <TimeTracker></TimeTracker>
+              </>
+            ) : (<></>)}
+            <AlertModal></AlertModal>
+            <div className="container">
+              <Route exact path="/login" component={Login}/>
+              <Route exact path="/signup" component={Signup}/>
+              <Route exact path="/">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Dashboard />}
+              </Route>
+              <Route exact path="/timesheet">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
+              </Route>
+              <Route exact path="/reports/:id/:title">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
+              </Route>
+              <Route exact path="/groups">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <ProjectGroups />}
+              </Route>
+              <Route exact path="/projects/:id/:userId">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <Projects />}
+              </Route>
+              <Route exact path="/reports">
+                {!Auth.loggedIn() ? <Redirect to="/login" /> : <EmployeeReport />}
+              </Route>
+            </div>
+          </StoreProvider>
+        </div>
+      </Router>
+    </ApolloProvider>
   );
 }
 

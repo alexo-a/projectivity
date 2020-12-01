@@ -1,0 +1,190 @@
+.taskContainer {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.taskBox {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.taskBox.taskClosed {
+    border: none;
+}
+
+.toDo {
+    background: rgb(192, 40, 40, 0.1);
+}
+
+.inProgress {
+    background: rgb(119, 90, 224, 0.1);
+}
+
+.completed {
+    background: rgb(58, 186, 113, 0.1);
+}
+
+.taskTitle {
+    border-radius: 5px;
+    color: var(--charcoal);
+    width: 100%;
+    padding: .5rem;
+}
+
+blockquote {
+    margin: .5rem;
+    font-weight: lighter;
+    font-size: .9rem;
+}
+
+.taskTitle p {
+    font-family: "Raleway", sans-serif;
+    margin: 0;
+    padding: .5rem;
+    width: 100%;
+}
+
+.markComplete, .markIncomplete {
+    font-family: "Raleway", sans-serif;
+    font-size: .9rem;
+    font-weight: lighter;
+    padding: 0 .2rem 0 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.markComplete {
+    color: var(--success);
+}
+
+.markIncomplete {
+    color: var(--success);
+}
+
+.markIncomplete:hover {
+    color: rgb(224, 47, 47, 0.8);
+}
+
+
+.markIncomplete span {
+    font-family: 'Raleway', sans-serif;
+    padding-right: 1rem;
+}
+
+.markComplete span, .markIncomplete span {
+    visibility: hidden;
+}
+
+.markComplete:hover span, .markIncomplete:hover span {
+    visibility: visible;
+}
+
+.taskTitleGroup {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.taskExpandButton {
+    font-size: .9rem;
+    margin: 1rem 0 0 1rem;
+    cursor: pointer;
+    z-index: 0;
+}
+
+.employeesAssigned {
+    display: flex;
+    flex-direction: column;
+    color: var(--charcoal);
+}
+
+.taskedEmployee, .addEmployee {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addEmployee {
+    justify-content: flex-end;
+    margin: .5rem .5rem .5rem 0;
+}
+
+.taskedEmployee:nth-child(even) {
+    background: var(--background);
+}
+
+.taskedEmployee strong {
+    font-size: .9rem;
+    padding: .5rem;
+    margin-left: .5rem;
+
+}
+
+.addEmployee strong {
+    padding: .5rem;
+}
+
+.taskedEmployee strong {
+    font-weight: normal;
+    color: var(--charcoal);
+}
+
+.removeEmployee {
+    margin: .5rem;
+    cursor: pointer;
+    transform: rotate(0deg);
+    position: absolute;
+    left: -1.5rem;
+    transition: 400ms;
+    
+}
+
+.removeEmployee.deleteable {
+    color: var(--proj-red);
+    transform: rotate(-90deg);
+    right: 1rem;
+    transition: 400ms;
+}
+
+.removeEmployeeConfirm {
+    transform: rotate(-2deg);
+    color: var(--success);
+    cursor: pointer;
+    display: none;
+}
+
+.removeEmployeeConfirm.deleteable {
+    display: block;
+}
+
+.removeEmployeeGroup {
+    display: flex;
+    align-items: center;
+    margin-right: .5rem;
+    position: relative;
+}
+
+.addEmployeeButton {
+    font-size: .9rem;
+    color: rgb(58, 186, 113, 0.9);
+    cursor: pointer;
+}
+
+.addEmployeeButton:hover {
+    color: var(--success);
+}
+
+.removeEmployee:hover {
+    color: var(--proj-red);
+}
+
+.taskInfoDisplay.taskClosed, blockquote.taskClosed {
+    display: none;
+}
+
+.taskExpandButton.taskClosed {
+    transform: rotate(180deg);
+}

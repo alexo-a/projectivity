@@ -1,13 +1,778 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+    --proj-red: #c02828;
+    --proj-highlight: #c83c38;
+    --button-default: #f0f0f0;
+    --success: #3aba71;
+    --deny: #ff807c;
+    --active: #765ae0; 
+    --charcoal: #4d5054;
+    --gray: #bababa;
+    --light-gray: #e7e7e7;
+    --background: #f5f5f5;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@import url(https://fonts.googleapis.com/css2?family=Questrial&family=Raleway:wght@600&display=swap);
+
+* {
+    font-family: Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+/* GENERAL */
+.logo-img {
+    height: 3rem;
+    width: 3rem;
+    margin: .5rem;
+}
+
+.logo-title {
+    font-family: 'Raleway', sans-serif;
+    padding: .5rem;
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--charcoal);
+}
+
+a {
+    text-decoration: none;
+    color: #347ce0;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #1967d4;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/* button */
+button {
+    background-color: var(--button-default);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    width: 95%;
+    padding: .7rem 1.5rem .7rem 1.5rem;
+    margin: 1rem .5rem .5rem .5rem;
+}
+
+button.primary {
+    background: var(--active);
+    color: white;
+    font-size: 1rem;
+}
+
+button.primary:hover {
+    background: rgb(100, 72, 199, 0.8);
+}
+
+button.success {
+    background: var(--success);
+    color: white;
+    font-size: 1rem;
+}
+
+button.success:hover {
+    background: rgb(72, 199, 127, 0.8);
+}
+
+button.redButton {
+	background-color: var(--proj-red) !important;
+	color: white !important;
+	cursor: pointer;
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+button.redButton:hover {
+	background-color: var(--proj-highlight) !important;
+}
+
+/* card */
+.card {
+    border: 1px solid var(--charcoal);
+    border-radius: 5px;
+}
+
+.cardTitle {
+    background: var(--background);
+    border-radius: 5px 5px 0 0;
+    padding: 1.5rem 1rem 1.5rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.cardTitle h3 {
+    margin: 0;
+    color: var(--charcoal);
+    font-weight: normal;
+}
+
+.cardBody {
+    padding: 2rem 1rem 1rem 1rem;
+}
+
+/* form */
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form input {
+    margin: .5rem;
+    width: 17rem;
+    min-width: 15vw;
+    height: 2.2rem;
+    border: 1px solid var(--background);
+    border-radius: 5px;
+    background: var(--background);
+    font-size: 1rem;
+    padding-left: .5rem;
+}
+
+.form input:focus {
+    outline: none;
+    border: 1px solid var(--charcoal);
+}
+
+.form input.warning, .form input.passCheckFalse {
+    background: rgb(235, 35, 35, 0.1);
+}
+
+input.warning:-webkit-autofill {
+    background: rgb(235, 35, 35, 0.1) !important;
+}
+
+.form input.passCheckTrue {
+    background: rgb(58, 186, 113, 0.1);
+}
+
+.form label {
+    margin: .5rem;
+    font-size: .9rem;
+    width: 5rem;
+}
+
+.form .buttonGroup {
+    display: flex;
+    flex-direction: column-reverse;
+    align-content: center;
+}
+
+.form .buttonGroup a {
+    font-size: .9rem;
+    margin: 1rem 0 0 1rem;
+}
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+/* LOGIN */
+.logInContainer {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.logInBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.logInContainer .card {
+    box-shadow: 0px 0px 25px -2px rgb(0,0,0,0.1);
+    margin: 1rem;
+}
+
+.logInErrorMessage {
+    text-align: right;
+    margin: .5rem 0 0 0;
+    color: rgb(235, 35, 35);
+}
+
+
+/* NAV BAR */
+.navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navBar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-left: .7rem;
+}
+
+.navBar a {
+    text-decoration: none;
+    color: var(--charcoal);
+}
+
+.navBar ul {
+    list-style-type: none;
+    color: var(--charcoal);
+    padding-left: 1rem;
+}
+
+.navBar li {
+    font-family: 'Questrial', sans-serif;
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+}
+
+.navBar li:hover {
+    color: var(--active);
+    cursor: pointer;
+}
+
+.navIcon {
+    font-size: 1.5rem;
+    margin: .5rem;
+}
+
+.userNavGroup {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: gray;
+    margin: 1rem;
+}
+
+.navGroup {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.navGroup .navChevron {
+    margin: .1rem 0 0 .5rem;
+}
+
+.navGroup > a {
+    align-items: center;
+    display: flex;
+}
+
+.navGroup:hover > a {
+    color: var(--active);
+}
+
+.userIcon {
+    font-size: 2.5rem;
+    margin: .5rem;
+}
+
+.userNavGroup:hover .userIcon {
+    color: var(--active);
+}
+
+.userNavGroup .dropdownIcon {
+    font-size: 1.2rem;
+}
+
+.navChevron {
+    font-size: .8rem;
+}
+
+.userNavGroup:hover .navChevron, .navGroup:hover .navChevron {
+    font-size: .8rem;
+    color: var(--active);
+    transform: rotate(180deg);
+    transition: 100ms;
+}
+
+.userNavGroup:hover .dropdownContainer, .navGroup:hover .dropdownContainer {
+    display: block;
+    z-index: 200;
+}
+
+/* TIMESHEET */
+.timesheet {
+    min-height: 400px;
+}
+
+.timesheet div.timesheetEntry {
+    align-items: center;
+    background-color: var(--background);
+    border-radius: 5px;
+    display: flex;
+    padding: 2px 40px 2px 8px;
+    margin: 4px 0px;
+    position: relative;
+}
+
+.timesheet div.timesheetEntry > div {
+    margin: 2px 8px;
+    white-space: nowrap;
+}
+
+.timesheet div.timesheetEntry > div:first-child {
+    width: 100%;
+}
+
+.timesheet div.rdt {
+    display: inline-block;
+}
+
+.timesheet div.rdt > input {
+    margin: 0;
+    width: 128px;
+}
+
+.timesheet .editControls {
+    align-items: center;
+    bottom: 0px;
+    display: none;
+    justify-content: flex-end;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: auto !important;
+}
+
+.timesheet .editControls.shown {
+    display: flex;
+}
+
+.timesheet .editControls span {
+    color: silver;
+    cursor: pointer;
+}
+
+.timesheet .editControls span[name='accept']:hover {
+    color: var(--success);
+}
+
+.timesheet .editControls span[name='cancel']:hover {
+    color: var(--deny);
+}
+
+.timesheet .editControls span + span {
+    margin-left: 4px;
+}
+
+.timesheetNav {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.timesheetNav div {
+    color: var(--proj-red);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.timesheetNav div:hover {
+    color: var(--proj-highlight);
+}
+
+/* DROPDOWN */ 
+.dropdownContainer {
+    display: none;
+    background-color: none;
+    padding: 1rem;
+    position: absolute;
+    top: 3.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dropdownContainer.right {
+    transform: translateX(-75%);
+}
+
+.dropdownModal {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: .5rem;
+    background: white;
+    color: var(--charcoal);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    box-shadow: 0px 0px 25px -1px rgb(0,0,0,0.1);
+    z-index: 9999;
+}
+
+.dropdownModal .dropdownItemTitle {
+    font-family: 'Questrial', sans-serif;
+    white-space: nowrap;
+    font-size: .9rem;
+    margin: 0;
+}
+
+.dropdownIcon {
+    margin: .5rem;
+    font-size: 2.2rem;
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    border-bottom: 1px solid var(--gray);
+    cursor: pointer;
+}
+
+.dropdownGroup {
+    border-bottom: 1px solid var(--gray);
+}
+
+.dropdownGroup:first-child .dropdownTitleGroup {
+    padding-top: .5rem;
+}
+
+.dropdownGroup:last-child .dropdownTitleGroup {
+    padding-bottom: .5rem;
+}
+
+.dropdownGroup strong {
+    margin-left: 2rem;
+    font-size: .9rem;
+    color: rgb(0,0,0,0.3);
+}
+
+.dropdownItem:last-child, .dropdownGroup:last-child {
+    border-bottom: none;
+}
+
+.dropdownTitleGroup {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
+}
+
+.dropdownTitleGroup:first-child {
+    padding-top: 1rem;
+}
+
+.dropdownTitleGroup:last-child {
+    padding-bottom: 1rem;
+}
+
+.dropdownItem:hover, .dropdownTitleGroup:hover p, .dropdownTitleGroup:hover .dropdownIcon {
+    color: var(--active);
+}
+
+.dropdownTitleGroup.userReportLink {
+    justify-content: flex-start;
+}
+
+.userReportLink .dropdownIcon {
+    margin: 0;
+    padding: 0 .5rem 0 .5rem;
+}
+
+.projectIcon {
+    font-size: 1rem;
+}
+
+/* USER DISPLAY */
+span.displayUser {
+    color: var(--active);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+span.displayUser svg {
+    color: var(--active);
+    font-size: small;
+    margin-left: 4px;
+    opacity: 0.5;
+    transition: 0.5s;
+}
+
+span.displayUser:hover svg {
+    opacity: 0.75;
+}
+
+/* TIMESHEET */
+.createClockIn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    background: var(--background);
+    padding: 1.5rem;
+    width: 75vw;
+}
+
+.createClockIn input {
+    margin: 0 .5rem 0 .5rem;
+    padding: 1rem;
+    font-size: 1rem;
+    background: var(--background);
+    border: none;
+    border-radius: 3px;
+}
+
+.createClockIn input::placeholder {
+    font-style: italic;
+    font-weight: lighter;
+    color: grey;
+}
+
+.createClockIn input:hover {
+    border: 1px solid gray;
+}
+
+.createClockIn input:focus {
+    background: white;
+    box-shadow: 0px 0px 5px -1px rgb(0,0,0,0.5);
+    outline: none;
+}
+
+input.createClockInTaskName {
+    width: 25vw;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+
+.createClockIn button {
+    font-size: 1.5rem;
+}
+
+.createClockIn span {
+    font-size: 1rem;
+}
+
+/* LOADING SPINNER */
+div.loading {
+	background-image: url('./assets/images/loading.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100px;
+	margin: 100px auto 0px auto;
+	width: 100px;
+}
+
+/* FLEX UTILITIES */
+.container {
+    display: flex;
+    justify-content: center;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.flex {
+    display: flex;
+}
+
+.flexContainer {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+/* RESPONSIVE */
+.hide-lg-up, .hide-md-up, .hide-sm-up, .hide-xl-up {
+    display: block;
+}
+.show-lg-up, .show-md-up, .show-sm-up, .show-xl-up {
+    display: none;
+}
+
+/* EXTRA LARGE */
+@media (min-width: 1200px) {
+    .hide-xl-up {
+        display: none;
+    }
+    .show-xl-up {
+        display: block;
+    }
+}
+
+/* LARGE */
+@media (min-width: 992px) {
+    .hide-lg-up {
+        display: none;
+    }
+    .show-lg-up {
+        display: block;
+    }
+    .navBar li {
+        padding: 1rem;
+    }
+}
+/* MEDIUM */
+@media (min-width: 768px) {
+    .hide-md-up {
+        display: none;
+    }
+    .show-md-up {
+        display: block;
+    }
+    .logInBody {
+        flex-direction: row;
+    }
+    .formItem {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .form .buttonGroup {
+        align-self: flex-end;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .logInBody .buttonGroup a {
+        align-self: center;
+        margin: 2rem 0 0 .5rem;
+    }
+    button {
+        width: fit-content;
+    }
+    .cardBody {
+        padding: 2rem 1rem .5rem 1rem;
+    }
+    .cardTitle {
+        flex-direction: row;
+
+    }
+    .logInErrorMessage {
+        text-align: right;
+        margin: .1rem 0 0 1rem;
+    }
+}    
+/* SMALL */
+@media (min-width: 576px) {
+    .hide-sm-up {
+        display: none;
+    }
+    .show-sm-up {
+        display: block;
+    }
+    .form input {
+        width: 20rem;
+    }
+    .navIcon { 
+        font-size: 1.2rem;
+    }
+    span.displayUser:not(:hover) {
+        color: inherit;
+    }
+}
+@media (max-width: 576px) {
+
+    .navBar {
+        padding-left: 0rem;
+    }
+    .userIcon {
+        font-size: 1.5rem;
+        margin: 0rem;
+    }
+    .navBar ul {
+        padding-left: 0rem;
+    }
+    .navBar li {
+        padding: .2rem;
+    }
+}
+
+
+/* style for reports */
+.task-container, .table-title, .hours-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(30px, auto);
+}
+.employee-table-title {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    column-gap: 10px;
+    grid-auto-rows: minmax(30px, auto);
+    background-color:  #333333;
+    color: white;
+    margin-bottom: 5px;
+}
+.text-mid {
+    display: flex;
+    align-items: center;
+}
+.task-container, .project-container{
+    border-bottom: 2px solid #333333;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.project-container {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    column-gap: 10px;
+}
+
+.table-title {
+    background-color:  #333333;
+    color: white;
+    margin-bottom: 5px;
+}
+.title-box {
+    margin-right: 10px;
+}
+.text-center {
+    text-align: center;
+    justify-content: center;
+}
+.bold {
+    font-weight: bold;
+}
+.employee-total {
+    width: 50%;
+    margin: 0px auto;
+    padding-top: 5px;
+    border-top: 1px solid  #333333;
+}
+
+.employee-container{
+    grid-column-start: 3;
+    grid-column-end: 5;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(20px, auto);
+}
+
+.employee-task-container{
+    grid-column-start: 2;
+    grid-column-end: 4;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-auto-rows: minmax(20px, auto);
+    grid-row-gap: 10px;
+}
+
+.pl-5{
+    padding-left: 5px;
+}
+
+@media screen and (max-width: 980px) {
+    .timesheet div.timesheetEntry {
+        flex-wrap: wrap;
+    }
 }

@@ -1,0 +1,116 @@
+button[disabled] {
+	margin: 0px;
+	min-height: 24px;
+	padding: 2px 8px;
+}
+
+.dashboardProject {
+	background-color: var(--light-gray);
+	border-color: gray;
+	border-radius: 5px;
+	margin: 10px;
+	padding: 20px;
+}
+
+.dashboardProject > div:first-child button {
+	margin-left: 8px;
+	width: auto !important;
+}
+
+.dashboardProject h3 {
+	font-size: 1.5rem;
+	margin: 10px 0px;
+	padding: 0;
+}
+
+.dashboardProject h4 {
+	margin: 0;
+	padding: 0;
+}
+
+.dashboardProject p {
+	margin: 0px 0px 16px 0px;
+}
+
+.dashboardProject p:last-child {
+	margin-bottom: 0px;
+}
+
+.dashboardProject span + span::before {
+	content: ', ';
+}
+
+.dashboardProject .projectTitle {
+	align-items: center;
+	display: flex;
+}
+
+.dashboardProject .projectDescription {
+	color: var(--charcoal);
+	display: none;
+	overflow: hidden;
+	padding: 0 1rem;
+}
+
+.dashboardProject .taskContainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.dashboardProject .taskCard {
+	background-color: white;
+	border: solid 1px silver;
+	border-radius: 5px;
+	margin: 10px;
+	width: 300px;
+}
+
+.dashboardProject .taskCard .cardTitle h4 {
+	color: var(--charcoal);
+}
+
+.dashboardProject .taskCard .cardBody {
+	height: 200px;
+	overflow: auto;
+}
+
+.dashboardProject .taskCard .cardFooter {
+	background-color: var(--background);
+	border-radius: 0 0 5px 5px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboardProject .open-enter {
+	display: block;
+	max-height: 0px;
+	opacity: 0;
+	transition: 0.5s;
+}
+
+.dashboardProject .open-enter-active, .dashboardProject .open-enter-done, .dashboardProject .open-exit {
+	display: block;
+	max-height: 200px;
+	opacity: 1;
+	padding: 1rem;
+	transition: 0.5s;
+}
+
+.dashboardProject .open-enter-done {
+	overflow: auto;
+}
+
+.dashboardProject .open-exit-active {
+	max-height: 0px;
+	opacity: 0;
+	padding: 0 1rem;
+}
+
+@media screen and (max-width: 575px) {
+	.dashboardProject {
+		width: 100%;
+	}
+}
