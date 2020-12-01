@@ -223,7 +223,7 @@ const resolvers = {
 			throw new AuthenticationError("Not logged in");
 		},
 		login: async (parent, { email, password }) => {
-			const user = await User.findOne({ email }).populate("groups");
+			const user = await User.findOne({ email }).collation({ locale: 'en_US', strength: 2 }).populate("groups");
 		
 			if (!user) {
 				throw new AuthenticationError("No User");
