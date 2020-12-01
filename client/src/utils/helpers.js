@@ -210,7 +210,7 @@ export function createProjectReportPDF(compiledInfo, title) {
         ],
         styles: stylesObj
     }
-    pdfMake.createPdf(docDefinition).download(`${title}_${moment().format("MMDDYYYY")}.pdf`);
+    pdfMake.createPdf(docDefinition).download(`${title.replace(/ /g, "-")}_${moment().format("MMDDYYYY")}.pdf`);
 }
 
 export function createEmployeeReportPDF(compiledInfo, username) {
@@ -309,5 +309,5 @@ export function createEmployeeReportPDF(compiledInfo, username) {
         ],
         styles: stylesObj
     }
-    pdfMake.createPdf(docDefinition).download(`Report-${username}_${moment().format("MMDDYYYY")}.pdf`);
+    pdfMake.createPdf(docDefinition).download(`Report-${username.replace(" ", "-")}_${moment().format("MMDDYYYY")}.pdf`);
 }

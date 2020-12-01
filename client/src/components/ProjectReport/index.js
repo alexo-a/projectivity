@@ -7,7 +7,7 @@ import { QUERY_PROJECT_TIMESHEETS } from "../../utils/queries";
 import moment from "moment";
 
 function processProjectTimeSheets(timesheets) {
-
+    
     let compilation = [];
     //use a Set to find the unique "timesheet.task._id"s quickly
     let uniqueTasks = new Set(timesheets.map(timesheet => {
@@ -63,9 +63,7 @@ function processProjectTimeSheets(timesheets) {
 
 function ProjectReport() {
 
-    //TODO change the below two lines to a proper variable
-    const { id: projectId } = useParams();
-    const projectTitle = "Licensed Steel Pizza";
+    const { id: projectId , title} = useParams();
 
     const { loading, data } = useQuery(QUERY_PROJECT_TIMESHEETS,
         {
@@ -74,22 +72,20 @@ function ProjectReport() {
             }
         }
     );
+
     let compilationInfo = [];
     const timesheets = data?.timesheets || {};
-
     let today = moment().format("Do MMMM YYYY");
 
     if (loading) {
         return null
     }
     if (!loading) {
-        //console.dir(timesheets)
         compilationInfo = processProjectTimeSheets(timesheets)
-        //console.dir(compilationInfo)
     }
 
     function generatePDF(data){
-        createProjectReportPDF(data, projectTitle)
+        createProjectReportPDF(data, title)
     }
 
     return (
@@ -99,7 +95,7 @@ function ProjectReport() {
                 <button onClick={() => {generatePDF(compilationInfo)}}>Download PDF Version</button>
             </div>
             
-            <h2 className="text-center" id="projectName">{projectTitle}</h2>
+            <h2 className="text-center" id="projectName">{title}</h2>
             <h3 className="text-center" id="reportDescription">Project Progress Report</h3>
             <h3 className="text-center" id="date">As of {today}</h3>
             {/*<h5 className="text-center">Task View</h5>*/}
@@ -124,12 +120,12 @@ function ProjectReport() {
                 {compilationInfo ? (
                     <>
                         {compilationInfo.map(task => (
-                            <div className="task-container py-2 border-bottom" key={task.taskTitle}>
+                            <div className="task-container py-2 border-bottom" key={task.taskId}>
                                 <div className="title-box">
                                     {task.taskTitle}
                                 </div>
                                 <div className="text-center">
-                                    {task.status ? "Completed" : "In Progress"}
+                                    {task.status}
                                 </div>
                                 <div className="employee-container">
                                     {task.users.map(taskUser =>  (

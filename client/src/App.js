@@ -52,7 +52,7 @@ function App() {
               <Route exact path="/timesheet">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Timesheet />}
               </Route>
-              <Route exact path="/reports/:id">
+              <Route exact path="/reports/:id/:title">
                 {!Auth.loggedIn() ? <Redirect to="/login" /> : <Reports />}
               </Route>
               <Route exact path="/groups">

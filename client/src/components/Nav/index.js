@@ -98,7 +98,7 @@ function Nav() {
                                             <div className="dropdownGroup">
                                             {projects && 
                                             projects.administrator.map(project => (
-                                                <Link to={`/reports/${project._id}`} key={project._id}>
+                                                <Link to={`/reports/${project._id}/${project.title}`} key={project._id}>
                                                     <div className="dropdownTitleGroup">
                                                         <p className="dropdownItemTitle">{project.title}</p> 
                                                     </div>
@@ -106,7 +106,7 @@ function Nav() {
                                             ))}
                                             {projects && 
                                             projects.manager.map(project => (
-                                                <Link to={`/reports/${project._id}`} key={project._id}>
+                                                <Link to={`/reports/${project._id}/${project.title}`} key={project._id}>
                                                     <div className="dropdownTitleGroup">
                                                         <p className="dropdownItemTitle">{project.title}</p> 
                                                     </div>
