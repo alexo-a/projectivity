@@ -227,7 +227,7 @@ function TimeTracker() {
 								onChange={onEndTimeChanged}
 								closeOnSelect={true}
 								renderInput={(props) => {
-									return <input {...props} name="endTime" autocomplete="off" value={(endTime) ? props.value : ''} />
+									return <input {...props} name="endTime" autoComplete="off" value={(endTime) ? props.value : ''} />
 								}}
 							/>
 							<button type="button" onClick={endTimeNow}>Now</button>

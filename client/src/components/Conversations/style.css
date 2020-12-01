@@ -116,7 +116,9 @@
 	border-top-left-radius: 5px;
 	display: none;
 	flex-direction: column;
+	height: 100%;
 	margin: 0px;
+	overflow-y: auto;
 	padding: 0px;
 	width: 100%;
 }
